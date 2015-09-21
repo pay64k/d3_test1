@@ -14,98 +14,78 @@
 
 <body>
 
+<div id="systemsDiv" style="overflow: auto; height: 510px;"></div>
 
-<style>
-
-.chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
-}
-
-</style>
-
-	
-<script>
-//var data = [100, 8, 15, 16, 23, 42,60,100,14,10,20,3];
-
-// d3.select(".chart")
-//   .selectAll("div")
-//     .data(data)
-//   .enter().append("div")
-//     .style("width", function(d) { return d * 10 + "px"; })
-//     .text(function(d) { return d; });
-
-
-// var chart = d3.select(".chart");
-// var bar = chart.selectAll("div");
-// var barUpdate = bar.data(data);
-// var barEnter = barUpdate.enter().append("div");
-// barEnter.style("width", function(d) { return d * 10 + "px"; });
-// barEnter.text(function(d) { return d; });
-
-// var x = d3.scale.linear()
-//     .domain([0, d3.max(data)])
-//     .range([0, 620]);
-
-//     d3.select(".chart")
-//   .selectAll("div")
-//     .data(data)
-//   .enter().append("div")
-//     .style("width", function(d) { return x(d) + "px"; })
-//     .text(function(d) { return d; });
-
-</script>
-
-<style>
-
-.chart rect {
-  fill: steelblue;
-}
-
-.chart text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
-
-</style>
-<svg class="chart"></svg>
 
 <script>
 
-var data = [4, 8, 15, 16, 23, 42];
+function newSystem(systemIDs){
+  //var data = ["System" + systemID];
+  //console.log(systemIDs);
+  var newDiv = d3.select("#systemsDiv")
+    .selectAll("div")
+    .data(systemIDs)
+    .enter()
+    .append("div")
+    .html((function(d) { return "System " + d; }))
+    .attr("id", "system")
+    .attr("class", "col-sm-3")
+    .style("background-color", "lavender")
+    .style("height", "100px")
+    .style("border", "1px solid")
+    .style("margin","10px 40px 0 10px ")
+    .on("mouseover", function(){d3.select(this).style("background-color", "aliceblue");})
+    .on("mouseout", function(){d3.select(this).style("background-color", "lavender");});;
 
-var width = 420,
-    barHeight = 20;
+    //return newDiv;
+}
 
-var x = d3.scale.linear()
-    .domain([0, d3.max(data)])
-    .range([0, width]);
+function newEntity(cmd, type, id, properties){
 
-var chart = d3.select(".chart")
-    .attr("width", width)
-    .attr("height", barHeight * data.length);
+  if (cmd == "add") {
+    if (type == "system") {
+      newSystem(id);
+    };
+  };
+  if (cmd == "del") {
+    if (type == "system") {
+      deleteSystem(id);
+    };
+  };
 
-var bar = chart.selectAll("g")
-    .data(data)
-  .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 
-bar.append("rect")
-    .attr("width", x)
-    .attr("height", barHeight - 1);
+}
 
-bar.append("text")
-    .attr("x", function(d) { return x(d) - 3; })
-    .attr("y", barHeight / 2)
-    .attr("dy", ".35em")
-    .text(function(d) { return d; });
+
+function deleteSystem(systemID_index){
+    var newDiv = d3.select("#systemsDiv")
+    .selectAll("div")
+    .data(systemID_index).exit().remove();
+}
+
+
+
+
+function findSystem(system_to_find){
+   //var newDiv = d3.select("#systemsDiv")
+                  // .selectAll("div")
+                  // .filter(function(d, i) { return i == 1;; });
+
+    systemsGlobal.forEach(function(entry){
+        entry.forEach(function(entry2){
+          var system_found = entry2.__data__;
+          console.log("found: " + system_found);
+          if (system_to_find == system_found ) {
+            console.log("found system " + system_to_find + " at: " );
+            console.log(entry2);
+          };
+      })
+    })
+}
 
 </script>
+
+
 
 </body>
 </html>
