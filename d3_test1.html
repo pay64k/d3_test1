@@ -57,24 +57,17 @@ function newEntity(cmd, type, id, properties){
 }
 newEntity("add","system",[10,11,12]);
 function test(){
-    // newEntity("add","system",[10,11,12]);
-    var system_to_delete=10;
-    var newDiv = d3.select("#systemsDiv")
+    
+     var newDiv = d3.select("#systemsDiv")
     .selectAll("div")
-    .data();
+    .data([10, 11], function(d) { return(d); })
+    .order()    
+    .exit()
+    //.transition()
+    //.delay(3000)
+    //.remove();
     console.log(newDiv);
-    var index1=[];
-    var count=0;
-    for (var i = 0; i < newDiv.length; i++) {
-      if (newDiv[i]!=system_to_delete) {
-        console.log(i);
-        index1[count]=i;
-        count++;
-      };
-    };
-    count=0;
-    console.log(index1);
-    deleteSystem([2]);
+
 }
 
 function deleteSystem(systemID_index){
