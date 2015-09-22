@@ -34,66 +34,67 @@
   <body>
 
 <!-- load the d3.js library -->	
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/lib/d3.js"></script>
 	
 <script>
 
 var treeData = [
+{
+  "name": "System1",
+  "parent": "null",
+  "children": [
   {
-    "name": "System1",
-    "parent": "null",
+    "name": "BTS1",
+    "parent": "System1",
     "children": [
-      {
-        "name": "BTS1",
-        "parent": "System1",
-        "children": [
-          {
-            "name": "Radio1",
-            "parent": "BTS1"
-          },
-          {
-            "name": "Radio2",
-            "parent": "BTS1"
-          },
-          {
-            "name": "Radio2",
-            "parent": "BTS1"
-          },
-          {
-            "name": "Radio2",
-            "parent": "BTS1"
-          },
-          {
-            "name": "Radio2",
-            "parent": "BTS1"
-          }
-        ]
-      },
-      {
-        "name": "BTS2",
-        "parent": "System1",
-        "children": [
-        {
-            "name": "Radio1",
-            "parent": "BTS2"
-          },
-          {
-            "name": "Radio1",
-            "parent": "BTS1"
-          },
-          {
-            "name": "Radio1",
-            "parent": "BTS1"
-          },
-          {
-            "name": "Radio1",
-            "parent": "BTS1"
-          },
-        ]
-      }
+    {
+      "name": "Radio1",
+      "parent": "BTS1"
+    },
+    {
+      "name": "Radio2",
+      "parent": "BTS1"
+    },
+    {
+      "name": "Radio2",
+      "parent": "BTS1"
+    },
+    {
+      "name": "Radio2",
+      "parent": "BTS1"
+    },
+    {
+      "name": "Radio2",
+      "parent": "BTS1"
+    }
+    ]
+  },
+  {
+    "name": "BTS2",
+    "parent": "System1",
+    "children": [
+    {
+      "name": "Radio1",
+      "parent": "BTS2"
+    },
+    {
+      "name": "Radio1",
+      "parent": "BTS1"
+    },
+    {
+      "name": "Radio1",
+      "parent": "BTS1"
+    },
+    {
+      "name": "Radio1",
+      "parent": "BTS1"
+    },
     ]
   }
+  ]
+}
 ];
+
 
 
 // ************** Generate the tree diagram	 *****************
@@ -116,8 +117,9 @@ var svg = d3.select("body").append("svg")
 	.attr("height", height + margin.top + margin.bottom)
   .append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+debugger;
 root = treeData[0];
+
 root.x0 = height / 2;
 root.y0 = 0;
   
@@ -214,6 +216,7 @@ function update(source) {
 
 // Toggle children on click.
 function click(d) {
+  debugger;
   if (d.children) {
 	d._children = d.children;
 	d.children = null;
