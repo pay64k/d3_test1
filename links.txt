@@ -1,0 +1,3 @@
+http://bl.ocks.org/d3noob/8375092
+	https://gist.github.com/robschmuecker/7880033
+https://github.com/haljin/d3-webchart/blob/master/Sensible/js/WebChart.js - Pawla

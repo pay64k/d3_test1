@@ -14,7 +14,7 @@
 
 <body>
 
-<div id="systemsDiv" style="overflow: auto; height: 510px;"></div>
+<!-- <div id="systemsDiv" style="overflow: auto; height: 510px;"></div> -->
 
 
 <script>
@@ -23,19 +23,27 @@ function newSystem(systemIDs){
   //var data = ["System" + systemID];
   //console.log(systemIDs);
   var newDiv = d3.select("#systemsDiv")
-    .selectAll("div")
-    .data(systemIDs)
+    .append("svg")
+    .attr("width", 1000)
+    .attr("height", 500)
+
+    .attr("class","svg");
+
+    newDiv.selectAll(".system")
+    .data(systemIDs, function(d) {return d;})
     .enter()
-    .append("div")
+    .append("rect")
     .html((function(d) { return "System " + d; }))
-    .attr("id", "system")
-    .attr("class", "col-sm-3")
-    .style("background-color", "lavender")
-    .style("height", "100px")
-    .style("border", "1px solid")
+    .attr("class", "system")
+    .attr("x", function(d,i) {return i*120+20})
+    .attr("y", 0)
+    .attr("width", 100)
+    .attr("height", 100)
+    .attr("id", function(d) {return "stuff_" + d})
+    .style("fill", "lavender")
+    .style("stroke-width", "1px solid")
+    .style("stroke", "black")
     .style("margin","10px 40px 0 10px ")
-    .on("mouseover", function(){d3.select(this).style("background-color", "aliceblue");})
-    .on("mouseout", function(){d3.select(this).style("background-color", "lavender");});;
 
     //return newDiv;
 }
@@ -55,48 +63,80 @@ function newEntity(cmd, type, id, properties){
 
 
 }
-newEntity("add","system",[10,11,12]);
-function test(){
-    
-     var newDiv = d3.select("#systemsDiv")
-    .selectAll("div")
-    .data([10, 11], function(d) { return(d); })
-    .order()    
-    .exit()
-    //.transition()
-    //.delay(3000)
-    //.remove();
-    console.log(newDiv);
+// var systemsData = [10,11,12];
+
+// function test(dataSystem){
+// newSystem(dataSystem);
+// }
+// test(systemsData);
+// systemsData = [10,12];
+// d3.selectAll("rect").data(systemsData, function(d) {return d;}).exit().remove();
+
+function pattern(data){
+  //create div in body
+  var div_height = 500;
+  var _div = d3.select("body")
+  .append("div")
+  .attr("id", "systems")
+  .attr("class", "col-sm-12")
+  .style("height", div_height + "px")
+  .style("background-color", "lavender")
+  .style("border", "solid")
+  .style("border-width", "1px");
+
+  var _svg = d3.select("#systems")
+  .append("svg")
+  .attr("id", "systems_svg")
+  .attr("height", div_height-10 + "px")
+  .attr("class", "col-sm-12")
+  .style("border", "solid")
+  .style("border-width", "1px")
+  .style("margin", "2.5px");
+
+  var _rect = d3.select("#systems_svg")
+  .selectAll(".system")
+  .data(data, function(d) {return d;})
+  .enter()
+  .append("rect")
+  .attr("class", "system")
+  .attr("x", function(d,i) {return i*300})
+  .attr("y", 10)
+  .attr("width", 200)
+  .attr("height", 450)
+  .attr("id", function(d) {return "system_id" + d})
+  .style("fill", "yellow")
+  .style("stroke-width", "1")
+  .style("stroke", "black");
+
+
+ var new_data = [10, 13, 15, 11];
+
+  var remove = d3.selectAll("rect")
+  .data(new_data, function(d) {return d;}).exit().remove();
+
+    var _rect = d3.select("#systems_svg")
+  .selectAll(".system")
+  .data(new_data, function(d) {return d;})
+  .enter()
+  .append("rect")
+  .attr("class", "system")
+  .attr("x", function(d,i) {return i*300})
+  .attr("y", 10)
+  .attr("width", 200)
+  .attr("height", 450)
+  .attr("id", function(d) {return "system_id" + d})
+  .style("fill", "yellow")
+  .style("stroke-width", "1")
+  .style("stroke", "black");
+
 
 }
 
-function deleteSystem(systemID_index){
-    var newDiv = d3.select("#systemsDiv")
-    .selectAll("div")
-    .data(systemID_index).exit().remove();
-}
-
-
-
-
-function findSystem(system_to_find){
-   //var newDiv = d3.select("#systemsDiv")
-                  // .selectAll("div")
-                  // .filter(function(d, i) { return i == 1;; });
-
-    systemsGlobal.forEach(function(entry){
-        entry.forEach(function(entry2){
-          var system_found = entry2.__data__;
-          console.log("found: " + system_found);
-          if (system_to_find == system_found ) {
-            console.log("found system " + system_to_find + " at: " );
-            console.log(entry2);
-          };
-      })
-    })
-}
-
+var data_main = [10,11,12,13];
+pattern(data_main);
 </script>
+
+
 
 
 
