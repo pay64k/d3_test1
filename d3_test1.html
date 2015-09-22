@@ -92,6 +92,7 @@ function pattern(data){
   .style("border", "solid")
   .style("border-width", "1px")
   .style("margin", "2.5px");
+  //.append("g");
 
   var _rect = d3.select("#systems_svg")
   .selectAll(".system")
@@ -109,7 +110,7 @@ function pattern(data){
   .style("stroke", "black");
 
 
- var new_data = [10, 13, 15, 11];
+ var new_data = [10, 13, 15];
 
   var remove = d3.selectAll("rect")
   .data(new_data, function(d) {return d;}).exit().remove();
