@@ -117,7 +117,7 @@ var svg = d3.select("body").append("svg")
 	.attr("height", height + margin.top + margin.bottom)
   .append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-debugger;
+
 root = treeData[0];
 
 root.x0 = height / 2;
@@ -216,7 +216,7 @@ function update(source) {
 
 // Toggle children on click.
 function click(d) {
-  debugger;
+  
   if (d.children) {
 	d._children = d.children;
 	d.children = null;
