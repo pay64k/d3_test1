@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <script src="js/lib/jquery.min.js"></script>
+      <script src="js/lib/bootstrap.min.js"></script>
     <title>Tree Example</title>
 
     <style>
@@ -24,7 +26,7 @@
 	.link {
 	  fill: none;
 	  stroke: #ccc;
-	  stroke-width: 2px;
+	  stroke-width: 1px;
 	}
 	
     </style>
@@ -96,14 +98,13 @@ var treeData = [
 ];
 
 
-
 // ************** Generate the tree diagram	 *****************
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
 	width = 960 - margin.right - margin.left,
 	height = 500 - margin.top - margin.bottom;
 	
 var i = 0,
-	duration = 750,
+	duration = 500,
 	root;
 
 var tree = d3.layout.tree()
@@ -125,7 +126,7 @@ root.y0 = 0;
   
 update(root);
 
-d3.select(self.frameElement).style("height", "500px");
+//d3.select(self.frameElement).style("height", "500px");
 
 function update(source) {
 
@@ -216,7 +217,8 @@ function update(source) {
 
 // Toggle children on click.
 function click(d) {
-  
+  //debugger;
+  var bla = d.children;
   if (d.children) {
 	d._children = d.children;
 	d.children = null;
@@ -227,7 +229,29 @@ function click(d) {
   update(d);
 }
 
+function addRadio(){
+  treeData[0].children[0].children.push({"name": "Radio from Button", "parent": "BTS1"});
+  update(root);
+}
+
+function removeRadio(){
+  treeData[0].children[0].children.splice(0,1);
+  update(root);
+}
+
+function test(){
+  for (var i = 0; i < 100; i++) {
+  addRadio();
+}
+}
+
+;
+
 </script>
-	
+</br>
+	<button type="button" class="btn btn-primary btn-lg" onclick="addRadio()">New radio</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="removeRadio()">Delete radio</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="test()">Test</button>
+
   </body>
 </html>
