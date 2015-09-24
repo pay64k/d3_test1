@@ -38,9 +38,19 @@
 <!-- load the d3.js library -->	
 <script src="js/lib/d3.js"></script>
 	
+</br>
+  
+  <button type="button" class="btn btn-primary btn-lg" onclick="newSystem()">newSystem</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="newChild(0)">newChild</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="newNewChild(0,0)">newNewChild</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="newElement()">test</button> 
+
+<button type="button" class="btn btn-primary btn-lg" onclick="delNewChild(0)">del newChild</button>
+<button type="button" class="btn btn-primary btn-lg" onclick="delNewNewChild(0,0)">del newNewChild</button>
+
 <script>
 
-var treeData = [
+var treeDataORG = [
 {
   "name": "System1",
   "parent": "null",
@@ -97,6 +107,25 @@ var treeData = [
 }
 ];
 
+var treeData = [
+{
+  "name": "System1",
+  "parent": "null",
+  "children": [
+    {
+    "name": "BTS1",
+    "parent": "System1",
+    "children": []
+  }
+  ] ,
+  hidden : false
+}
+];
+
+var treeDataEMPTY = [];
+
+  
+
 
 // ************** Generate the tree diagram	 *****************
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -110,6 +139,8 @@ var i = 0,
 var tree = d3.layout.tree()
 	.size([height, width]);
 
+
+
 var diagonal = d3.svg.diagonal()
 	.projection(function(d) { return [d.y, d.x]; });
 
@@ -119,7 +150,13 @@ var svg = d3.select("body").append("svg")
   .append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-root = treeData[0];
+// var offset = margin.left + 500;
+// var newDiag = d3.select("svg")
+//   .append("g")
+//   .attr("transform", "translate(" + margin.left + "," + offset + ")");
+
+//defining starting point 
+root = treeData[0]
 
 root.x0 = height / 2;
 root.y0 = 0;
@@ -145,7 +182,8 @@ function update(source) {
   var nodeEnter = node.enter().append("g")
 	  .attr("class", "node")
 	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-	  .on("click", click);
+	  .on("click", click)
+    .on("dblclick", dblclick);
 
   nodeEnter.append("circle")
 	  .attr("r", 1e-6)
@@ -213,25 +251,127 @@ function update(source) {
 	d.x0 = d.x;
 	d.y0 = d.y;
   });
+
+//console.log(source);
+
 }
+// treeData[0].children[0].children[0]
+// treeData[0].children[0].children[0].children = []
+// treeData[0].children[0].children[0].children[0] = {"name": "New Child2", "parent": ""};
+
+
+
 
 // Toggle children on click.
 function click(d) {
-  //debugger;
-  var bla = d.children;
-  if (d.children) {
-	d._children = d.children;
-	d.children = null;
+  if (! d.hidden) {
+      d.hidden = true;
+          d._children = d.children;
+              	d.children = null;
   } else {
-	d.children = d._children;
-	d._children = null;
+      d.hidden = false;
+	     d.children = d._children;
+	     d._children = null;
   }
   update(d);
 }
 
-function addRadio(){
-  treeData[0].children[0].children.push({"name": "Radio from Button", "parent": "BTS1"});
+function dblclick(d) {
+newChild(0);
+}
+
+function newChild(parent){
+  if(!parent.hidden) {
+  if (treeData[parent].children == undefined) {
+    treeData[parent].children = [];
+    treeData[parent].children.push({"name": "New Child", "parent": ""});
+  }
+  else{treeData[parent].children.push({"name": "New Child", "parent": ""});}
+}
+else
+{
+  if (treeData[parent]._children == undefined) {
+    treeData[parent]._children = [];
+    treeData[parent]._children.push({"name": "New Child", "parent": ""});
+  }
+  else{treeData[parent]._children.push({"name": "New Child", "parent": ""});}
+}
   update(root);
+}
+
+var amount_of_groups=0;
+
+function newNewChild(parent, child){
+  if(!parent.hidden) {
+    if (treeData[parent].children[child].children == undefined) {
+      treeData[parent].children[child].children = [];
+      treeData[parent].children[child].children.push({"name": "New Child1", "parent": ""});
+    }else{ treeData[parent].children[child].children.push({"name": "New Child1", "parent": ""});
+    }
+}
+else
+{
+    if (treeData[parent]._children[child].children == undefined) {
+      treeData[parent]._children[child].children = [];
+      treeData[parent]._children[child].children.push({"name": "New Child1", "parent": ""});
+    }else{ treeData[parent]._children[child].children.push({"name": "New Child1", "parent": ""});
+    }
+
+}
+
+var amount = treeData[parent].children[child].children.length-amount_of_groups;
+//console.log(amount);
+//update(root);
+if (amount >= 10) {
+  var move = treeData[parent].children[child].children.splice(amount_of_groups,treeData[parent].children[child].children.length);
+  //console.log("move: ")
+  //console.log(move[1]);
+  var newGroup = treeData[parent].children[child].children.push({"name": "New group", "parent": ""});
+  //console.log("newGroup: ")
+  //console.log(newGroup);
+  
+  if (treeData[parent].children[child].children[amount_of_groups].children == undefined) {
+    treeData[parent].children[child].children[amount_of_groups].children = [];
+    for (var i = move.length - 1; i >= 0; i--) {
+      treeData[parent].children[child].children[amount_of_groups].children.push(move[i]);
+    };
+    
+  }else{
+          for (var i = move.length - 1; i >= 0; i--) {
+      treeData[parent].children[child].children[amount_of_groups].children.push(move[i]);
+    };
+  };
+amount_of_groups++;
+//console.log("amount of groups: " + amount_of_groups);
+
+var bla = d3.select("svg")
+            .attr("height");
+var newHeight = parseInt(bla) + 100;
+//console.log(newHeight);
+d3.select("svg").attr("height", newHeight);
+root.x0 = newHeight / 2;
+tree.size([newHeight, width]);
+
+};
+
+update(root);
+
+}
+
+function delNewChild(parent){
+treeData[parent].children.pop();
+update(root);
+}
+
+function delNewNewChild(parent, child){
+treeData[parent].children[child].children.pop();
+update(root);
+}
+
+function newElement(){
+  var order = 0;
+  console.log(treeData);
+  console.log(treeData[order].children);
 }
 
 function removeRadio(){
@@ -239,19 +379,46 @@ function removeRadio(){
   update(root);
 }
 
-function test(){
-  for (var i = 0; i < 100; i++) {
-  addRadio();
-}
-}
+function newSystem(){
+treeData.push({
+  "name": "System1",
+  "parent": "null",
+  "children": [] 
+});
 
-;
+root = treeData[0];
+
+root.x0 = height / 2
+root.y0 = 0;
+update(root);
+};
+
+
+  var delay = setInterval(function(){newNewChild(0,0);},100);
+
+
 
 </script>
-</br>
-	<button type="button" class="btn btn-primary btn-lg" onclick="addRadio()">New radio</button>
-  <button type="button" class="btn btn-primary btn-lg" onclick="removeRadio()">Delete radio</button>
-  <button type="button" class="btn btn-primary btn-lg" onclick="test()">Test</button>
+
+
+<!--   <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">System
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="#" onclick="newSystem()">Add</a></li>
+    <li><a href="#">Delete</a></li>
+    </ul>
+</div>
+
+  <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Child
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="#" onclick="newChild()">Add</a></li>
+    <li><a href="#">Delete</a></li>
+    </ul>
+</div>
+ -->
 
   </body>
 </html>
