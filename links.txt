@@ -7,5 +7,5 @@ http://stackoverflow.com/questions/17558649/d3-tree-layout-separation-between-no
 	http://codepen.io/augbog/pen/LEXZKK
 
 http://christopheviau.com/d3list/gallery.html#visualizationType=untagged
-
+http://will.thimbleby.net/algorithms/doku.php?id=algorithm:breadth-first_search
 http://www.d3noob.org/2014/01/tree-diagrams-in-d3js_11.html		tree layout explained
