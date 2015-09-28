@@ -16,40 +16,27 @@ function Queue() {
     };
 }
 
-function handler(cmd, root, element, newElement, property, newValue) {
-    //debugger;
+
+function findElement(root, element) {
+
     var q = new Queue();
     q.enqueue(root);
 
     while (true) {
         var node = q.dequeue();
 
-        if (node == undefined)
-          break;
+        if (node == undefined){
+          console.log(">>Not found: " + element);
+          return [0, 0];
+        };
 
         if (node.name == element)
         {
-            if (cmd == "add") {
-              console.log("Add " + newElement.name + " to " + node.parent.name);
-              node.parent.children.push(newElement);
-
-              break;
-              }else if (cmd == "del") {
-                console.log("Delete " + element + " from " + node.parent.name);
-
-                break;
-                }else if (cmd == "change") {
-                  console.log("change element");
-
-                  break;
-                  }else{
-                    console.log("Wrong command!");
-                    break;
-
-                  };
-            //return [node.parent.children.indexOf(node), node.parent];
+            console.log(">>Found: " + element );
+            return [1, node];
+            
         }
-        // add all the children to the back of the queue
+        
         if (node.children != undefined)
         {
           for (var i=0, c=node.children.length; i<c; i++) {
@@ -58,4 +45,35 @@ function handler(cmd, root, element, newElement, property, newValue) {
         }
     }
     update(root);
+}
+
+function createElement(id){
+  return {"name": id};
+}
+
+function addElement(_root, id_parent, newChild){
+  console.log(">Adding " + newChild.name + " to " + id_parent);  
+  var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
+  if (foundParent[0]) {                                         //Check if parent exists
+    var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
+    if (foundChild[0]) {                                        //If the newChild already exist, do nothing
+      console.log(">>Already exist!");
+    } else {                                                    //If the newChild doesn't exist
+      console.log(">>Adding: " + newChild.name);      
+      if (foundParent[1].children == undefined) {               //Check if found parent has 'children' property assigned
+        foundParent[1].children = [];                           //Add it if not
+        foundParent[1].children.push(newChild);                 //Add newChild as one of the children of new parent
+      } else{
+        foundParent[1].children.push(newChild);
+      };
+      
+      update(root);                                             //Update graph
+    };
+
+
+  } else {
+    console.log(">>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
+   
+  };
+
 }
