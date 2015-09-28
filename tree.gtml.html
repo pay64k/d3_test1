@@ -2,135 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+      <!--    Libraries:    -->
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <script src="js/lib/jquery.min.js"></script>
       <script src="js/lib/bootstrap.min.js"></script>
-    <title>Tree Example</title>
+      <script src="js/lib/d3.js"></script>
+    
+      <!--    Custom Scripts:   -->
+      <link rel="stylesheet" href="css/nodeStyles.css">
+      <script src="js/dataHandler.js"></script>
+      <script src="js/data.js"></script>
+      <script src="js/d3_scripts.js"></script>
+     
 
-    <style>
-	
-	.node {
-		cursor: pointer;
-	}
-
-	.node circle {
-	  fill: #fff;
-	  stroke: steelblue;
-	  stroke-width: 3px;
-	}
-
-	.node text {
-	  font: 12px sans-serif;
-	}
-
-	.link {
-	  fill: none;
-	  stroke: #ccc;
-	  stroke-width: 1px;
-	}
-	
-    </style>
+    <title></title>
 
   </head>
 
   <body>
 
-<!-- load the d3.js library -->	
-<script src="js/lib/d3.js"></script>
-	
-</br>
-  
-  <button type="button" class="btn btn-primary btn-lg" onclick="newSystem()">newSystem</button>
-  <button type="button" class="btn btn-primary btn-lg" onclick="newChild(0)">newChild</button>
-  <button type="button" class="btn btn-primary btn-lg" onclick="newNewChild(0,0)">newNewChild</button>
-  <button type="button" class="btn btn-primary btn-lg" onclick="newElement()">test</button> 
-
-<button type="button" class="btn btn-primary btn-lg" onclick="delNewChild(0)">del newChild</button>
-<button type="button" class="btn btn-primary btn-lg" onclick="delNewNewChild(0,0)">del newNewChild</button>
-
 <script>
-
-var treeData = [
-{
-  "name": "System1",
-  "parent": "null",
-  "children": [
-  {
-    "name": "BTS1",
-    "parent": "System1",
-    "children": [
-    {
-      "name": "Radio1-1",
-      "parent": "BTS1"
-    },
-    {
-      "name": "Radio1-2",
-      "parent": "BTS1"
-    },
-    {
-      "name": "Radio1-3",
-      "parent": "BTS1"
-    },
-    {
-      "name": "Radio1-4",
-      "parent": "BTS1"
-    },
-    {
-      "name": "Radio1-5",
-      "parent": "BTS1"
-    }
-    ]
-  },
-  {
-    "name": "BTS2",
-    "parent": "System1",
-    "children": [
-    {
-      "name": "Radio2-1",
-      "parent": "BTS2"
-    },
-    {
-      "name": "Radio2-2",
-      "parent": "BTS2"
-    },
-    {
-      "name": "Radio2-3",
-      "parent": "BTS2",
-      "children": [
-      {
-        "name": "Radio8-1",
-        "parent": "Radio2-3"
-      }],
-    },
-    {
-      "name": "Radio2-4",
-      "parent": "BTS2"
-    },
-    ]
-  }
-  ]
-}
-];
-
-var treeDataSmall = [
-{
-  "name": "System1",
-  "parent": "null",
-  "children": [
-    {
-    "name": "BTS1",
-    "parent": "System1",
-    "children": []
-  }
-  ] ,
-  hidden : false
-}
-];
-
-var treeDataEMPTY = [];
-
-  
-
 
 // ************** Generate the tree diagram	 *****************
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -144,8 +35,6 @@ var i = 0,
 var tree = d3.layout.tree()
 	.size([height, width]);
 
-
-
 var diagonal = d3.svg.diagonal()
 	.projection(function(d) { return [d.y, d.x]; });
 
@@ -155,11 +44,6 @@ var svg = d3.select("body").append("svg")
   .append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// var offset = margin.left + 500;
-// var newDiag = d3.select("svg")
-//   .append("g")
-//   .attr("transform", "translate(" + margin.left + "," + offset + ")");
-
 //defining starting point 
 root = treeData[0]
 
@@ -168,349 +52,11 @@ root.y0 = 0;
   
 update(root);
 
-//d3.select(self.frameElement).style("height", "500px");
-
-function update(source) {
-
-  // Compute the new tree layout.
-  var nodes = tree.nodes(root).reverse(),
-	  links = tree.links(nodes);
-
-  // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = d.depth * 180; });
-
-  // Update the nodes…
-  var node = svg.selectAll("g.node")
-	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
-
-  // Enter any new nodes at the parent's previous position.
-  var nodeEnter = node.enter().append("g")
-	  .attr("class", "node")
-	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-	  .on("click", click)
-    .on("dblclick", dblclick);
-
-  nodeEnter.append("circle")
-	  .attr("r", 1e-6)
-	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-
-  nodeEnter.append("text")
-	  .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
-	  .attr("dy", ".35em")
-	  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-	  .text(function(d) { return d.name; })
-	  .style("fill-opacity", 1e-6);
-
-  // Transition nodes to their new position.
-  var nodeUpdate = node.transition()
-	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-
-  nodeUpdate.select("circle")
-	  .attr("r", 10)
-	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-
-  nodeUpdate.select("text")
-	  .style("fill-opacity", 1);
-
-  // Transition exiting nodes to the parent's new position.
-  var nodeExit = node.exit().transition()
-	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
-	  .remove();
-
-  nodeExit.select("circle")
-	  .attr("r", 1e-6);
-
-  nodeExit.select("text")
-	  .style("fill-opacity", 1e-6);
-
-  // Update the links…
-  var link = svg.selectAll("path.link")
-	  .data(links, function(d) { return d.target.id; });
-
-  // Enter any new links at the parent's previous position.
-  link.enter().insert("path", "g")
-	  .attr("class", "link")
-	  .attr("d", function(d) {
-		var o = {x: source.x0, y: source.y0};
-		return diagonal({source: o, target: o});
-	  });
-
-  // Transition links to their new position.
-  link.transition()
-	  .duration(duration)
-	  .attr("d", diagonal);
-
-  // Transition exiting nodes to the parent's new position.
-  link.exit().transition()
-	  .duration(duration)
-	  .attr("d", function(d) {
-		var o = {x: source.x, y: source.y};
-		return diagonal({source: o, target: o});
-	  })
-	  .remove();
-
-  // Stash the old positions for transition.
-  nodes.forEach(function(d) {
-	d.x0 = d.x;
-	d.y0 = d.y;
-  });
-
-//console.log(source);
-
-}
-// treeData[0].children[0].children[0]
-// treeData[0].children[0].children[0].children = []
-// treeData[0].children[0].children[0].children[0] = {"name": "New Child2", "parent": ""};
-
-
-
-
-// Toggle children on click.
-function click(d) {
-  if (! d.hidden) {
-      d.hidden = true;
-          d._children = d.children;
-              	d.children = null;
-  } else {
-      d.hidden = false;
-	     d.children = d._children;
-	     d._children = null;
-  }
-  update(d);
-}
-
-function dblclick(d) {
-newChild(0);
-}
-
-function newChild(parent){
-  if(!parent.hidden) {
-  if (treeData[parent].children == undefined) {
-    treeData[parent].children = [];
-    treeData[parent].children.push({"name": "New Child", "parent": ""});
-  }
-  else{treeData[parent].children.push({"name": "New Child", "parent": ""});}
-}
-else
-{
-  if (treeData[parent]._children == undefined) {
-    treeData[parent]._children = [];
-    treeData[parent]._children.push({"name": "New Child", "parent": ""});
-  }
-  else{treeData[parent]._children.push({"name": "New Child", "parent": ""});}
-}
-  update(root);
-}
-
-var amount_of_groups=0;
-
-function newNewChild(parent, child){
-  if(!parent.hidden) {
-    if (treeData[parent].children[child].children == undefined) {
-      treeData[parent].children[child].children = [];
-      treeData[parent].children[child].children.push({"name": "New Child1", "parent": ""});
-    }else{ treeData[parent].children[child].children.push({"name": "New Child1", "parent": ""});
-    }
-}
-else
-{
-    if (treeData[parent]._children[child].children == undefined) {
-      treeData[parent]._children[child].children = [];
-      treeData[parent]._children[child].children.push({"name": "New Child1", "parent": ""});
-    }else{ treeData[parent]._children[child].children.push({"name": "New Child1", "parent": ""});
-    }
-
-}
-
-var amount = treeData[parent].children[child].children.length-amount_of_groups;
-//console.log(amount);
-//update(root);
-if (amount >= 10) {
-  var move = treeData[parent].children[child].children.splice(amount_of_groups,treeData[parent].children[child].children.length);
-  //console.log("move: ")
-  //console.log(move[1]);
-  var newGroup = treeData[parent].children[child].children.push({"name": "New group", "parent": ""});
-  //console.log("newGroup: ")
-  //console.log(newGroup);
-  
-  if (treeData[parent].children[child].children[amount_of_groups].children == undefined) {
-    treeData[parent].children[child].children[amount_of_groups].children = [];
-    for (var i = move.length - 1; i >= 0; i--) {
-      treeData[parent].children[child].children[amount_of_groups].children.push(move[i]);
-    };
-    
-  }else{
-          for (var i = move.length - 1; i >= 0; i--) {
-      treeData[parent].children[child].children[amount_of_groups].children.push(move[i]);
-    };
-  };
-amount_of_groups++;
-//console.log("amount of groups: " + amount_of_groups);
-
-var bla = d3.select("svg")
-            .attr("height");
-var newHeight = parseInt(bla) + 100;
-//console.log(newHeight);
-d3.select("svg").attr("height", newHeight);
-root.x0 = newHeight / 2;
-tree.size([newHeight, width]);
-
-};
-
-update(root);
-
-}
-
-function delNewChild(parent){
-treeData[parent].children.pop();
-update(root);
-}
-
-function delNewNewChild(parent, child){
-treeData[parent].children[child].children.pop();
-update(root);
-}
-
-function newElement(){
-  var order = 0;
-  console.log(treeData);
-  console.log(treeData[order].children);
-}
-
-function removeRadio(){
-  treeData[0].children[0].children.splice(0,1);
-  update(root);
-}
-
-function newSystem(){
-treeData.push({
-  "name": "System1",
-  "parent": "null",
-  "children": [] 
-});
-
-root = treeData[0];
-
-root.x0 = height / 2
-root.y0 = 0;
-update(root);
-};
-
+d3.select(self.frameElement).style("height", "500px");
 
  // var delay = setInterval(function(){newNewChild(0,0);},100);
 
-// a very simple queue
-function Queue() {
-    var queue = [];
-    
-    this.enqueue = function(x) {
-        queue.push(x);
-    };
-    this.dequeue = function() {
-        return queue.shift();
-    };
-    this.length = function() {
-        return queue.length;
-    };
-    this.queue = function() {
-      return queue;
-    };
-}
-
-function run(root) {
-    return breadthFirstSearch(root);
-}
-
-function transformJSON(input)
-{
-    // iindexOf
-    var processed = [];
-
-
-
-}
-
-function DFS(element, value, parent, index)
-{
-    //console.log(element.name);
-    if (element.name == value)
-    {
-        console.log("OK");
-        console.log(parent);
-        parent.children.splice(index, 1);
-        return 0;
-    }
-
-    if (element.children != undefined)
-    {
-        for (var i=0, c=element.children.length; i<c; i++) {
-            console.log(element.children[i]);
-            var j = DFS(element.children[i], value, element, i);
-            if (j == 0)
-              break;
-        }
-    }
-
-    return -1;
-}
-
-function breadthFirstSearch(cmd, root, element, property, newValue) {
-    //debugger;
-    var q = new Queue();
-    q.enqueue(root);
-
-    while (true) {
-        var node = q.dequeue();
-
-        if (node == undefined)
-          break;
-
-        if (node.name == element)
-        {
-            if (cmd == "add") {
-              console.log("Add " + element + " to " + node.parent.name);
-              }else if (cmd == "del") {
-                console.log("del element")
-                }else if (cmd == "change") {
-                  console.log("change element")
-                  }else{
-                    console.log("Wrong command!");
-                  };
-            return [node.parent.children.indexOf(node), node.parent];
-        }
-        // add all the children to the back of the queue
-        if (node.children != undefined)
-        {
-          for (var i=0, c=node.children.length; i<c; i++) {
-              q.enqueue(node.children[i]);
-          }
-        }
-    }
-}
-
 </script>
-
-
-<!--   <div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">System
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#" onclick="newSystem()">Add</a></li>
-    <li><a href="#">Delete</a></li>
-    </ul>
-</div>
-
-  <div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Child
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#" onclick="newChild()">Add</a></li>
-    <li><a href="#">Delete</a></li>
-    </ul>
-</div>
- -->
 
   </body>
 </html>
