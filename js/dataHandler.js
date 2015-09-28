@@ -51,7 +51,7 @@ function findElement(root, element) {
 //   return {"name": id};
 // }
 
-var properties = ["name","testObject","number","124114","other",null];
+//var properties = ["name","testObject","number","124114","other",null];
 function createElement(_properties){
   if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
     var obj = {};
@@ -70,33 +70,29 @@ function createElement(_properties){
 }
 
 function addElement(_root, id_parent, newChild){
-  // if (newChild.name == undefined) {
-  //   console.log(">>>>>>ERROR: Name of the object not defined! {in function addElement() }");
-  //   return 0
-  // };
   try{
-      console.log(">>>>>>ADD " + newChild.name + " to " + id_parent);  
-  var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
-  if (foundParent[0]) {                                         //Check if parent exists
-    var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
-    if (foundChild[0]) {                                        //If the newChild already exist, do nothing
-      console.log(">>>Already exist!");
-    } else {                                                    //If the newChild doesn't exist
-      console.log(">>>Adding: " + newChild.name);      
-      if (foundParent[1].children == undefined) {               //Check if found parent has 'children' property assigned
-        foundParent[1].children = [];                           //Add it if not
-        foundParent[1].children.push(newChild);                 //Add newChild as one of the children of new parent
-      } else{
-        foundParent[1].children.push(newChild);
+    console.log(">>>>>>ADD " + newChild.name + " to " + id_parent);  
+    var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
+    if (foundParent[0]) {                                         //Check if parent exists
+      var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
+      if (foundChild[0]) {                                        //If the newChild already exist, do nothing
+        console.log(">>>Already exist!");
+      } else {                                                    //If the newChild doesn't exist
+        console.log(">>>Adding: " + newChild.name);      
+        if (foundParent[1].children == undefined) {               //Check if found parent has 'children' property assigned
+          foundParent[1].children = [];                           //Add it if not
+          foundParent[1].children.push(newChild);                 //Add newChild as one of the children of new parent
+        } else{
+          foundParent[1].children.push(newChild);
+        };
+        
+        update(root);                                             //Update graph
       };
-      
-      update(root);                                             //Update graph
-    };
 
-  } else {
-    console.log(">>>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
-    };
-  }
+    } else {
+      console.log(">>>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
+      };
+    }
   catch(err){
     console.log(">>>>>>ERROR: Name of the object not defined! {in function addElement() }");
   }

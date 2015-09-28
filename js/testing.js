@@ -38,17 +38,20 @@ function testCreating(){
 	//createTree("Client1");
 	addElement(treeData[0], "Client1", createElement(["name","System1","MNI","111","MNC","222"]));
 	 	addElement(treeData[0], "System1", createElement(["name","BTS1-1"]));
-			addElement(treeData[0], "BTS1-1", createElement("Radio1-1"));	
-			addElement(treeData[0], "BTS1-1", createElement("Radio1-2"));
+			addElement(treeData[0], "BTS1-1", createElement(["name", "Radio1-1"]));	
+			addElement(treeData[0], "BTS1-1", createElement(["name", "Radio1-2"]));
 			addElement(treeData[0], "BTS1-1", createElement("Radio1-3"));	
-	addElement(treeData[0], "Client1", createElement("System2"));
-		addElement(treeData[0], "System2", createElement("BTS2-1"));
-			addElement(treeData[0], "BTS2-1", createElement("Radio1-1"));	
-			addElement(treeData[0], "BTS2-1", createElement("Radio1-2"));
-			addElement(treeData[0], "BTS2-1", createElement("Radio1-3"));	
-		addElement(treeData[0], "System2", createElement("BTS2-2"));
-			addElement(treeData[0], "BTS2-2", createElement("Radio1-1"));
-			addElement(treeData[0], "BTS2-2", createElement("Radio1-2"));
+			addElement(treeData[0], "BTS1-1", createElement(["name", "Radio1-3"]));
+	addElement(treeData[0], "Client1", createElement(["name", "System2"]));
+		addElement(treeData[0], "System2", createElement(["name", "BTS2-1"]));
+			addElement(treeData[0], "BTS2-1", createElement(["name", "Radio1-1"]));	
+			addElement(treeData[0], "BTS2-1", createElement(["name", "Radio1-1"]));
+			addElement(treeData[0], "BTS2-1", createElement(["name", "Radio1-2"]));	
+		addElement(treeData[0], "System2", createElement(["name", "BTS2-2"]));
+			addElement(treeData[0], "BTS2-2", createElement(["name", "Radio1-1"]));
+			addElement(treeData[0], "BTS2-2", createElement(["name", "Radio1-2"]));
+			addElement(treeData[0], "BTS2-2", createElement(["name", "Radio1-3"]));
+			addElement(treeData[0], "BTS2-2", createElement(["name", "Radio1-4"]));
 	update(root);
 
 } 

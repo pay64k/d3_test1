@@ -2,21 +2,21 @@ stworczyc nowa klase tree.js
 
 bedzie mial funkcje:
 
-create_elem(id,val) zwroci 		{children: null
+DONE create_elem(id,val) zwroci 		{children: null
 								hidden: false
 								val: {}
 								id: id } na przyklad
 		ta funkcja bedzie tworzyc generalny objekt ktory moze byc czymkolwiek (i parent i child)
 
-add_elem(root,id_parent,child)
+DONE add_elem(root,id_parent,child)
 		  {}    string	  {}
 
 		doda objekt (child) jako child do podanego objektu(root)
 		
-del_elem(root,id_child)
+DONE del_elem(root,id_child)
 		znajdzie i usunie obiekt (uzywajac find() )
 		
-del_all_children
+DONE del_all_children
 
 	usunie wszystkie dzieci
 	
@@ -24,12 +24,17 @@ change_elem(root, id_child)
 
 	znajdzie i zmieni atrybuty child'a
 	
-find_child(root,id)	
+DONE find_child(root,id)	
 	
 	znajdzie obiekt o podanym ID
 	zaczac od find_child - ma zwracac objekt ktory znajdzie, uzyc bfs "tree search"
 	
+groupElements()
 	
+	grupuje elementy po dodaniu lub odjeciu 
+		tworzy nowa grupe i przenosi do niej elementy
+		
+		
 potem: przykladowy usage
 
 root = create_elem("root",{})
