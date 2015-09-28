@@ -26,13 +26,13 @@ function findElement(root, element) {
         var node = q.dequeue();
 
         if (node == undefined){
-          console.log(">>Not found: " + element);
+          console.log(">>>Not found: " + element);
           return [0, 0];
         };
 
         if (node.name == element)
         {
-            console.log(">>Found: " + element );
+            console.log(">>>Found: " + element );
             return [1, node];
             
         }
@@ -47,12 +47,35 @@ function findElement(root, element) {
     update(root);
 }
 
-function createElement(id){
-  return {"name": id};
+// function createElement(id){
+//   return {"name": id};
+// }
+
+var properties = ["name","testObject","number","124114","other",null];
+function createElement(_properties){
+  if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
+    var obj = {};
+      for (var i = 0; i < _properties.length; i+=2) {
+        obj[_properties[i]]=_properties[i+1];
+      };
+  console.log(">>>>>>Object created: " + obj[_properties[0]])
+  if (_properties.length == 1) {
+    console.log(">>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
+  };
+  return obj;
+  } else {
+    console.log(">>>Create element: wrong properties!");
+  };
+
 }
 
 function addElement(_root, id_parent, newChild){
-  console.log(">>>>>>Adding " + newChild.name + " to " + id_parent);  
+  // if (newChild.name == undefined) {
+  //   console.log(">>>>>>ERROR: Name of the object not defined! {in function addElement() }");
+  //   return 0
+  // };
+  try{
+      console.log(">>>>>>ADD " + newChild.name + " to " + id_parent);  
   var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
   if (foundParent[0]) {                                         //Check if parent exists
     var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
@@ -73,11 +96,16 @@ function addElement(_root, id_parent, newChild){
   } else {
     console.log(">>>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
     };
+  }
+  catch(err){
+    console.log(">>>>>>ERROR: Name of the object not defined! {in function addElement() }");
+  }
+
 }
 
 function delElement(_root, id_child){  
   var found = findElement(_root, id_child);                               //Find if element exist
-  console.log(">>>>>>Delete " + id_child);                                
+  console.log(">>>>>>DEL " + id_child);                                
   if (found[0]) {                                                         //Delete if yes
     console.log(">>>Delete " + id_child + " in " + found[1].parent.name);
     var elem = found[1];
@@ -87,4 +115,12 @@ function delElement(_root, id_child){
   } else {
     console.log(">>>Couldn't find " + id_child);
   };
+}
+
+function changeElement(){
+
+}
+
+function createTree(client_id){
+  treeData.push( createElement(client_id) );
 }

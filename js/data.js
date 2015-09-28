@@ -1,4 +1,4 @@
-var treeData = [
+var treeDataORG = [
 {
   "name": "System1",
   "parent": "null",
@@ -60,18 +60,11 @@ var treeData = [
 }
 ];
 
-var treeDataSmall = [
+var treeData = [
 {
-  "name": "System1",
+  "name": "Client1",
   "parent": "null",
-  "children": [
-    {
-    "name": "BTS1",
-    "parent": "System1",
-    "children": []
-  }
-  ] ,
-  hidden : false
+  "children": []
 }
 ];
 
