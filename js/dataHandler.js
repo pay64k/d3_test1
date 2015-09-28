@@ -117,6 +117,11 @@ function changeElement(){
 
 }
 
+function groupElements(){
+  var threshold = 2;
+  
+}
+
 function createTree(client_id){
   treeData.push( createElement(client_id) );
 }
