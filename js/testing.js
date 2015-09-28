@@ -25,3 +25,10 @@ var bla = createElement("Test radio4");
 addElement(treeData[0],"Test radio3",bla);
 
  }
+
+
+ function testDeleting(){
+ 	var bla = createElement("DELETE");
+	addElement(treeData[0],"BTS2",bla);
+ 	delElement(treeData[0],"DELETE");
+ }

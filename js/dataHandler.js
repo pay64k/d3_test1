@@ -52,14 +52,14 @@ function createElement(id){
 }
 
 function addElement(_root, id_parent, newChild){
-  console.log(">Adding " + newChild.name + " to " + id_parent);  
+  console.log(">>>>>>Adding " + newChild.name + " to " + id_parent);  
   var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
   if (foundParent[0]) {                                         //Check if parent exists
     var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
     if (foundChild[0]) {                                        //If the newChild already exist, do nothing
-      console.log(">>Already exist!");
+      console.log(">>>Already exist!");
     } else {                                                    //If the newChild doesn't exist
-      console.log(">>Adding: " + newChild.name);      
+      console.log(">>>Adding: " + newChild.name);      
       if (foundParent[1].children == undefined) {               //Check if found parent has 'children' property assigned
         foundParent[1].children = [];                           //Add it if not
         foundParent[1].children.push(newChild);                 //Add newChild as one of the children of new parent
@@ -70,10 +70,21 @@ function addElement(_root, id_parent, newChild){
       update(root);                                             //Update graph
     };
 
-
   } else {
-    console.log(">>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
-   
-  };
+    console.log(">>>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
+    };
+}
 
+function delElement(_root, id_child){  
+  var found = findElement(_root, id_child);                               //Find if element exist
+  console.log(">>>>>>Delete " + id_child);                                
+  if (found[0]) {                                                         //Delete if yes
+    console.log(">>>Delete " + id_child + " in " + found[1].parent.name);
+    var elem = found[1];
+    elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
+    console.log(">>>Deleting " + elem.name);
+    update(root);                                                          //Update graph
+  } else {
+    console.log(">>>Couldn't find " + id_child);
+  };
 }
