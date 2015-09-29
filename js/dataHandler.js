@@ -81,9 +81,9 @@ function addElement(_root, id_parent, newChild){
         } else{
           foundParent[1].children.push(newChild);
         };
-        // update(root);
+         update(root);
         // groupElements(newChild); 
-        update(root);                                            //Update graph
+        // update(root);                                            //Update graph
       };
 
     } else {
@@ -105,7 +105,7 @@ function delElement(_root, id_child){
     var elem = found[1];
     var deleted = elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
     debugLog("\t>>Deleting " + elem.name);
-    update(root);                                                                       //Update graph
+    // update(root);                                                                       //Update graph
     return deleted;                                                     
   } else {
     debugLog("\t>>ERROR: Couldn't find " + id_child);
@@ -149,6 +149,7 @@ function groupElements(_root, id_parent){
     };
   }
   catch(err){
+    debugger;
     console.log("ERROR in groupElements()");
   }
 }
@@ -160,26 +161,45 @@ function groupElements2(_root, id_parent){
     var found = findElement(_root, id_parent);
     if (found[0]) {
       var parent = found[1];
-      var amountNonGroups = 0;                                  //Amount of non groups element in the children of the parent
+                                        //Amount of non groups element in the children of the parent
       var childrenNames = [];
-      
+      var childrenTypes = [];
+      //debugger;
+      var nonGroup = 0;
+      for (var i = 0; i < parent.children.length; i++) {
+        if (parent.children[i].type != "Group") {
+          nonGroup++;
+        };
+      };
+      //console.log("non group: " + nonGroup + " in " + parent.name);
+      if (nonGroup > threshold) {
+        var objectsByType = [[],[]];
+        var types = [];
+        var typeCounter = 0;
         for (var i = 0; i < parent.children.length; i++) {
-          if (parent.children[i].name.substring(0,5) != "Group") {
-            childrenNames.push(parent.children[i].name);
-          };
+          console.log(findElement(parent,parent.children[i].name));
+          
         };
-        if (childrenNames.length > threshold) {
-          var move = [];
-            for (var i = 0; i < childrenNames.length; i++) {
-              move.push(delElement(parent,childrenNames[i])[0]);
-            };
-            var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL]));
-            group_GLOBAL++;
-            for (var i = 0; i < childrenNames.length; i++) {
-              addElement(treeData[0], newGroup.name, move[i]);
-            };
-        };
+        // console.log(types);
 
+
+        // for (var i = 0; i < parent.children.length; i++) {
+        //   if (parent.children[i].name.substring(0,5) != "Group") {
+        //     childrenNames.push(parent.children[i].name);
+        //     childrenTypes.push(parent.children[i].type);
+        //     //debugger;
+        //   };
+        // };
+        // var move = [];
+        //   for (var i = 0; i < childrenNames.length; i++) {
+        //     move.push(delElement(parent,childrenNames[i])[0]);
+        //   };
+        // var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL, "type","group"]));
+        // group_GLOBAL++;
+        //   for (var i = 0; i < childrenNames.length; i++) {
+        //     addElement(treeData[0], newGroup.name, move[i]);
+        //   };
+      };
     };
   }
   catch(err){
@@ -190,6 +210,7 @@ function groupElements2(_root, id_parent){
 function addElementAndGroup(_root, id_parent, child_properties){
   addElement(_root, id_parent, createElement(child_properties));
   groupElements2(_root,id_parent);
+  update(root);
 }
 
 function createTree(client_id){
