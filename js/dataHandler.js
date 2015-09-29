@@ -157,7 +157,7 @@ function groupElements(_root, id_parent){
 //sorting by type and amount of the same type
 function groupElements2(_root, id_parent){
   try{
-    var threshold = 5;
+    var threshold = 1;
     var found = findElement(_root, id_parent);
     if (found[0]) {
       var parent = found[1];
@@ -174,13 +174,19 @@ function groupElements2(_root, id_parent){
       //console.log("non group: " + nonGroup + " in " + parent.name);
       if (nonGroup > threshold) {
         var objectsByType = [[],[]];
-        var types = [];
+        var types = ["asf"];
         var typeCounter = 0;
+        debugger;
         for (var i = 0; i < parent.children.length; i++) {
-          console.log(findElement(parent,parent.children[i].name));
+          for (var j = 0; j < types.length; j++) {
+            if (types[j] != parent.children[i].type) {
+              types.push(parent.children[i].type);
+              console.log(parent.children[i].type);
+            };  
+          };
           
         };
-        // console.log(types);
+        //console.log(types);
 
 
         // for (var i = 0; i < parent.children.length; i++) {
