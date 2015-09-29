@@ -154,10 +154,25 @@ function groupElements(_root, id_parent){
   }
 }
 
+
+Array.prototype.unique2 = function()
+{
+  var n = {},r=[];
+  for(var i = 0; i < this.length; i++) 
+  {
+    if (!n[this[i]]) 
+    {
+      n[this[i]] = true; 
+      r.push(this[i]); 
+    }
+  }
+  return r;
+}
+
 //sorting by type and amount of the same type
 function groupElements2(_root, id_parent){
   try{
-    var threshold = 1;
+    var threshold = 3;
     var found = findElement(_root, id_parent);
     if (found[0]) {
       var parent = found[1];
@@ -165,46 +180,26 @@ function groupElements2(_root, id_parent){
       var childrenNames = [];
       var childrenTypes = [];
       //debugger;
-      var nonGroup = 0;
+      var nonGrouped = 0;
       for (var i = 0; i < parent.children.length; i++) {
         if (parent.children[i].type != "Group") {
-          nonGroup++;
+          nonGrouped++;
         };
       };
-      //console.log("non group: " + nonGroup + " in " + parent.name);
-      if (nonGroup > threshold) {
-        var objectsByType = [[],[]];
-        var types = ["asf"];
-        var typeCounter = 0;
-        debugger;
-        for (var i = 0; i < parent.children.length; i++) {
-          for (var j = 0; j < types.length; j++) {
-            if (types[j] != parent.children[i].type) {
-              types.push(parent.children[i].type);
-              console.log(parent.children[i].type);
-            };  
-          };
-          
+      console.log("non grouped: " + nonGrouped + " in " + parent.name);
+      if (nonGrouped > threshold) {
+        var types = [];
+        for (var i = 0; i < parent.children.length; i++) {    //get array of types from all children
+          types.push(parent.children[i].type);
         };
-        //console.log(types);
-
-
-        // for (var i = 0; i < parent.children.length; i++) {
-        //   if (parent.children[i].name.substring(0,5) != "Group") {
-        //     childrenNames.push(parent.children[i].name);
-        //     childrenTypes.push(parent.children[i].type);
-        //     //debugger;
-        //   };
-        // };
-        // var move = [];
-        //   for (var i = 0; i < childrenNames.length; i++) {
-        //     move.push(delElement(parent,childrenNames[i])[0]);
-        //   };
-        // var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL, "type","group"]));
-        // group_GLOBAL++;
-        //   for (var i = 0; i < childrenNames.length; i++) {
-        //     addElement(treeData[0], newGroup.name, move[i]);
-        //   };
+        var filteredTypes = types.unique2();                  //filter so that only unique elements remain
+        for (var i = 0; i < filteredTypes.length; i++) {
+          for (var j = 0; j < parent.children.length; j++) {
+            if (parent.children[j].type == filteredTypes[i] ) {
+              console.log(parent.children[j]);
+            };
+          };
+        };
       };
     };
   }
