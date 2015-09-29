@@ -26,13 +26,13 @@ function findElement(root, element) {
         var node = q.dequeue();
 
         if (node == undefined){
-          console.log(">>>Not found: " + element);
+          //console.log(">>>Not found: " + element);
           return [0, 0];
         };
 
         if (node.name == element)
         {
-            console.log(">>>Found: " + element );
+            //console.log(">>>Found: " + element );
             return [1, node];
             
         }
@@ -44,12 +44,8 @@ function findElement(root, element) {
           }
         }
     }
-    update(root);
+    //update(root);
 }
-
-// function createElement(id){
-//   return {"name": id};
-// }
 
 //var properties = ["name","testObject","number","124114","other",null];
 function createElement(_properties){
@@ -58,58 +54,61 @@ function createElement(_properties){
       for (var i = 0; i < _properties.length; i+=2) {
         obj[_properties[i]]=_properties[i+1];
       };
-  console.log(">>>>>>Object created: " + obj[_properties[0]])
+  debugLog(">>>Object created: " + obj[_properties[0]])
   if (_properties.length == 1) {
-    console.log(">>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
+    debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
   };
   return obj;
   } else {
-    console.log(">>>Create element: wrong properties!");
+    debugLog("\t>>Create element: wrong properties!");
   };
 
 }
 
 function addElement(_root, id_parent, newChild){
   try{
-    console.log(">>>>>>ADD " + newChild.name + " to " + id_parent);  
+    debugLog(">>>ADD " + newChild.name + " to " + id_parent);  
     var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
     if (foundParent[0]) {                                         //Check if parent exists
       var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
       if (foundChild[0]) {                                        //If the newChild already exist, do nothing
-        console.log(">>>Already exist!");
+        debugLog("\t>>ERROR: Already exist!");
       } else {                                                    //If the newChild doesn't exist
-        console.log(">>>Adding: " + newChild.name);      
+        debugLog("\t>>Adding: " + newChild.name);      
         if (foundParent[1].children == undefined) {               //Check if found parent has 'children' property assigned
           foundParent[1].children = [];                           //Add it if not
           foundParent[1].children.push(newChild);                 //Add newChild as one of the children of new parent
         } else{
           foundParent[1].children.push(newChild);
         };
-        
-        update(root);                                             //Update graph
+        // update(root);
+        // groupElements(newChild); 
+        update(root);                                            //Update graph
       };
 
     } else {
-      console.log(">>>Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
+      debugLog("\t>>ERROR: Couldn't find parent!");                     //Log if parent of given id_parent doesn't exist
       };
+      return newChild;
     }
   catch(err){
-    console.log(">>>>>>ERROR: Name of the object not defined! {in function addElement() }");
+    debugLog("\t>>ERROR: Name of the object not defined! {in function addElement() }");
   }
 
 }
 
 function delElement(_root, id_child){  
-  var found = findElement(_root, id_child);                               //Find if element exist
-  console.log(">>>>>>DEL " + id_child);                                
-  if (found[0]) {                                                         //Delete if yes
-    console.log(">>>Delete " + id_child + " in " + found[1].parent.name);
+  var found = findElement(_root, id_child);                                             //Find if element exist
+  debugLog(">>>DEL " + id_child);                                
+  if (found[0]) {                                                                       //Delete if yes
+    debugLog("\t>>Delete " + id_child + " in " + found[1].parent.name);
     var elem = found[1];
-    elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
-    console.log(">>>Deleting " + elem.name);
-    update(root);                                                          //Update graph
+    var deleted = elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
+    debugLog("\t>>Deleting " + elem.name);
+    update(root);                                                                       //Update graph
+    return deleted;                                                     
   } else {
-    console.log(">>>Couldn't find " + id_child);
+    debugLog("\t>>ERROR: Couldn't find " + id_child);
   };
 }
 
@@ -117,11 +116,97 @@ function changeElement(){
 
 }
 
-function groupElements(){
-  var threshold = 2;
-  
+
+
+var group_GLOBAL=0;
+//working but sorting after amount of children, not by type
+function groupElements(_root, id_parent){
+  try{
+    var threshold = 5;
+    var found = findElement(_root, id_parent);
+    if (found[0]) {
+      var parent = found[1];
+      var amountNonGroups = 0;                                  //Amount of non groups element in the children of the parent
+      var childrenNames = [];
+      
+        for (var i = 0; i < parent.children.length; i++) {
+          if (parent.children[i].name.substring(0,5) != "Group") {
+            childrenNames.push(parent.children[i].name);
+          };
+        };
+        if (childrenNames.length > threshold) {
+          var move = [];
+            for (var i = 0; i < childrenNames.length; i++) {
+              move.push(delElement(parent,childrenNames[i])[0]);
+            };
+            var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL]));
+            group_GLOBAL++;
+            for (var i = 0; i < childrenNames.length; i++) {
+              addElement(treeData[0], newGroup.name, move[i]);
+            };
+        };
+
+    };
+  }
+  catch(err){
+    console.log("ERROR in groupElements()");
+  }
+}
+
+//sorting by type and amount of the same type
+function groupElements2(_root, id_parent){
+  try{
+    var threshold = 5;
+    var found = findElement(_root, id_parent);
+    if (found[0]) {
+      var parent = found[1];
+      var amountNonGroups = 0;                                  //Amount of non groups element in the children of the parent
+      var childrenNames = [];
+      
+        for (var i = 0; i < parent.children.length; i++) {
+          if (parent.children[i].name.substring(0,5) != "Group") {
+            childrenNames.push(parent.children[i].name);
+          };
+        };
+        if (childrenNames.length > threshold) {
+          var move = [];
+            for (var i = 0; i < childrenNames.length; i++) {
+              move.push(delElement(parent,childrenNames[i])[0]);
+            };
+            var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL]));
+            group_GLOBAL++;
+            for (var i = 0; i < childrenNames.length; i++) {
+              addElement(treeData[0], newGroup.name, move[i]);
+            };
+        };
+
+    };
+  }
+  catch(err){
+    debugLog("ERROR in groupElements()");
+  }
+}
+
+function addElementAndGroup(_root, id_parent, child_properties){
+  addElement(_root, id_parent, createElement(child_properties));
+  groupElements2(_root,id_parent);
 }
 
 function createTree(client_id){
   treeData.push( createElement(client_id) );
+}
+
+function debugLog(body){
+
+var currentdate = new Date(); 
+var message =    currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "@"  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds() + "."
+                + currentdate.getMilliseconds()  
+                + "\t " + body;
+
+console.log(message);
 }
