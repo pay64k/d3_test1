@@ -218,13 +218,14 @@ function groupElements2(_root, id_parent){
           };
           tempObjects = [];
           if (moveFlag) {
-            var newGroup = addElement(_root, parent.name, createElement(["name","Group " + group_GLOBAL + " "
+            var newGroup = addElement(_root, parent.name, createElement(["name","#" + group_GLOBAL + " "
                                                                         + filteredTypes[i],"type","Group"]));
             for (var ii = 0; ii < filteredObjects.length; ii++) {
               addElement(_root, newGroup.name, filteredObjects[ii].shift());
             };
+            sortByName(newGroup);
             group_GLOBAL++;
-             moveFlag = false;
+            moveFlag = false;
           };
           
           filteredObjects = [];
@@ -241,6 +242,7 @@ function groupElements2(_root, id_parent){
 function addElementAndGroup(_root, id_parent, child_properties){
   addElement(_root, id_parent, createElement(child_properties));
   groupElements2(_root,id_parent);
+  sortByName(findElement(_root,id_parent)[1]);
   update(root);
 }
 
@@ -263,8 +265,23 @@ function delElementAndUngroup(_root, element){
       group_GLOBAL--;
     };
   };
+  sortByName(parent.parent);
   update(root);
 }
+
+function sortByName(parent){
+  parent.children.sort(function (a, b) {
+  if (a.name> b.name) {
+    return 1;
+  }
+  if (a.name< b.name) {
+    return -1;
+  }
+  // a must be equal to b
+  return 0;
+});
+}
+
 
 function createTree(client_id){
   treeData.push( createElement(client_id) );

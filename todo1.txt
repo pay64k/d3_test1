@@ -47,7 +47,8 @@ KAZDE PODAWANE OBEJKTY W ARGUMENTACH SA REFERENCJAMI DO TYCH OBJEKTOW, KURWA MYS
 
 todo nowe:
 change element property
-sortowanie grup
-delAndUngroup
-delete empty groups
-maybe: move objects from group with less then threshold elements to parent
+group numbering when deleting groups 
+DONE sortowanie grup
+DONE delAndUngroup
+DONE delete empty groups
+DONE maybe: move objects from group with less then threshold elements to parent

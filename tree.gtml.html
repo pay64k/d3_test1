@@ -70,25 +70,14 @@ var addedRadiosNamesType1 = [];
 var addedRadiosNamesType2 = [];
 function testClick1(){
 
-  var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + " (Type1)" ;
+  var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
 addElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
 addedRadiosNamesType1.push(name);
 }
 function testClick2(){
-var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + " (Type2)";
+var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
 addElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
 addedRadiosNamesType2.push(name);
-}
-
-function testClick3(){
-  var name = addedRadiosNamesType1.shift();
-  delElement(treeData[0],name);
-  update(root);
-}
-function testClick4(){
-  var name = addedRadiosNamesType2.shift();
-  delElement(treeData[0],name);
-  update(root);
 }
 
 function testDeleteAndUngroupUsage1(){
