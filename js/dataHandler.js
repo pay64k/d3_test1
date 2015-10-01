@@ -92,7 +92,7 @@ function addElement(_root, id_parent, newChild){
       return newChild;
     }
   catch(err){
-    debugLog("\t>>ERROR: Name of the object not defined! {in function addElement() }");
+    debugLog("\t>>ERROR: Name of the object not defined! {in function addElement() }" + ", Message: " + err.message );
   }
 
 }
@@ -108,7 +108,7 @@ function delElement(_root, id_child){
     // update(root);                                                                       //Update graph
     return deleted;                                                     
   } else {
-    debugLog("\t>>ERROR: Couldn't find " + id_child);
+    debugLog("\t>>ERROR: Couldn't find " + id_child + ", Messgae: " + err.message);
   };
 }
 
@@ -150,7 +150,7 @@ function groupElements(_root, id_parent){
   }
   catch(err){
     debugger;
-    console.log("ERROR in groupElements()");
+    console.log("ERROR in groupElements(): " + err.message);
   }
 }
 
@@ -172,14 +172,14 @@ Array.prototype.unique2 = function()
 //sorting by type and amount of the same type
 function groupElements2(_root, id_parent){
   try{
-    var threshold = 3;
+    var threshold = 5;
     var found = findElement(_root, id_parent);
     if (found[0]) {
       var parent = found[1];
                                         //Amount of non groups element in the children of the parent
       var childrenNames = [];
       var childrenTypes = [];
-      //debugger;
+
       var nonGrouped = 0;
       for (var i = 0; i < parent.children.length; i++) {
         if (parent.children[i].type != "Group") {
@@ -190,21 +190,31 @@ function groupElements2(_root, id_parent){
       if (nonGrouped > threshold) {
         var types = [];
         for (var i = 0; i < parent.children.length; i++) {    //get array of types from all children
-          types.push(parent.children[i].type);
+          if (parent.children[i].type != "Group") {
+            types.push(parent.children[i].type);
+          };
         };
         var filteredTypes = types.unique2();                  //filter so that only unique elements remain
+        var filteredObjects = [];
         for (var i = 0; i < filteredTypes.length; i++) {
-          for (var j = 0; j < parent.children.length; j++) {
+          for (var j = parent.children.length - 1; j >= 0; j--){
             if (parent.children[j].type == filteredTypes[i] ) {
-              console.log(parent.children[j]);
+             filteredObjects.push(delElement(parent, parent.children[j].name));
             };
           };
+          var newGroup = addElement(_root, parent.name, createElement(["name","Group " + group_GLOBAL + " "
+                                                                        + filteredTypes[i],"type","Group"]));
+          for (var ii = 0; ii < filteredObjects.length; ii++) {
+            addElement(_root, newGroup.name, filteredObjects[ii].shift());
+          };
+          filteredObjects = [];
+          group_GLOBAL++;
         };
       };
     };
   }
   catch(err){
-    debugLog("ERROR in groupElements()");
+    debugLog("ERROR in groupElements(): " + err.message);
   }
 }
 
