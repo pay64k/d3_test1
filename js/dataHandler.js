@@ -108,7 +108,7 @@ function delElement(_root, id_child){
     // update(root);                                                                       //Update graph
     return deleted;                                                     
   } else {
-    debugLog("\t>>ERROR: Couldn't find " + id_child + ", Messgae: " + err.message);
+    debugLog("\t>>ERROR: Couldn't find " + id_child );
   };
 }
 
@@ -172,7 +172,7 @@ Array.prototype.unique2 = function()
 //sorting by type and amount of the same type
 function groupElements2(_root, id_parent){
   try{
-    var threshold = 5;
+    var threshold = 10;
     var found = findElement(_root, id_parent);
     if (found[0]) {
       var parent = found[1];
@@ -187,7 +187,7 @@ function groupElements2(_root, id_parent){
         };
       };
       console.log("non grouped: " + nonGrouped + " in " + parent.name);
-      if (nonGrouped > threshold) {
+      if (nonGrouped >= threshold) {
         var types = [];
         for (var i = 0; i < parent.children.length; i++) {    //get array of types from all children
           if (parent.children[i].type != "Group") {
@@ -196,19 +196,39 @@ function groupElements2(_root, id_parent){
         };
         var filteredTypes = types.unique2();                  //filter so that only unique elements remain
         var filteredObjects = [];
+        var tempObjects = [];
+        var moveFlag = false;
         for (var i = 0; i < filteredTypes.length; i++) {
+          //debugger;
+          var typeCounter = 0;
           for (var j = parent.children.length - 1; j >= 0; j--){
-            if (parent.children[j].type == filteredTypes[i] ) {
-             filteredObjects.push(delElement(parent, parent.children[j].name));
+            if (parent.children[j].type == filteredTypes[i]) {
+              // filteredObjects.push(delElement(parent, parent.children[j].name));
+              tempObjects.push(parent.children[j]);
+              typeCounter++;
+              if (typeCounter >= threshold) {
+                console.log("too many! " + typeCounter);
+                tempObjects.forEach(function(entry){
+                filteredObjects.push(delElement(parent, entry.name));
+                });
+                moveFlag = true;
+              };
+           
             };
           };
-          var newGroup = addElement(_root, parent.name, createElement(["name","Group " + group_GLOBAL + " "
+          tempObjects = [];
+          if (moveFlag) {
+            var newGroup = addElement(_root, parent.name, createElement(["name","Group " + group_GLOBAL + " "
                                                                         + filteredTypes[i],"type","Group"]));
-          for (var ii = 0; ii < filteredObjects.length; ii++) {
-            addElement(_root, newGroup.name, filteredObjects[ii].shift());
+            for (var ii = 0; ii < filteredObjects.length; ii++) {
+              addElement(_root, newGroup.name, filteredObjects[ii].shift());
+            };
+            group_GLOBAL++;
+             moveFlag = false;
           };
+          
           filteredObjects = [];
-          group_GLOBAL++;
+          
         };
       };
     };

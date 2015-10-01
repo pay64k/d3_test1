@@ -66,7 +66,7 @@ testCreating();
 
 
 <script>
-function testClick(){
+function testClick1(){
   var currentdate = new Date(); 
 addElementAndGroup(treeData[0],"BTS2-1",["name", "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 , "type","Radio", "property1", "test"]);
 }
@@ -75,9 +75,35 @@ function testClick2(){
 addElementAndGroup(treeData[0],"BTS2-1",["name", "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 , "type","RadioNEW", "property1", "test"]);
 }
 
+function testClick3(){
+  findElement();
+  delElement(treeData[0],"DELETE");
+}
+function testClick4(){
+  delElement(treeData[0],"DELETE");
+}
+
 </script>
 
-<button type="button" class="btn btn-primary btn-lg" onclick="testClick()">Radio</button>
-<button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">RadioNEW</button>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-baqh{text-align:center;vertical-align:top}
+.tg .tg-yw4l{vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()">Radio</button></th>
+    <th class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick3()">delRadio</button></th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">RadioNew</button></td>
+    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick4()">delRadioNEW</button></td>
+  </tr>
+</table>
+
+
   </body>
 </html>
