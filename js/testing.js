@@ -58,10 +58,10 @@ function testCreating(){
 	addElementAndGroup(treeData[0],"Client1",["name", "System2", "type","System"]);
 		 addElementAndGroup(treeData[0],"System2",["name", "BTS2-1", "type","BTS"]);
 		//  addElementAndGroup(treeData[0],"BTS2-1",["name", "Group1", "type","group"]);
-			addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio1", "type","Radio", "property1", "test"]);
-			addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio2", "type","Radio"]);
-			addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio3", "type","Radio"]);
-			addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio4", "type","Radio"]);
+			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio1", "type","Radio", "property1", "test"]);
+			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio2", "type","Radio"]);
+			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio3", "type","Radio"]);
+			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio4", "type","Radio"]);
 			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio5", "type","Radio"]);
 			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio6", "type","RadioNEW"]);
 			// addElementAndGroup(treeData[0],"BTS2-1",["name", "Radio7", "type","Radio"]);

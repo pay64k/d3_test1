@@ -43,3 +43,11 @@ root = create_elem("root",{})
 
 
 KAZDE PODAWANE OBEJKTY W ARGUMENTACH SA REFERENCJAMI DO TYCH OBJEKTOW, KURWA MYSLEC OBIEKTAMI
+
+
+todo nowe:
+change element property
+sortowanie grup
+delAndUngroup
+delete empty groups
+maybe: move objects from group with less then threshold elements to parent

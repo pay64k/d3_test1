@@ -186,7 +186,7 @@ function groupElements2(_root, id_parent){
           nonGrouped++;
         };
       };
-      console.log("non grouped: " + nonGrouped + " in " + parent.name);
+      //console.log("non grouped: " + nonGrouped + " in " + parent.name);
       if (nonGrouped >= threshold) {
         var types = [];
         for (var i = 0; i < parent.children.length; i++) {    //get array of types from all children
@@ -207,7 +207,7 @@ function groupElements2(_root, id_parent){
               tempObjects.push(parent.children[j]);
               typeCounter++;
               if (typeCounter >= threshold) {
-                console.log("too many! " + typeCounter);
+                //console.log("too many! " + typeCounter);
                 tempObjects.forEach(function(entry){
                 filteredObjects.push(delElement(parent, entry.name));
                 });
@@ -244,6 +244,28 @@ function addElementAndGroup(_root, id_parent, child_properties){
   update(root);
 }
 
+function delElementAndUngroup(_root, element){
+  var threshold = 2;
+  var deleted = delElement(_root,element)[0];
+  //console.log("Deleted " + deleted.name);
+  var parent = deleted.parent;
+  if (deleted.parent.type == "Group") {
+    //console.log("was in a group: " + parent.name);
+    if (parent.children.length <= threshold) {
+      //debugger;
+      // parent.children.forEach(function(entry) {
+      //    addElement(_root, parent.parent.name, delElement(_root, entry.name)[0]);
+      // });
+      for (var i = parent.children.length - 1; i >= 0; i--) {
+        addElement(_root, parent.parent.name, delElement(_root, parent.children[i].name)[0]);
+      };
+      delElement(_root,parent.name);
+      group_GLOBAL--;
+    };
+  };
+  update(root);
+}
+
 function createTree(client_id){
   treeData.push( createElement(client_id) );
 }
@@ -260,5 +282,6 @@ var message =    currentdate.getDate() + "/"
                 + currentdate.getMilliseconds()  
                 + "\t " + body;
 
+// console.log('%c' + message, 'color: red');
 console.log(message);
 }

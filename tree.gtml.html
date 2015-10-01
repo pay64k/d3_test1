@@ -66,41 +66,63 @@ testCreating();
 
 
 <script>
+var addedRadiosNamesType1 = [];
+var addedRadiosNamesType2 = [];
 function testClick1(){
-  var currentdate = new Date(); 
-addElementAndGroup(treeData[0],"BTS2-1",["name", "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 , "type","Radio", "property1", "test"]);
+
+  var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + " (Type1)" ;
+addElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
+addedRadiosNamesType1.push(name);
 }
 function testClick2(){
-  var currentdate = new Date(); 
-addElementAndGroup(treeData[0],"BTS2-1",["name", "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 , "type","RadioNEW", "property1", "test"]);
+var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + " (Type2)";
+addElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
+addedRadiosNamesType2.push(name);
 }
 
 function testClick3(){
-  findElement();
-  delElement(treeData[0],"DELETE");
+  var name = addedRadiosNamesType1.shift();
+  delElement(treeData[0],name);
+  update(root);
 }
 function testClick4(){
-  delElement(treeData[0],"DELETE");
+  var name = addedRadiosNamesType2.shift();
+  delElement(treeData[0],name);
+  update(root);
 }
+
+function testDeleteAndUngroupUsage1(){
+  var name = addedRadiosNamesType1.shift();
+  console.log("Delete " + name);
+  delElementAndUngroup(treeData[0],name);
+}
+
+function testDeleteAndUngroupUsage2(){
+  var name = addedRadiosNamesType2.shift();
+  delElementAndUngroup(treeData[0],name);
+}
+
 
 </script>
 
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
 .tg .tg-baqh{text-align:center;vertical-align:top}
 .tg .tg-yw4l{vertical-align:top}
 </style>
 <table class="tg">
   <tr>
-    <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()">Radio</button></th>
-    <th class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick3()">delRadio</button></th>
+    <th class="tg-baqh">Type1</th>
+    <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()">Add</button></th>    
+    <th class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()">Delete Type1</button></th>
   </tr>
   <tr>
-    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">RadioNew</button></td>
-    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick4()">delRadioNEW</button></td>
+    <th class="tg-baqh">Type2</th>
+    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">Add</button></td>
+    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()">Delete Type2</button></td>
   </tr>
 </table>
 
