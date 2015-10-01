@@ -43,8 +43,19 @@ var diagonal = d3.svg.diagonal()
 var svg = d3.select("body").append("svg")
 	.attr("width", width + margin.right + margin.left)
 	.attr("height", height + margin.top + margin.bottom)
+    //.append("g")
+    .call(d3.behavior.zoom().scaleExtent([0.6, 8]).on("zoom", zoom))
   .append("g")
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//------------ Zooming ------------
+
+// function for handling zoom event
+function zoom() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+//---------------------------------
 
 //defining starting point 
 root = treeData[0]
@@ -82,7 +93,7 @@ addedRadiosNamesType2.push(name);
 
 function testDeleteAndUngroupUsage1(){
   var name = addedRadiosNamesType1.shift();
-  console.log("Delete " + name);
+  //console.log("Delete " + name);
   delElementAndUngroup(treeData[0],name);
 }
 
