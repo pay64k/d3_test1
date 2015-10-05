@@ -32,7 +32,7 @@ var margin = {top: 20, right: 120, bottom: 20, left: 120},
 
 var offsetX = 100, offsetY=height/2;
 
-var scalMin = 0.6, scaleMax = 7;
+var scalMin = 0.4, scaleMax = 7;
 	
 var i = 0,
 	duration = 500,
@@ -128,18 +128,39 @@ function testDeleteAndUngroupUsage2(){
 }
 
 function testLink(startNodeName, endNodeName){
-  var nodes = d3.selectAll("g.circle");//.data();
+
+var points = [
+  [480, 200],
+  [580, 400],
+  [680, 100]
+];
+
+  var nodes = d3.selectAll(".node");//.data();
   console.log(nodes);
   var node1 = nodes.filter( function(d,i){return d.name == "System2" ;} )
+  var node2 = nodes.filter( function(d,i){return d.name == "BTS2-1" ;} )
   console.log(node1);
   //TODO here find out if both nodes exist
+
+// var path = node1.append("path")
+//     .data([points])
+//     .attr("d", d3.svg.line()
+//     //.tension(0) // Catmull–Rom
+//     .interpolate("cardinal"));
+
+    var line = d3.svg.line();
+    node1.append("path")
+    .datum(points)
+    .attr("class", "line")
+
+  // node1.append("line")          // attach a line
+  //   .style("stroke", "black")  // colour the line
+  //   .attr("x1", 20)     // x position of the first end of the line
+  //   .attr("y1", 100)      // y position of the first end of the line
+  //   .attr("x2", 50)     // x position of the second end of the line
+  //   .attr("y2", 150);    // y position of the second end of the line
   
-  node1.append("line")
-    .style("stroke", "black")
-    .attr("x1", 200)
-    .attr("y1", 200)
-    .attr("x2", 500)
-    .attr("y2", 500);
+
 
 }
 testLink();
@@ -162,21 +183,24 @@ centerView(); //has to be called right away during initialization
 .tg  {border-collapse:collapse;border-spacing:0;}
 .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-baqh{text-align:center;vertical-align:top}
+.tg .tg-baqh{text-align:center;vertical-align:center}
 .tg .tg-yw4l{vertical-align:top}
 </style>
 <table class="tg">
   <tr>
     <th class="tg-baqh">Type1</th>
     <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()">Add</button></th>    
-    <th class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()">Delete Type1</button></th>
+    <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()">Delete Type1</button></th>
   </tr>
   <tr>
     <th class="tg-baqh">Type2</th>
-    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">Add</button></td>
-    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()">Delete Type2</button></td>
-    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testLink()">testLink</button></td>
-    <td class="tg-yw4l"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" >Center View</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">Add</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()">Delete Type2</button></td>
+  </tr>
+  <tr>
+    <th class="tg-baqh">Functions</th>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" >Center View</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testLink()">testLink</button></td>
   </tr>
 </table>
 
