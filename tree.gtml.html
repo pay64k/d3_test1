@@ -29,6 +29,10 @@
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
 	width = 960 - margin.right - margin.left,
 	height = 700 - margin.top - margin.bottom;
+
+var offsetX = 100, offsetY=height/2;
+
+var scalMin = 0.6, scaleMax = 7;
 	
 var i = 0,
 	duration = 500,
@@ -36,24 +40,44 @@ var i = 0,
 
 var tree = d3.layout.tree()
 	//.size([height, width]);
-  .nodeSize([30, 40]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
+  .nodeSize([25, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
 
 var diagonal = d3.svg.diagonal()
-	.projection(function(d) { return [d.y, d.x]; });
+	.projection(function(d) { return [ d.y, d.x]; });   //{ return [d.y, d.x]; });
+                                                                              //{ return [ d.y + rectH / 2, d.x + rectW / 2]; }
 
-var svg = d3.select("body").append("svg")
+var div = d3.select("body").append("div")
+  .style("border-style", "solid")
+  .style("border-width", "2px")
+  .style("width", width + margin.right + margin.left + 10 + "px")
+  .style("height", height + margin.top + margin.bottom + 10 + "px");
+
+
+var zoom = d3.behavior.zoom()
+            .scaleExtent([scalMin, scaleMax])
+            .on("zoom", redraw);
+
+
+var svg = d3.select("div").append("svg")
 	.attr("width", width + margin.right + margin.left)
 	.attr("height", height + margin.top + margin.bottom)
     //.append("g")
-    .call(d3.behavior.zoom().scaleExtent([0.6, 8]).on("zoom", zoom))
+    //.call(d3.behavior.zoom().scaleExtent([0.6, 8]).on("zoom", zoom))
+    .call(zoom)
   .append("g")
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	.attr("transform", "translate(" + offsetX + "," + offsetY + ")");
 
 //------------ Zooming ------------
 
+
+function redraw() {
+     d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+ }
+
 // function for handling zoom event
 function zoom() {
-  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+ svg.attr("transform", "translate(" + (d3.event.translate[0]  + offsetX) + ","   + (d3.event.translate[1] + offsetY )+ ")scale(" + d3.event.scale + ")");
+
 }
 
 //---------------------------------
@@ -103,7 +127,34 @@ function testDeleteAndUngroupUsage2(){
   delElementAndUngroup(treeData[0],name);
 }
 
+function testLink(startNodeName, endNodeName){
+  var nodes = d3.selectAll("g.circle");//.data();
+  console.log(nodes);
+  var node1 = nodes.filter( function(d,i){return d.name == "System2" ;} )
+  console.log(node1);
+  //TODO here find out if both nodes exist
+  
+  node1.append("line")
+    .style("stroke", "black")
+    .attr("x1", 200)
+    .attr("y1", 200)
+    .attr("x2", 500)
+    .attr("y2", 500);
 
+}
+testLink();
+
+function centerView(){
+
+ var _svg = d3.select("svg").select("g");
+       zoom.translate([offsetX, offsetY]);
+       zoom.scale(1);
+       _svg.transition()
+           .duration(750)
+           .attr("transform", "translate(" + offsetX + "," + offsetY + " )scale(1)");
+
+}
+centerView(); //has to be called right away during initialization
 </script>
 
 
@@ -124,9 +175,10 @@ function testDeleteAndUngroupUsage2(){
     <th class="tg-baqh">Type2</th>
     <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">Add</button></td>
     <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()">Delete Type2</button></td>
+    <td class="tg-yw4l"><button type="button" class="btn btn-primary btn-lg" onclick="testLink()">testLink</button></td>
+    <td class="tg-yw4l"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" >Center View</button></td>
   </tr>
 </table>
-
 
   </body>
 </html>
