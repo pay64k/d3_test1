@@ -131,26 +131,26 @@ function testLink(startNodeName, endNodeName){
 
 
   var nodes = d3.selectAll(".node");//.data();
-  console.log(nodes);
   var node1 = nodes.filter( function(d,i){return d.name == "Radio1" ;} )
-  var node2 = nodes.filter( function(d,i){return d.name == "Radio2" ;} )
-  console.log(node1);
+  var node2 = nodes.filter( function(d,i){return d.name == "Radio10" ;} )
   //TODO here find out if both nodes exist
-//debugger;
-var pointX = node2.data()[0].y;
-var pointY = node2.data()[0].x;
 
-var lineDataEnd = [{ "x":pointX, "y":pointY },{ "x":pointX, "y":pointY }];
 
-console.log("begin x: " + node1.data()[0].y);
-console.log("begin y: " + node1.data()[0].x);
+var startX =   node1.data()[0].y;
+var startY =   node1.data()[0].x;
+var endX =     node2.data()[0].y;
+var endY =     node2.data()[0].x;
 
-console.log("end x: " + pointX);
-console.log("end y: " + pointY);
+var offset = 400;
 
-var lineData = [  { "x": 0,   "y": 0}, 
-                  { "x": 50,   "y": 0}, 
-                  { "x":0, "y":pointY*2 } ];
+console.log("start x: " + startX + ", start y: " + startY +" | " + "end x: " + endX + ", end y: " + endY );
+
+var middleY =  (startY + endY) / 2; 
+console.log("middleY: " + middleY);
+
+var lineData = [  { "x": startX, "y": startY },
+                  { "x": startX + offset, "y": middleY }, 
+                  { "x": endX, "y": endY } ];
  
  //This is the accessor function we talked about above
  var lineFunction = d3.svg.line()
@@ -158,13 +158,36 @@ var lineData = [  { "x": 0,   "y": 0},
                       .y(function(d) { return d.y; })
                       .interpolate("basis");
 
-
 //The line SVG Path we draw
-var lineGraph = node1.append("path")
+
+var _svg = d3.select("svg").select("g");
+
+var lineGraph = _svg.append("path")
+                    .attr("id", "dupa")
                     .attr("d", lineFunction(lineData))
                     .attr("stroke", "blue")
                     .attr("stroke-width", 2)
                     .attr("fill", "none");
+
+var totalLength = lineGraph.node().getTotalLength();
+
+lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+        .duration(1000)
+        .ease("linear")
+        .attr("stroke-dashoffset", 0);
+
+//to delete the path:
+// var pathToDelete = d3.select("#dupa");
+// var totalLength = pathToDelete.node().getTotalLength();
+
+// pathToDelete.transition()
+//         .duration(1000)
+//         .ease("linear")
+//         .attr("stroke-dashoffset", totalLength)
+//         .remove();
+
 
 
 }

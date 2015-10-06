@@ -225,3 +225,7 @@ function click(d) {
 function dblclick(d) {
 
 }
+
+function drawLink(startNodeName, endNodeName){
+	
+}
