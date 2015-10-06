@@ -226,6 +226,77 @@ function dblclick(d) {
 
 }
 
-function drawLink(startNodeName, endNodeName){
-	
+function addLink(startNodeName, endNodeName, linkID){
+
+debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link name: " + linkID);
+
+var nodes = d3.selectAll(".node");//.data();
+var node1 = nodes.filter( function(d,i){return d.name == startNodeName ;} )
+var node2 = nodes.filter( function(d,i){return d.name == endNodeName ;} )
+
+if (node1[0].length == 0 || node2[0].length == 0) {
+	debugLog("\t>>>One of the nodes don't exist! Can't create link!");
+}else{
+
+	var startX =   node1.data()[0].y;
+	var startY =   node1.data()[0].x;
+	var endX =     node2.data()[0].y;
+	var endY =     node2.data()[0].x;
+
+	var offset = 400;
+
+	//console.log("start x: " + startX + ", start y: " + startY +" | " + "end x: " + endX + ", end y: " + endY );
+
+	var middleY =  (startY + endY) / 2; 
+	//console.log("middleY: " + middleY);
+
+	var lineData = [  { "x": startX, "y": startY },
+	                  { "x": startX + offset, "y": middleY }, 
+	                  { "x": endX, "y": endY } ];
+	 
+	 var lineFunction = d3.svg.line()
+	                      .x(function(d) { return d.x; })
+	                      .y(function(d) { return d.y; })
+	                      .interpolate("basis");
+
+	var _svg = d3.select("svg").select("g");
+
+	var lineGraph = _svg.append("path")
+	                    .attr("id", linkID)
+	                    .attr("d", lineFunction(lineData))
+	                    .attr("stroke", "blue")
+	                    .attr("stroke-width", 2)
+	                    .attr("fill", "none");
+
+	var totalLength = lineGraph.node().getTotalLength();
+
+	lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
+	        .attr("stroke-dashoffset", totalLength)
+	        .transition()
+	        .duration(1000)
+	        .ease("linear")
+	        .attr("stroke-dashoffset", 0);
+
+	debugLog("\t>>>Link created!");
+	}
+}
+
+function removeLink(linkID){
+debugLog(">>>Remove Link: " + linkID);
+//to delete the path:
+var pathToDelete = d3.select("#"+linkID);
+
+if (pathToDelete[0][0] == null) {
+	debugLog("\t>>> Error: Link doesnt exist!; Name: " + linkID);
+}else{
+
+	var totalLength = pathToDelete.node().getTotalLength();
+
+	pathToDelete.transition()
+	        .duration(1000)
+	        .ease("linear")
+	        .attr("stroke-dashoffset", totalLength)
+	        .remove();
+	debugLog("\t>>>Link removed!");
+	}
 }

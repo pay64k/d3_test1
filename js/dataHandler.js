@@ -300,5 +300,5 @@ var message =    currentdate.getDate() + "/"
                 + "\t " + body;
 
 // console.log('%c' + message, 'color: red');
-//console.log(message);
+console.log(message);
 }
