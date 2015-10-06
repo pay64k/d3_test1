@@ -199,6 +199,13 @@ function randomLink(){
   
 }
 
+function clearAllLinks(){
+  for (var i = 0; i < linkNamesGLOBAL.length; i++) {
+    removeLink(linkNamesGLOBAL[i]);
+  };
+  linkNamesGLOBAL=[];
+}
+
 </script>
 
 
@@ -254,8 +261,9 @@ function randomLink(){
       </div>
     </td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()">Submit</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()">Del last link</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()">Random Link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()">Del last link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()">Clear</button></td>
   </tr>
 </table>
 
