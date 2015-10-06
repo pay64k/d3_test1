@@ -33,7 +33,7 @@ function centerView(){
            .attr("transform", "translate(" + offsetX + "," + offsetY + " )scale(1)");
 
 }
-centerView(); //has to be called right away during initialization
+
 
 function populateForm(formID){
   

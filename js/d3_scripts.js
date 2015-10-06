@@ -265,7 +265,7 @@ if (node1[0].length == 0 || node2[0].length == 0) {
 	                    .attr("id", linkID)
 	                    .attr("d", lineFunction(lineData))
 	                    .attr("stroke", "blue")
-	                    .attr("stroke-width", 2)
+	                    .attr("stroke-width", 1.5)
 	                    .attr("fill", "none");
 
 	var totalLength = lineGraph.node().getTotalLength();

@@ -97,7 +97,7 @@ d3.select(self.frameElement).style("height", "500px");
 
 testCreating();
 var linkNamesGLOBAL =[];
-
+centerView(); //has to be called right away during initialization
 
 </script>
 
@@ -155,9 +155,9 @@ var linkNamesGLOBAL =[];
     </td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()">Submit</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()">Random Link</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()">Del last link</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()">Clear</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()">Single Random</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()">Del last link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()">Clear All</button></td>
   </tr>
 </table>
 
