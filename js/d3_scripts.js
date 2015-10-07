@@ -221,7 +221,7 @@ function click(d) {
   }
   update(d);
 }
-
+//double click
 function dblclick(d) {
 
 }
@@ -243,27 +243,32 @@ if (node1[0].length == 0 || node2[0].length == 0) {
 	var endX =     node2.data()[0].y;
 	var endY =     node2.data()[0].x;
 
-	var offset = 400;
+	var offset = 150;
 
 	//console.log("start x: " + startX + ", start y: " + startY +" | " + "end x: " + endX + ", end y: " + endY );
 
 	var middleY =  (startY + endY) / 2; 
-	//console.log("middleY: " + middleY);
-
+	
 	var lineData = [  { "x": startX, "y": startY },
 	                  { "x": startX + offset, "y": middleY }, 
 	                  { "x": endX, "y": endY } ];
+
+	var lineDataRound = [	{ "x": startX, "y": startY },
+							{ "x": endX + offset, "y": startY },
+							{ "x": endX + offset, "y": endY },
+	                 		//{ "x": startX + offset, "y": middleY }, 
+	                  		{ "x": endX, "y": endY } ];
 	 
 	 var lineFunction = d3.svg.line()
 	                      .x(function(d) { return d.x; })
 	                      .y(function(d) { return d.y; })
-	                      .interpolate("basis");
+	                      .interpolate("bundle");
 
 	var _svg = d3.select("svg").select("g");
 
 	var lineGraph = _svg.append("path")
 	                    .attr("id", linkID)
-	                    .attr("d", lineFunction(lineData))
+	                    .attr("d", lineFunction(lineDataRound))
 	                    .attr("stroke", "blue")
 	                    .attr("stroke-width", 1.5)
 	                    .attr("fill", "none");
@@ -295,7 +300,7 @@ if (pathToDelete[0][0] == null) {
 	pathToDelete.transition()
 	        .duration(1000)
 	        .ease("linear")
-	        .attr("stroke-dashoffset", totalLength)
+	        .attr("stroke-dashoffset", -totalLength)
 	        .remove();
 	debugLog("\t>>>Link removed!");
 	}
