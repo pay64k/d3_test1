@@ -360,6 +360,22 @@ function toggle(d) {
   // update(d);
 }
 
+function show(d) {
+ if (d.hidden) {
+      d.hidden = false;
+      d.children = d._children;
+      d._children = null;
+  }
+}
+
+function hide(d) {
+ if (! d.hidden) {
+      d.hidden = true;
+      d._children = d.children;
+      d.children = null;
+  }
+}
+
 //not used now:
 function createTree(client_id){
   treeData.push( createElement(client_id) );

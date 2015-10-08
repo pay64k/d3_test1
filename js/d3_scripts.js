@@ -108,31 +108,46 @@ function dblclick(d) {
 }
 
 function findNodeByName(nodeName){
-var nodes = d3.selectAll(".node");
-return nodes.filter( function(d,i){return d.name == nodeName ;} ).data()[0];	//return as object due to data()[0], if the node was not found retunrs undefined
+// var nodes = d3.selectAll(".node");
+// return nodes.filter( function(d,i){return d.name == nodeName ;} ).data()[0];	//return as object due to data()[0], if the node was not found returns undefined
+var previuoslyHidden = toggleAll();					//look also in hiddden elements
+var node = findElement(treeData[0],nodeName)[1];
+toggleSelection(previuoslyHidden);					//set elements to hidden affter looking
+return node;
+}
+
+function unhideParents(node){
+	if (node.parent!=null) {
+		show(node);
+		return unhideParents(node.parent);
+	}else{
+		return 0;
+	};
+		
 }
 
 function addLink(startNodeName, endNodeName, linkID){
 
 debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link name: " + linkID);
 
-// var nodes = d3.selectAll(".node");//.data();
-// var node1 = nodes.filter( function(d,i){return d.name == startNodeName ;} )
-// var node2 = nodes.filter( function(d,i){return d.name == endNodeName ;} )
-
-var node1 = findNodeByName(startNodeName);
+var node1 = findNodeByName(startNodeName);	//see if both nodes exist
 var node2 = findNodeByName(endNodeName);
 
-if (node1 == undefined || node2 == undefined) {
+//check if nodes exist
+if (node1 == 0 || node2 == 0) {	//compare to 0
 	debugLog("\t>>>One of the nodes doesn't exist! Can't create link!");
 }else{
 
+	unhideParents(node1);		//if yes unhide parents of both nodes
+	unhideParents(node2);
+	update(root);				//visually unhide nodes
+	//then draw a link:
 	var startX =   node1.y;
 	var startY =   node1.x;
 	var endX =     node2.y;
 	var endY =     node2.x;
 
-	var offset = 150;
+	var offset = 170;
 
 	//console.log("start x: " + startX + ", start y: " + startY +" | " + "end x: " + endX + ", end y: " + endY );
 
@@ -167,11 +182,12 @@ if (node1 == undefined || node2 == undefined) {
 	lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
 	        .attr("stroke-dashoffset", totalLength)
 	        .transition()
-	        .duration(1000)
+	        .duration(750)
 	        .ease("linear")
 	        .attr("stroke-dashoffset", 0);
 
 	debugLog("\t>>>Link created!");
+	return [node1, node2, linkID];
 	}
 }
 
@@ -187,7 +203,7 @@ if (pathToDelete[0][0] == null) {
 	var totalLength = pathToDelete.node().getTotalLength();
 
 	pathToDelete.transition()
-	        .duration(1000)
+	        .duration(750)
 	        .ease("linear")
 	        .attr("stroke-dashoffset", -totalLength)
 	        .remove();
