@@ -87,161 +87,50 @@ function update(source) {
 }
 
 
-// Toggle children on click.
-function click(d) {
-  if (! d.hidden) {
-      d.hidden = true;
-          d._children = d.children;
-              	d.children = null;
-  } else {
-      d.hidden = false;
-	     d.children = d._children;
-	     d._children = null;
-  }
-  update(d);
-}
-
-
-//ractangles instead of circles (change diagonal)
-var rectW = 60, rectH = 30;
-
-function updateRECT(source) {
-
-  // Compute the new tree layout.
-  var nodes = tree.nodes(root).reverse(),
-	  links = tree.links(nodes);
-
-  // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = d.depth * 120; });
-
-  // Update the nodes…
-  var node = svg.selectAll("g.node")
-	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
-
-  // Enter any new nodes at the parent's previous position.
-  var nodeEnter = node.enter().append("g")
-	  .attr("class", "node")
-	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-	  .on("click", click)
-    .on("dblclick", dblclick);
-
-  nodeEnter.append("rect")
-		.attr("width", 1e-6)
-        .attr("height", 1e-6)
-        .attr("stroke", "white")
-        .attr("stroke-width", 0)
-	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-
-  nodeEnter.append("text")
-	  .attr("x", function(d) { return d.children || d._children ? 0 : 0; })
-	  .attr("dy", "10px")
-	  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-	  .text(function(d) { return d.name ; })
-	  .style("fill-opacity", 1e-6);
-
-  nodeEnter.append("text")
-	  .attr("x", function(d) { return d.children || d._children ? 0 : 0; })
-	  .attr("dy", "200px")
-	  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-	  .text(function(d) { return d.type; })
-	  .style("fill-opacity", 1e-6);
-
-  // Transition nodes to their new position.
-  var nodeUpdate = node.transition()
-	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-
-  nodeUpdate.select("rect")
-	    .attr("width", rectW)
-        .attr("height", rectH)
-        .attr("stroke", "black")
-        .attr("stroke-width", 1)
-	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-
-  nodeUpdate.select("text")
-	  .style("fill-opacity", 1);
-
-  // Transition exiting nodes to the parent's new position.
-  var nodeExit = node.exit().transition()
-	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
-	  .remove();
-
-  nodeExit.select("rect")
-	  .attr("width", 1e-6)
-      .attr("height", 1e-6);
-
-  nodeExit.select("text")
-	  .style("fill-opacity", 1e-6);
-
-  // Update the links…
-  var link = svg.selectAll("path.link")
-	  .data(links, function(d) { return d.target.id; });
-
-  // Enter any new links at the parent's previous position.
-  link.enter().insert("path", "g")
-	  .attr("class", "link")
-	  .attr("d", function(d) {
-		var o = {x: source.x0, y: source.y0};
-		return diagonal({source: o, target: o});
-	  });
-
-  // Transition links to their new position.
-  link.transition()
-	  .duration(duration)
-	  .attr("d", diagonal);
-
-  // Transition exiting nodes to the parent's new position.
-  link.exit().transition()
-	  .duration(duration)
-	  .attr("d", function(d) {
-		var o = {x: source.x, y: source.y};
-		return diagonal({source: o, target: o});
-	  })
-	  .remove();
-
-  // Stash the old positions for transition.
-  nodes.forEach(function(d) {
-	d.x0 = d.x;
-	d.y0 = d.y;
-  });
-}
-
 
 // Toggle children on click.
 function click(d) {
   if (! d.hidden) {
       d.hidden = true;
-          d._children = d.children;
-              	d.children = null;
+        d._children = d.children;
+        d.children = null;
   } else {
       d.hidden = false;
-	     d.children = d._children;
-	     d._children = null;
+	    d.children = d._children;
+	    d._children = null;
   }
   update(d);
 }
+
 //double click
 function dblclick(d) {
 
+}
+
+function findNodeByName(nodeName){
+var nodes = d3.selectAll(".node");
+return nodes.filter( function(d,i){return d.name == nodeName ;} ).data()[0];	//return as object due to data()[0], if the node was not found retunrs undefined
 }
 
 function addLink(startNodeName, endNodeName, linkID){
 
 debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link name: " + linkID);
 
-var nodes = d3.selectAll(".node");//.data();
-var node1 = nodes.filter( function(d,i){return d.name == startNodeName ;} )
-var node2 = nodes.filter( function(d,i){return d.name == endNodeName ;} )
+// var nodes = d3.selectAll(".node");//.data();
+// var node1 = nodes.filter( function(d,i){return d.name == startNodeName ;} )
+// var node2 = nodes.filter( function(d,i){return d.name == endNodeName ;} )
 
-if (node1[0].length == 0 || node2[0].length == 0) {
-	debugLog("\t>>>One of the nodes don't exist! Can't create link!");
+var node1 = findNodeByName(startNodeName);
+var node2 = findNodeByName(endNodeName);
+
+if (node1 == undefined || node2 == undefined) {
+	debugLog("\t>>>One of the nodes doesn't exist! Can't create link!");
 }else{
 
-	var startX =   node1.data()[0].y;
-	var startY =   node1.data()[0].x;
-	var endX =     node2.data()[0].y;
-	var endY =     node2.data()[0].x;
+	var startX =   node1.y;
+	var startY =   node1.x;
+	var endX =     node2.y;
+	var endY =     node2.x;
 
 	var offset = 150;
 

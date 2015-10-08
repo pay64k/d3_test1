@@ -44,8 +44,7 @@ var tree = d3.layout.tree()
   .nodeSize([25, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
 
 var diagonal = d3.svg.diagonal()
-	.projection(function(d) { return [ d.y, d.x]; });   //{ return [d.y, d.x]; });
-                                                                              //{ return [ d.y + rectH / 2, d.x + rectW / 2]; }
+	.projection(function(d) { return [ d.y, d.x]; });   
 
 var div = d3.select("body").append("div")
   .style("border-style", "solid")

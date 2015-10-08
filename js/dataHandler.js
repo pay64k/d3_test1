@@ -58,6 +58,7 @@ function createElement(_properties){
   if (_properties.length == 1) {
     debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
   };
+  obj.hidden = false; //set as default after creation
   return obj;
   } else {
     debugLog("\t>>Create element: wrong properties!");
@@ -99,17 +100,19 @@ function addElement(_root, id_parent, newChild){
 
 function delElement(_root, id_child){  
   var found = findElement(_root, id_child);                                             //Find if element exist
-  debugLog(">>>DEL " + id_child);                                
-  if (found[0]) {                                                                       //Delete if yes
-    debugLog("\t>>Delete " + id_child + " in " + found[1].parent.name);
-    var elem = found[1];
-    var deleted = elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
-    debugLog("\t>>Deleting " + elem.name);
-    // update(root);                                                                       //Update graph
-    return deleted;                                                     
-  } else {
-    debugLog("\t>>ERROR: Couldn't find " + id_child );
-  };
+  debugLog(">>>DEL " + id_child); 
+  try{                               
+    if (found[0]) {                                                                       //Delete if yes
+      debugLog("\t>>Delete " + id_child + " in " + found[1].parent.name);
+      var elem = found[1];
+      var deleted = elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
+      debugLog("\t>>Deleting " + elem.name);
+      // update(root);                                                                       //Update graph
+      return deleted;                                                     
+    } else {
+      debugLog("\t>>ERROR: Couldn't find " + id_child );
+    };
+  }catch(err){}
 }
 
 function changeElement(){
@@ -226,10 +229,10 @@ function groupElements2(_root, id_parent){
             sortByName(newGroup);
             group_GLOBAL++;
             moveFlag = false;
+            click(newGroup);    //hide groups after creation
           };
           
           filteredObjects = [];
-          
         };
       };
     };
@@ -240,33 +243,41 @@ function groupElements2(_root, id_parent){
 }
 
 function addElementAndGroup(_root, id_parent, child_properties){
+  var previuoslyHidden = toggleAll();
   addElement(_root, id_parent, createElement(child_properties));
   groupElements2(_root,id_parent);
   sortByName(findElement(_root,id_parent)[1]);
+  toggleSelection(previuoslyHidden);
   update(root);
 }
 
 function delElementAndUngroup(_root, element){
+  var previuoslyHidden = toggleAll();
   var threshold = 2;
-  var deleted = delElement(_root,element)[0];
-  //console.log("Deleted " + deleted.name);
-  var parent = deleted.parent;
-  if (deleted.parent.type == "Group") {
-    //console.log("was in a group: " + parent.name);
-    if (parent.children.length <= threshold) {
-      //debugger;
-      // parent.children.forEach(function(entry) {
-      //    addElement(_root, parent.parent.name, delElement(_root, entry.name)[0]);
-      // });
-      for (var i = parent.children.length - 1; i >= 0; i--) {
-        addElement(_root, parent.parent.name, delElement(_root, parent.children[i].name)[0]);
+  try{
+    var deleted = delElement(_root,element)[0];
+    //console.log("Deleted " + deleted.name);
+    var parent = deleted.parent;
+    if (deleted.parent.type == "Group") {
+      //console.log("was in a group: " + parent.name);
+      if (parent.children.length <= threshold) {
+        //debugger;
+        // parent.children.forEach(function(entry) {
+        //    addElement(_root, parent.parent.name, delElement(_root, entry.name)[0]);
+        // });
+        for (var i = parent.children.length - 1; i >= 0; i--) {
+          addElement(_root, parent.parent.name, delElement(_root, parent.children[i].name)[0]);
+        };
+        delElement(_root,parent.name);
+        group_GLOBAL--;
       };
-      delElement(_root,parent.name);
-      group_GLOBAL--;
     };
-  };
-  sortByName(parent.parent);
-  update(root);
+    sortByName(parent.parent);
+    toggleSelection(previuoslyHidden);
+    update(root);
+  }catch(err){
+    toggleSelection(previuoslyHidden);  //for cosmetic reason in case of element was not found, then after trying to add toggleSelection(previuoslyHidden) was not executed and on next add everything was shown and caused a mess
+  }
 }
 
 function sortByName(parent){
@@ -282,7 +293,74 @@ function sortByName(parent){
 });
 }
 
+function findHidden(){
+  var hiddenElements = [];
+  var q = new Queue();
+    q.enqueue(root);    //look in the whole tree
 
+    while (true) {
+        var node = q.dequeue();
+
+        if (node == undefined){
+          return hiddenElements;
+        };
+
+        if (node.hidden == true)
+        {
+            hiddenElements.push(node);
+        }
+        
+        if (node.children != undefined)
+        {
+            for (var i=0, c=node.children.length; i<c; i++) {
+                q.enqueue(node.children[i]);
+            }
+        }
+
+        if (node._children != undefined) 
+        {
+            for (var i=0, c=node._children.length; i<c; i++) {
+                q.enqueue(node._children[i]);
+            }
+        }
+    }
+}
+//find all hidden
+//if any: copy hidden to unhidden; get the list of previuosly hidden to be able to hide them after adding to them
+//add to previuosly hidden
+//hide previuosly hidden
+function toggleAll(){
+var hiddenNodes = findHidden();
+  if (hiddenNodes.length != 0) {
+    for (var i = 0; i < hiddenNodes.length; i++) {
+      toggle(hiddenNodes[i]);
+    };
+  };
+  return hiddenNodes;
+}
+
+function toggleSelection(previuoslyHidden){
+  if (previuoslyHidden.length != 0) {
+    for (var i = 0; i < previuoslyHidden.length; i++) {
+      toggle(previuoslyHidden[i]);
+    };
+  };
+}
+
+function toggle(d) {
+  if (! d.hidden) {
+      d.hidden = true;
+        d._children = d.children;
+        d.children = null;
+  } else {
+      d.hidden = false;
+      d.children = d._children;
+      d._children = null;
+  }
+  // update(d);
+}
+
+//not used now:
 function createTree(client_id){
   treeData.push( createElement(client_id) );
 }
