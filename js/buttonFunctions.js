@@ -12,6 +12,12 @@ createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "pr
 addedRadiosNamesType2.push(name);
 }
 
+function addMore(amount){
+for (var i = 0; i < amount; i++) {
+  testClick1();
+};
+}
+
 function testDeleteAndUngroupUsage1(){
   var name = addedRadiosNamesType1.shift();
   //console.log("Delete " + name);
@@ -37,31 +43,56 @@ function centerView(){
 function focusView(){
 
 
-var t = d3.transform(d3.select("svg").select("g").attr("transform")),
-    x0 = t.translate[0],
-    y0 = t.translate[1];
+// var t = d3.transform(d3.select("svg").select("g").attr("transform")),
+//     x0 = t.translate[0],
+//     y0 = t.translate[1];
 
-console.log("View: x: "+ x0 + ", y: " + y0);
+//console.log("View: x: "+ x0 + ", y: " + y0);
 
 var focusForm = document.getElementById("focusForm");
 var nodeName = focusForm.options[focusForm.selectedIndex].text;
 var node = findNodeByName(nodeName);
- var x = node.y + y0;
- var y = node.x + x0;
 
-console.log("Node: x: " + x + ", y: " + y);
 
-var diffX = x0-x, diffY = y0-y;
+ //if (node.parent.hidden) {
+  unhideParents(node);
+  update(root);
+ //};
 
-console.log("Diff: x: " + diffX + ", y:" + diffY);
-console.log("-----------------");
+//console.log("Node: x: " + x + ", y: " + y);
+ var x = node.y;
+ var y = node.x;
+var newX = offsetX - x;
+var newY = offsetY - y;
+
+//console.log("Diff: x: " + diffX + ", y:" + diffY);
+//console.log("-----------------");
 
  var _svg = d3.select("svg").select("g");
-       zoom.translate([x, y]);
+       zoom.translate([newX, newY]);
        zoom.scale(1);
        _svg.transition()
-           .duration(750)
-           .attr("transform", "translate(" + (x) + "," + (y) + " )scale(1)");
+           //.delay(300)
+           .duration(650)
+           .attr("transform", "translate(" + (newX) + "," + (newY) + " )scale(1)");
+//chech if parent hiddden, if yes unhide
+var nodeAnimate = d3.selectAll(".node").filter( function(d,i){return d.name == nodeName ;} );
+
+  nodeAnimate.select("circle")
+      .transition()
+        .duration(700)
+        .delay(300)
+        .attr("r",20)
+        .style("fill-opacity", 1)
+        .style("fill", "#ED5151")
+          .each("end", function() { 
+            d3.select(this).transition()
+            .duration(200)
+            .style("fill", "white")
+            .style("fill-opacity", 1)
+            .attr("r",10)});
+      
+      //.attr("r",10);
 }
 
 function getAllNames(){
@@ -135,7 +166,7 @@ function submitNewLink(){
   var selectedTo = formTo.options[formTo.selectedIndex].text;
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
   linkNamesGLOBAL.push(linkName);
-  addLink(selectedFrom,selectedTo,linkName);
+  addLink(selectedFrom,selectedTo,linkName,3);
 }
 
 function delLastLink(){
@@ -146,7 +177,7 @@ function randomLink(){
   var names = getAllNames();
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
   linkNamesGLOBAL.push(linkName);
-  addLink(names[Math.floor(Math.random() * names.length)], names[Math.floor(Math.random() * names.length)],linkName);
+  addLink(names[Math.floor(Math.random() * names.length)], names[Math.floor(Math.random() * names.length)],linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
   
 }
 

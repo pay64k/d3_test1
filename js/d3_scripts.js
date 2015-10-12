@@ -126,12 +126,106 @@ function unhideParents(node){
 		
 }
 
-function addLink(startNodeName, endNodeName, linkID){
+function findHidden(){
+  var hiddenElements = [];
+  var q = new Queue();
+    q.enqueue(root);    //look in the whole tree
+
+    while (true) {
+        var node = q.dequeue();
+
+        if (node == undefined){
+          return hiddenElements;
+        };
+
+        if (node.hidden == true)
+        {
+            hiddenElements.push(node);
+        }
+        
+        if (node.children != undefined)
+        {
+            for (var i=0, c=node.children.length; i<c; i++) {
+                q.enqueue(node.children[i]);
+            }
+        }
+
+        if (node._children != undefined) 
+        {
+            for (var i=0, c=node._children.length; i<c; i++) {
+                q.enqueue(node._children[i]);
+            }
+        }
+    }
+}
+
+//find all hidden
+//if any: copy hidden to unhidden; get the list of previuosly hidden to be able to hide them after adding to them
+//add to previuosly hidden
+//hide previuosly hidden
+function toggleAll(){
+var hiddenNodes = findHidden();
+  if (hiddenNodes.length != 0) {
+    for (var i = 0; i < hiddenNodes.length; i++) {
+      toggle(hiddenNodes[i]);
+    };
+  };
+  return hiddenNodes;
+}
+
+function toggleSelection(previuoslyHidden){
+  if (previuoslyHidden.length != 0) {
+    for (var i = 0; i < previuoslyHidden.length; i++) {
+      toggle(previuoslyHidden[i]);
+    };
+  };
+}
+
+function toggle(d) {
+  if (! d.hidden) {
+      d.hidden = true;
+        d._children = d.children;
+        d.children = null;
+  } else {
+      d.hidden = false;
+      d.children = d._children;
+      d._children = null;
+  }
+  // update(d);
+}
+
+function show(d) {
+ if (d.hidden) {
+      d.hidden = false;
+      d.children = d._children;
+      d._children = null;
+  }
+}
+
+function hide(d) {
+ if (! d.hidden) {
+      d.hidden = true;
+      d._children = d.children;
+      d.children = null;
+  }
+}
+
+function addLink(startNodeName, endNodeName, linkID, linkColorIndex, dashAmount){
 
 debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link name: " + linkID);
 
 var node1 = findNodeByName(startNodeName);	//see if both nodes exist
 var node2 = findNodeByName(endNodeName);
+
+//move to separate function, run once during initzialization, store colors in global variable
+var colorScale = [];
+var colorMax = 10;
+
+for (var i = 1; i <= colorMax; i++) {
+	colorScale.push(i);
+};
+
+var colors =  d3.scale.category10().domain(colorScale); //	https://github.com/mbostock/d3/wiki/Ordinal-Scales
 
 //check if nodes exist
 if (node1 == 0 || node2 == 0) {	//compare to 0
@@ -173,7 +267,7 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	var lineGraph = _svg.append("path")
 	                    .attr("id", linkID)
 	                    .attr("d", lineFunction(lineDataRound))
-	                    .attr("stroke", "blue")
+	                    .attr("stroke", colors(linkColorIndex))
 	                    .attr("stroke-width", 1.5)
 	                    .attr("fill", "none");
 
@@ -184,7 +278,11 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	        .transition()
 	        .duration(750)
 	        .ease("linear")
-	        .attr("stroke-dashoffset", 0);
+	        .attr("stroke-dashoffset", 0); //add dashes
+	        // .each("end", function() { 
+        	// 		d3.select(this).transition()
+      				//.duration(500)
+      		 //    .attr("stroke-dasharray",0)});
 
 	debugLog("\t>>>Link created!");
 	return [node1, node2, linkID];
@@ -210,3 +308,16 @@ if (pathToDelete[0][0] == null) {
 	debugLog("\t>>>Link removed!");
 	}
 }
+
+// .each("end", function() { 
+//           		d3.select(this).transition()
+//       			.duration(750)
+// 	        	.ease("linear")
+// 	        	.attr("stroke-dashoffset", -totalLength)
+// 	        	.remove();});
+
+	// pathToDelete.transition()
+	//         .duration(750)
+	//         .ease("linear")
+	//         .attr("stroke-dashoffset", -totalLength)
+	//         .remove();
