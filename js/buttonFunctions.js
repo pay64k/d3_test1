@@ -3,12 +3,12 @@ var addedRadiosNamesType2 = [];
 function testClick1(){
 
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-addElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
+createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
 addedRadiosNamesType1.push(name);
 }
 function testClick2(){
 var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-addElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
+createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
 addedRadiosNamesType2.push(name);
 }
 
@@ -105,32 +105,9 @@ function getAllNames(){
         }
     }
 
-  // var nodes = d3.selectAll(".node").data();
-  // var names = [];
-  //   for (var i = 0; i < nodes.length; i++) {
-  //     names.push(nodes[i].name);
-  //   };
-
-  // names.sort(function (a, b) {
-  // if (a> b) {
-  //   return 1;
-  // }
-  // if (a< b) {
-  //   return -1;
-  // }
-  // // a must be equal to b
-  // return 0;
-  // });
-  //return names;
 }
 
 function populateForm(formID){
-  
-  // var nodes = d3.selectAll(".node").data();
-  // var names = [];
-  //   for (var i = 0; i < nodes.length; i++) {
-  //     names.push(nodes[i].name);
-  //   };
 
   var names = getAllNames();
   var select = document.getElementById(formID);

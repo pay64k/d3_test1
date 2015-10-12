@@ -17,7 +17,7 @@ function Queue() {
 }
 
 
-function findElement(root, element) {
+function findElement(root, elementName) {
 
     var q = new Queue();
     q.enqueue(root);
@@ -30,7 +30,7 @@ function findElement(root, element) {
           return [0, 0];
         };
 
-        if (node.name == element)
+        if (node.name == elementName)
         {
             //console.log(">>>Found: " + element );
             return [1, node];
@@ -42,6 +42,12 @@ function findElement(root, element) {
           for (var i=0, c=node.children.length; i<c; i++) {
               q.enqueue(node.children[i]);
           }
+        }
+        if (node._children != undefined) 
+        {
+            for (var i=0, c=node._children.length; i<c; i++) {
+                q.enqueue(node._children[i]);
+            }
         }
     }
     //update(root);
@@ -107,7 +113,6 @@ function delElement(_root, id_child){
       var elem = found[1];
       var deleted = elem.parent.children.splice(elem.parent.children.indexOf(elem),1);    //Get the index of found element in its parent children array
       debugLog("\t>>Deleting " + elem.name);
-      // update(root);                                                                       //Update graph
       return deleted;                                                     
     } else {
       debugLog("\t>>ERROR: Couldn't find " + id_child );
@@ -119,7 +124,24 @@ function changeElement(){
 
 }
 
+function moveElment(childName, targetParentName){
+debugLog(">>>MOVE " + childName);
+try{
+  var foundChild = findElement(treeData[0], childName);
+  var foundTargetParent = findElement(treeData[0], targetParentName);
+  if (foundChild[0] == 1 && foundTargetParent[0] == 1) {
+      var toMove = delElementAndUngroup(treeData[0],childName);
+      addElementAndGroup(treeData[0], targetParentName, toMove);
+      update(root);
+  }else{
+    throw "one of the elments not found!";
+  };
 
+}catch(err){
+  debugLog("\t>>ERROR: in function moveElment()" + ", Message: " + err );
+}
+
+}
 
 var group_GLOBAL=0;
 //working but sorting after amount of children, not by type
@@ -242,9 +264,18 @@ function groupElements2(_root, id_parent){
   }
 }
 
-function addElementAndGroup(_root, id_parent, child_properties){
+function createElementAndGroup(_root, id_parent, child_properties){
   var previuoslyHidden = toggleAll();
   addElement(_root, id_parent, createElement(child_properties));
+  groupElements2(_root,id_parent);
+  sortByName(findElement(_root,id_parent)[1]);
+  toggleSelection(previuoslyHidden);
+  update(root);
+}
+
+function addElementAndGroup(_root, id_parent, child){
+  var previuoslyHidden = toggleAll();
+  addElement(_root, id_parent, child);
   groupElements2(_root,id_parent);
   sortByName(findElement(_root,id_parent)[1]);
   toggleSelection(previuoslyHidden);
@@ -275,6 +306,7 @@ function delElementAndUngroup(_root, element){
     sortByName(parent.parent);
     toggleSelection(previuoslyHidden);
     update(root);
+    return deleted;
   }catch(err){
     toggleSelection(previuoslyHidden);  //for cosmetic reason in case of element was not found, then after trying to add toggleSelection(previuoslyHidden) was not executed and on next add everything was shown and caused a mess
   }
