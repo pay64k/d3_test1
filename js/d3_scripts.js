@@ -1,5 +1,7 @@
 function update(source) {
 
+  
+
   // Compute the new tree layout.
   var nodes = tree.nodes(root).reverse(),
 	  links = tree.links(nodes);
@@ -84,6 +86,7 @@ function update(source) {
 	d.x0 = d.x;
 	d.y0 = d.y;
   });
+  //updateLinks();
 }
 
 
@@ -100,6 +103,7 @@ function click(d) {
 	    d._children = null;
   }
   update(d);
+  updateLinks();
 }
 
 //double click
@@ -271,21 +275,26 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	                    .attr("stroke-width", 1.5)
 	                    .attr("fill", "none");
 
-	var totalLength = lineGraph.node().getTotalLength();
+	// var totalLength = lineGraph.node().getTotalLength();
 
-	lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
-	        .attr("stroke-dashoffset", totalLength)
-	        .transition()
-	        .duration(750)
-	        .ease("linear")
-	        .attr("stroke-dashoffset", 0); //add dashes
-	        // .each("end", function() { 
-        	// 		d3.select(this).transition()
-      				//.duration(500)
-      		 //    .attr("stroke-dasharray",0)});
+	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
+	//         .attr("stroke-dashoffset", totalLength)
+	//         .transition()
+	//         .duration(200)
+	//         .ease("linear")
+	//         .attr("stroke-dasharray", 0); 
+
+//ORIGINAL:
+	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
+	//         .attr("stroke-dashoffset", totalLength)
+	//         .transition()
+	//         .duration(200)
+	//         .ease("linear")
+	//         .attr("stroke-dashoffset", 0); 
 
 	debugLog("\t>>>Link created!");
-	return [node1, node2, linkID];
+	updateLinks();
+	return [node1, node2, lineGraph, linkID];
 	}
 }
 
@@ -300,24 +309,80 @@ if (pathToDelete[0][0] == null) {
 
 	var totalLength = pathToDelete.node().getTotalLength();
 
-	pathToDelete.transition()
-	        .duration(750)
-	        .ease("linear")
-	        .attr("stroke-dashoffset", -totalLength)
+	pathToDelete//.transition()
+	        // .duration(750)
+	        // .ease("linear")
+	        // .attr("stroke-dashoffset", -totalLength)
 	        .remove();
-	debugLog("\t>>>Link removed!");
-	}
-}
 
-// .each("end", function() { 
-//           		d3.select(this).transition()
-//       			.duration(750)
-// 	        	.ease("linear")
-// 	        	.attr("stroke-dashoffset", -totalLength)
-// 	        	.remove();});
-
+//ORIGINAL animation:
 	// pathToDelete.transition()
 	//         .duration(750)
 	//         .ease("linear")
 	//         .attr("stroke-dashoffset", -totalLength)
 	//         .remove();
+
+	var linkIndex = linksGLOBAL.indexOf(linkID);
+	linksGLOBAL.splice(linkIndex,1);
+
+	updateLinks();
+	debugLog("\t>>>Link removed!");
+	//!!!!!!!!!!!------ remove the link from global link array !!!!!!!!!!!--------
+	}
+}
+
+function updateLinks(){
+	//Each array element in linksGLOBAL looks like [node1, node2, lineGraph, linkID] - [object, object, object, string]
+	if (linksGLOBAL.length != 0) {
+		for (var i = 0; i < linksGLOBAL.length; i++) {
+			updateLink(linksGLOBAL[i]);
+		};
+	}else{
+		//debugLog("No links to update!");
+	};
+}
+
+function updateLink(linkData){
+var node1 = linkData[0];
+var node2 = linkData[1];
+
+
+if (node1.parent.hidden) {
+	var startX =   node1.parent.y;
+	var startY =   node1.parent.x;
+}else{
+	var startX =   node1.y;
+	var startY =   node1.x;
+};
+if (node2.parent.hidden) {
+	var endX =     node2.parent.y;
+	var endY =     node2.parent.x;
+}else{	
+	var endX =     node2.y;
+	var endY =     node2.x;
+};
+	//if hidden point to parent? then update after expanding/hiding group
+
+	var offset = 170;
+
+	var lineDataRound = [	{ "x": startX, "y": startY },
+							{ "x": endX + offset, "y": startY },
+							{ "x": endX + offset, "y": endY },
+		             		{ "x": endX, "y": endY } ];
+
+	var lineFunction = d3.svg.line()
+							.x(function(d) { return d.x; })
+							.y(function(d) { return d.y; })
+							.interpolate("bundle");
+
+	var linkName = linkData[3];
+	var link = d3.select("svg").select("g").select("path#"+linkName);
+	var totalLength = link.node().getTotalLength();
+	
+	link.transition()
+		.attr("d", lineFunction(lineDataRound));
+		// .attr("stroke-dasharray", 0)
+	 //    .attr("stroke-dashoffset", 0);
+
+
+}

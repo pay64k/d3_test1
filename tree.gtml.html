@@ -10,6 +10,7 @@
     
       <!--    Custom Scripts:   -->
       <link rel="stylesheet" href="css/nodeStyles.css">
+      <script src="js/globalVariables.js"></script>
       <script src="js/dataHandler.js"></script>
       <script src="js/data.js"></script>
       <script src="js/d3_scripts.js"></script>
@@ -94,7 +95,7 @@ update(root);
  // var delay = setInterval(function(){newNewChild(0,0);},100);
 
 testCreating();
-var linkNamesGLOBAL =[];
+
 centerView(); //has to be called right away during initialization
 
 </script>
@@ -166,12 +167,33 @@ centerView(); //has to be called right away during initialization
         </form>
       </div>
     </td>
+
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()">Submit</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()">Random Link</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()">Single Random</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()">Del last link</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()">Clear All</button></td>
   </tr>
+
+  <tr>
+    <th class="tg-baqh">Links Cont</th>
+    
+    <td class="tg-baqh">
+      <div class="tg-baqh">
+        <form role="form">
+          <div class="form-group">
+            <label for="specificLink">Link Select:</label>
+              <select class="form-control" id="specificLink">
+              </select>
+          </div>
+        </form>
+      </div>
+    </td>
+
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()">Del Link</button></td>
+
+  </th>
+
 </table>
 
   </body>

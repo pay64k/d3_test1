@@ -155,6 +155,7 @@ function updateForms(){
   populateForm("linkFrom");
   populateForm("linkTo");
   populateForm("focusForm");
+  updateLinkForm();
   debugLog(">>>Forms Updated!");
 }
 
@@ -166,29 +167,59 @@ function submitNewLink(){
   var selectedTo = formTo.options[formTo.selectedIndex].text;
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
   linkNamesGLOBAL.push(linkName);
-  addLink(selectedFrom,selectedTo,linkName,3);
+  var link = addLink(selectedFrom,selectedTo,linkName,3);
+  linksGLOBAL.push(link);
 }
 
 function delLastLink(){
-  removeLink(linkNamesGLOBAL.pop());
+  //removeLink(linkNamesGLOBAL.pop());
+  removeLink(linksGLOBAL[linksGLOBAL.length-1][3]);
 }
 
 function randomLink(){
   var names = getAllNames();
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  linkNamesGLOBAL.push(linkName);
-  addLink(names[Math.floor(Math.random() * names.length)], names[Math.floor(Math.random() * names.length)],linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
-  
+  //linkNamesGLOBAL.push(linkName);
+  var link = addLink(names[Math.floor(Math.random() * names.length)], names[Math.floor(Math.random() * names.length)],linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
+  linksGLOBAL.push(link);
 }
 
 function clearAllLinks(){
-  for (var i = 0; i < linkNamesGLOBAL.length; i++) {
-    removeLink(linkNamesGLOBAL[i]);
-  };
-  linkNamesGLOBAL=[];
+  // for (var i = 0; i < linkNamesGLOBAL.length; i++) {
+  //   removeLink(linkNamesGLOBAL[i]);
+  // };
+  // linkNamesGLOBAL=[];
+
+for (var i = linksGLOBAL.length - 1; i >= 0; i--) {
+  removeLink(linksGLOBAL[i][3]);
+};
+
 }
 
 function singleLink(){
   clearAllLinks();
   randomLink();
+}
+
+function delSpecificLink(){
+  var linkForm = document.getElementById("specificLink");
+  var selectedLink = linkForm.options[linkForm.selectedIndex].text;
+  removeLink(selectedLink);
+  //updateLinkForm();
+}
+
+function updateLinkForm(){
+  var linkNames = [];
+  for (var i = 0; i < linksGLOBAL.length; i++) {
+    linkNames.push(linksGLOBAL[i][3]);
+  };
+
+var select = document.getElementById("specificLink");
+  if (select != null) {
+    select.options.length = 0;  //reset for no repeats
+      for(var i = 0; i < linkNames.length; i++) {
+       select.options[select.options.length] = new Option(linkNames[i], i);
+      };
+  };
+
 }

@@ -89,8 +89,6 @@ function addElement(_root, id_parent, newChild){
           foundParent[1].children.push(newChild);
         };
          update(root);
-        // groupElements(newChild); 
-        // update(root);                                            //Update graph
       };
 
     } else {
@@ -134,7 +132,7 @@ try{
       addElementAndGroup(treeData[0], targetParentName, toMove);
       update(root);
   }else{
-    throw "one of the elments not found!";
+    throw "One of the elments not found!";
   };
 
 }catch(err){
@@ -143,7 +141,7 @@ try{
 
 }
 
-var group_GLOBAL=0;
+
 //working but sorting after amount of children, not by type
 function groupElements(_root, id_parent){
   try{
@@ -271,8 +269,10 @@ function createElementAndGroup(_root, id_parent, child_properties){
   sortByName(findElement(_root,id_parent)[1]);
   toggleSelection(previuoslyHidden);
   update(root);
+  updateLinks();
 }
-
+//used for moving the object only, the only difference to the upper function is that it 
+//doesn't create new object but takes an already existing object.
 function addElementAndGroup(_root, id_parent, child){
   var previuoslyHidden = toggleAll();
   addElement(_root, id_parent, child);
@@ -280,6 +280,7 @@ function addElementAndGroup(_root, id_parent, child){
   sortByName(findElement(_root,id_parent)[1]);
   toggleSelection(previuoslyHidden);
   update(root);
+  updateLinks();
 }
 
 function delElementAndUngroup(_root, element){
@@ -306,6 +307,7 @@ function delElementAndUngroup(_root, element){
     sortByName(parent.parent);
     toggleSelection(previuoslyHidden);
     update(root);
+    updateLinks();
     return deleted;
   }catch(err){
     toggleSelection(previuoslyHidden);  //for cosmetic reason in case of element was not found, then after trying to add toggleSelection(previuoslyHidden) was not executed and on next add everything was shown and caused a mess
