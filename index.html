@@ -35,7 +35,7 @@ var margin = {top: 20, right: 120, bottom: 20, left: 120},
 var offsetX = (width + margin.right + margin.left)/2, 
     offsetY=height/2;
 
-var zoomMin = 0.4, zoomMax = 7;
+var zoomMin = 0.2, zoomMax = 7;
 	
 var i = 0,
 	duration = 500,
@@ -138,6 +138,8 @@ centerView(); //has to be called right away during initialization
     </td>
 
     <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" >Focus</button></td>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="showAllGroups()" >Show Groups</button></td>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="hideAllGroups()" >Hide Groups</button></td>
   </tr>
   <tr>
     <th class="tg-baqh">Links</th>

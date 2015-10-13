@@ -268,13 +268,49 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 
 	var _svg = d3.select("svg").select("g");
 
-	var lineGraph = _svg.append("path")
-	                    .attr("id", linkID)
-	                    .attr("d", lineFunction(lineDataRound))
-	                    .attr("stroke", colors(linkColorIndex))
-	                    .attr("stroke-width", 1.5)
-	                    .attr("fill", "none");
+	var lineGraph = _svg.append("g")
+						.attr("id","G" + linkID)
+							.append("path")
+								//.attr("transform","scale(0)")
+			                    .attr("id", linkID)
+			                    .attr("stroke-width", 2)
+			                    .attr("stroke", colors(linkColorIndex))
+			                    .attr("fill", "none")
+			                    .attr("d", lineFunction(lineDataRound))
+			                    .on("mouseover", function(){
+			                    	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
+			                    })
+								.on("mouseout", function(){
+									var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
+								});
+								//.transition().duration(1).attr("transform","scale(1)");
+								//this coused linking to be drawn in the middle of the way if the links creation was too fast (clicking)
 
+//for mouse hovering, it was not easy to point on the thin link line so there is one 'invisible' line sorrounding the visible line:
+	var invisibleLine = d3.select("#G"+linkID).append("path")
+								.attr("id", linkID)
+			                    .attr("stroke-width", 8)
+			                    .attr("stroke", "red")
+			                    .attr("stroke-opacity", 0)
+			                    .attr("fill", "none")
+			                    .attr("d", lineFunction(lineDataRound))
+			                    .on("mouseover", function(){
+			                    	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
+			                    })
+								.on("mouseout", function(){
+									var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
+								});
+
+	var text = d3.select("#G"+linkID)
+						.append("text")
+						.attr("x", (startX + offset) )
+						.attr("y", ((startY + endY) / 2))
+						.attr("font-size", "10px")
+						.text(linkID)
+						.style("visibility","hidden");
+						
+	d3.select("#"+node1.name).attr("strok","red");
+	console.log(node1.name);
 	// var totalLength = lineGraph.node().getTotalLength();
 
 	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
@@ -298,37 +334,37 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	}
 }
 
+
 function removeLink(linkID){
-debugLog(">>>Remove Link: " + linkID);
-//to delete the path:
-var pathToDelete = d3.select("#"+linkID);
+	debugLog(">>>Remove Link: " + linkID);
+	//to delete the path:
+	var pathToDelete = d3.select("#G"+linkID);
 
-if (pathToDelete[0][0] == null) {
-	debugLog("\t>>> Error: Link doesnt exist!; Name: " + linkID);
-}else{
+	if (pathToDelete[0][0] == null) {
+		debugLog("\t>>> Error: Link doesnt exist!; Name: " + linkID);
+	}else{
 
-	var totalLength = pathToDelete.node().getTotalLength();
+		//var totalLength = pathToDelete.node().getTotalLength();
 
-	pathToDelete//.transition()
-	        // .duration(750)
-	        // .ease("linear")
-	        // .attr("stroke-dashoffset", -totalLength)
+		pathToDelete
+		.transition()
+			.duration(500)
+			.attr("transform","scale(0)")
 	        .remove();
 
-//ORIGINAL animation:
-	// pathToDelete.transition()
-	//         .duration(750)
-	//         .ease("linear")
-	//         .attr("stroke-dashoffset", -totalLength)
-	//         .remove();
+	//ORIGINAL animation:
+		// pathToDelete.transition()
+		//         .duration(750)
+		//         .ease("linear")
+		//         .attr("stroke-dashoffset", -totalLength)
+		//         .remove();
 
-	var linkIndex = linksGLOBAL.indexOf(linkID);
-	linksGLOBAL.splice(linkIndex,1);
+		var linkIndex = linksGLOBAL.indexOf(linkID);
+		linksGLOBAL.splice(linkIndex,1);
 
-	updateLinks();
-	debugLog("\t>>>Link removed!");
-	//!!!!!!!!!!!------ remove the link from global link array !!!!!!!!!!!--------
-	}
+		updateLinks();
+		debugLog("\t>>>Link removed!");
+		}
 }
 
 function updateLinks(){
@@ -376,13 +412,22 @@ if (node2.parent.hidden) {
 							.interpolate("bundle");
 
 	var linkName = linkData[3];
-	var link = d3.select("svg").select("g").select("path#"+linkName);
-	var totalLength = link.node().getTotalLength();
-	
-	link.transition()
+	//var link = d3.select("svg").select("g").select("path#"+linkName);
+
+var group = d3.select("#G"+linkName).select("text")
+									.transition()
+									.attr("x", (startX + offset) )
+									.attr("y", ((startY + endY) / 2));
+
+	var link = d3.select("#G"+linkName);
+	//var totalLength = link.node().getTotalLength();
+	link.select("path").transition()
 		.attr("d", lineFunction(lineDataRound));
-		// .attr("stroke-dasharray", 0)
-	 //    .attr("stroke-dashoffset", 0);
+
+//ORIGINAL:	
+	// link.transition()
+	// 	.attr("d", lineFunction(lineDataRound));
+
 
 
 }

@@ -3,13 +3,14 @@ var addedRadiosNamesType2 = [];
 function testClick1(){
 
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
-addedRadiosNamesType1.push(name);
+  createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
+  addedRadiosNamesType1.push(name);
 }
 function testClick2(){
-var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
-addedRadiosNamesType2.push(name);
+  
+  var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+  createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
+  addedRadiosNamesType2.push(name);
 }
 
 function addMore(amount){
@@ -32,11 +33,11 @@ function testDeleteAndUngroupUsage2(){
 function centerView(){
 
  var _svg = d3.select("svg").select("g");
-       zoom.translate([offsetX, offsetY]);
+       zoom.translate([100, offsetY]);
        zoom.scale(1);
        _svg.transition()
            .duration(750)
-           .attr("transform", "translate(" + offsetX + "," + offsetY + " )scale(1)");
+           .attr("transform", "translate(" + 100 + "," + offsetY + " )scale(1)");
 
 }
 
@@ -222,4 +223,26 @@ var select = document.getElementById("specificLink");
       };
   };
 
+}
+
+function showAllGroups(){
+  var nodes = d3.selectAll(".node")
+    .filter( function(d,i){return d.hidden == true && d.type == "Group" ;} )
+    .data();
+      for (var i = 0; i < nodes.length; i++) {
+        show(nodes[i]);
+      };
+  update(root);
+  updateLinks();
+}
+
+function hideAllGroups(){
+  var nodes = d3.selectAll(".node")
+    .filter( function(d,i){return d.hidden == false && d.type == "Group" ;} )
+    .data();
+      for (var i = 0; i < nodes.length; i++) {
+        hide(nodes[i]);
+      };
+  update(root);
+  updateLinks();
 }
