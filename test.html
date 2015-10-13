@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-      <!--    Libraries:    -->
+<head>
+    <title>Test GUI</title>
       <link rel="stylesheet" href="css/bootstrap.min.css">
-      <link href="css/tabs_templates/template1/tabcontent.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="css/dropdownMenu.css">
+      <link rel="stylesheet" href="css/tabs_templates/template2/tabcontent.css" type="text/css">
       <script src="js/lib/jquery.min.js"></script>
       <script src="js/lib/bootstrap.min.js"></script>
-      <script src="js/lib/d3.js"></script>
+      <script src="js/lib/d3.min.js"></script>
       <script src="js/lib/tabcontent.js"></script>
     
       <!--    Custom Scripts:   -->
@@ -19,42 +19,77 @@
       <script src="js/buttonFunctions.js"></script>
       <!--    Test Scripts    -->
       <script src="js/testing.js"></script>
-     
+</head>
 
-    <title></title>
+<body style="background:#F6F9FC; font-family:Arial;">
+    <div style="width: 1100px; margin: 0 auto; padding: 120px 0 40px;">
+        <ul class="tabs" data-persist="true">
+            <li><a href="#view1">System Overview</a></li>
+            <li><a href="#view2">Sequence Diagrams</a></li>
+            <li><a href="#view3">Configuration</a></li>
+        </ul>
+        <div class="tabcontents">
+            <div id="view1">
 
-  </head>
+<div class="dropdown" style="position:relative">
+    <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Click Here <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+        <li>
+            <a class="trigger right-caret">Level 1</a>
+            <ul class="dropdown-menu sub-menu">
+                <li><a href="#">Level 2</a></li>
+                <li>
+                    <a class="trigger right-caret">Level 2</a>
+                    <ul class="dropdown-menu sub-menu">
+                        <li><a href="#">Level 3</a></li>
+                        <li><a href="#">Level 3</a></li>
+                        <li>
+                            <a class="trigger right-caret">Level 3</a>
+                            <ul class="dropdown-menu sub-menu">
+                                <li><a href="#">Level 4</a></li>
+                                <li><a href="#">Level 4</a></li>
+                                <li><a href="#">Level 4</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">Level 2</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Level 1</a></li>
+        <li><a href="#">Level 1</a></li>
+    </ul>
+</div>
 
-  <body>
-
+<div id="canvas" style="border-style: solid; border-width: 1px"></div>
 <script>
 
-// ************** Generate the tree diagram	 *****************
+// ************** Generate the tree diagram  *****************
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
-	width = 960 - margin.right - margin.left,
-	height = 700 - margin.top - margin.bottom;
+    width = 960 - margin.right - margin.left,
+    height = 700 - margin.top - margin.bottom;
 
 var offsetX = (width + margin.right + margin.left)/2, 
     offsetY=height/2;
 
 var zoomMin = 0.2, zoomMax = 7;
-	
+    
 var i = 0,
-	duration = 500,
-	root;
+    duration = 500,
+    root;
 
 var tree = d3.layout.tree()
-	//.size([height, width]);
+    //.size([height, width]);
   .nodeSize([25, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
 
 var diagonal = d3.svg.diagonal()
-	.projection(function(d) { return [ d.y, d.x]; });   
+    .projection(function(d) { return [ d.y, d.x]; });   
 
-var div = d3.select("body").append("div")
-  .style("border-style", "solid")
-  .style("border-width", "2px")
-  .style("width", width + margin.right + margin.left + 10 + "px")
-  .style("height", height + margin.top + margin.bottom + 10 + "px");
+// var div = d3.select("body").select(".tabcontents").select("#view1").append("div")
+//   .style("border-style", "solid")
+//   .style("border-width", "2px")
+//   .style("width", width + margin.right + margin.left + 10 + "px")
+//   .style("height", height + margin.top + margin.bottom + 10 + "px");
 
 
 var zoom = d3.behavior.zoom()
@@ -62,12 +97,12 @@ var zoom = d3.behavior.zoom()
             .on("zoom", redraw);
 
 
-var svg = d3.select("div").append("svg")
-	.attr("width", width + margin.right + margin.left)
-	.attr("height", height + margin.top + margin.bottom)
+var svg = d3.select("#canvas").append("svg")
+     .attr("width", 1035)
+     .attr("height", 705)
   .call(zoom)
   .append("g")
-	.attr("transform", "translate(" + offsetX + "," + offsetY + ")");
+    .attr("transform", "translate(" + offsetX + "," + offsetY + ")");
 
 //------------ Zooming ------------
 
@@ -110,7 +145,7 @@ centerView(); //has to be called right away during initialization
 .tg .tg-baqh{text-align:center;vertical-align:center}
 .tg .tg-yw4l{vertical-align:top}
 </style>
-
+<div>
 <table class="tg">
   <tr>
     <th class="tg-baqh">Type1</th>
@@ -199,7 +234,28 @@ centerView(); //has to be called right away during initialization
   </th>
 
 </table>
-
-  </body>
-  
+</div>            
+            </div>
+            <div id="view2">
+                <b>Switch to other templates</b>
+                <p>Open this page with Notepad, and update the CSS link to:</P>
+                <p>template1 ~ 6.</p>                
+            </div>
+            <div id="view3">
+                <b>Advanced</b>
+                <p>If you expect a more feature-rich version of the tabber, you can use the advanced version of the script, 
+                    <a href="http://www.menucool.com/jquery-tabs">McTabs - jQuery Tabs</a>:</p>
+                <ul>
+                    <li>URL support: a hash id in the URL can select a tab</li>
+                    <li>Bookmark support: select a tab via bookmark anchor</li>
+                    <li>Select tabs by mouse over</li>
+                    <li>Auto advance</li>
+                    <li>Smooth transitional effect</li>
+                    <li>Content can retrieved from other documents or pages through Ajax</li>
+                    <li>... and more</li>     
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

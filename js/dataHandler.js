@@ -75,18 +75,30 @@ function createElement(_properties){
 function addElement(_root, id_parent, newChild){
   try{
     debugLog(">>>ADD " + newChild.name + " to " + id_parent);  
+    
     var foundParent = findElement(_root,id_parent);               //Try to find parent with id_parent
+    
     if (foundParent[0]) {                                         //Check if parent exists
+    
       var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
+    
       if (foundChild[0]) {                                        //If the newChild already exist, do nothing
+     
         debugLog("\t>>ERROR: Already exist!");
+     
       } else {                                                    //If the newChild doesn't exist
+     
         debugLog("\t>>Adding: " + newChild.name);      
+     
         if (foundParent[1].children == undefined) {               //Check if found parent has 'children' property assigned
+     
           foundParent[1].children = [];                           //Add it if not
           foundParent[1].children.push(newChild);                 //Add newChild as one of the children of new parent
+     
         } else{
+     
           foundParent[1].children.push(newChild);
+     
         };
          update(root);
       };

@@ -1,6 +1,6 @@
 function update(source) {
 
-  
+  //console.log("UPDATE123");
 
   // Compute the new tree layout.
   var nodes = tree.nodes(root).reverse(),
@@ -309,8 +309,8 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 						.text(linkID)
 						.style("visibility","hidden");
 						
-	d3.select("#"+node1.name).attr("strok","red");
-	console.log(node1.name);
+	// d3.select("#"+node1.name).attr("stroke","red");
+	// console.log(node1.name);
 	// var totalLength = lineGraph.node().getTotalLength();
 
 	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
