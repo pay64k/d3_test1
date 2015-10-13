@@ -18,7 +18,7 @@ function Queue() {
 
 
 function findElement(root, elementName) {
-
+console.log("FINDING");
     var q = new Queue();
     q.enqueue(root);
 
