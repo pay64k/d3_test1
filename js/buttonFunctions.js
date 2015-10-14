@@ -1,5 +1,6 @@
 var addedRadiosNamesType1 = [];
 var addedRadiosNamesType2 = [];
+
 function testClick1(){
 
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
@@ -7,16 +8,20 @@ function testClick1(){
   addedRadiosNamesType1.push(name);
 }
 function testClick2(){
-  
+
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
   createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
   addedRadiosNamesType2.push(name);
 }
 
 function addMore(amount){
+    var startTime = new Date();
+
 for (var i = 0; i < amount; i++) {
   testClick1();
 };
+    var endTime = new Date();
+debugLog("\t>>Time spent createElementAndGroup " + (endTime - startTime) );
 }
 
 function testDeleteAndUngroupUsage1(){

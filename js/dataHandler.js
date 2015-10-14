@@ -18,7 +18,7 @@ function Queue() {
 
 
 function findElement(root, elementName) {
-console.log("FINDING");
+//console.log("FINDING");
     var q = new Queue();
     q.enqueue(root);
 
@@ -43,12 +43,48 @@ console.log("FINDING");
               q.enqueue(node.children[i]);
           }
         }
-        if (node._children != undefined) 
+        // if (node._children != undefined) 
+        // {
+        //     for (var i=0, c=node._children.length; i<c; i++) {
+        //         q.enqueue(node._children[i]);
+        //     }
+        // }
+    }
+    //update(root);
+}
+
+function findElementTest(root, element) {
+//console.log("FINDING");
+    var q = new Queue();
+    q.enqueue(root);
+
+    while (true) {
+        var node = q.dequeue();
+
+        if (node == undefined){
+          //console.log(">>>Not found: " + element);
+          return [0, 0];
+        };
+
+        if (node == element)
         {
-            for (var i=0, c=node._children.length; i<c; i++) {
-                q.enqueue(node._children[i]);
-            }
+            //console.log(">>>Found: " + element );
+            return [1, node];
+            
         }
+        
+        if (node.children != undefined)
+        {
+          for (var i=0, c=node.children.length; i<c; i++) {
+              q.enqueue(node.children[i]);
+          }
+        }
+        // if (node._children != undefined) 
+        // {
+        //     for (var i=0, c=node._children.length; i<c; i++) {
+        //         q.enqueue(node._children[i]);
+        //     }
+        // }
     }
     //update(root);
 }
@@ -174,7 +210,7 @@ function groupElements(_root, id_parent){
             for (var i = 0; i < childrenNames.length; i++) {
               move.push(delElement(parent,childrenNames[i])[0]);
             };
-            var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL]));
+            var newGroup = addElement(treeData[0], id_parent, createElement(["name","Group " + group_GLOBAL,"type","Group"]));
             group_GLOBAL++;
             for (var i = 0; i < childrenNames.length; i++) {
               addElement(treeData[0], newGroup.name, move[i]);
@@ -224,7 +260,7 @@ function groupElements2(_root, id_parent){
       //console.log("non grouped: " + nonGrouped + " in " + parent.name);
       if (nonGrouped >= threshold) {
         var types = [];
-        for (var i = 0; i < parent.children.length; i++) {    //get array of types from all children
+        for (var i = 0; i < parent.children.length; i++) {    //get array of diiferent types from all children
           if (parent.children[i].type != "Group") {
             types.push(parent.children[i].type);
           };
@@ -245,6 +281,7 @@ function groupElements2(_root, id_parent){
                 //console.log("too many! " + typeCounter);
                 tempObjects.forEach(function(entry){
                 filteredObjects.push(delElement(parent, entry.name));
+                //filteredObjects.push(parent.children.pop(entry));
                 });
                 moveFlag = true;
               };
@@ -255,8 +292,11 @@ function groupElements2(_root, id_parent){
           if (moveFlag) {
             var newGroup = addElement(_root, parent.name, createElement(["name","#" + group_GLOBAL + " "
                                                                         + filteredTypes[i],"type","Group"]));
+
+            newGroup.children = [];
             for (var ii = 0; ii < filteredObjects.length; ii++) {
-              addElement(_root, newGroup.name, filteredObjects[ii].shift());
+              //addElement(_root, newGroup.name, filteredObjects[ii].shift());
+              newGroup.children.push(filteredObjects[ii].shift());
             };
             sortByName(newGroup);
             group_GLOBAL++;
