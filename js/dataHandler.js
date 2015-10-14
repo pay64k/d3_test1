@@ -18,7 +18,7 @@ function Queue() {
 
 
 function findElement(root, elementName) {
-//console.log("FINDING");
+
     var q = new Queue();
     q.enqueue(root);
 
@@ -26,67 +26,39 @@ function findElement(root, elementName) {
         var node = q.dequeue();
 
         if (node == undefined){
-          //console.log(">>>Not found: " + element);
           return [0, 0];
         };
-
-        if (node.name == elementName)
-        {
-            //console.log(">>>Found: " + element );
-            return [1, node];
-            
+        if (node.name == elementName){
+            return [1, node];            
         }
-        
-        if (node.children != undefined)
-        {
+        if (node.children != undefined){
           for (var i=0, c=node.children.length; i<c; i++) {
               q.enqueue(node.children[i]);
           }
         }
-        // if (node._children != undefined) 
-        // {
-        //     for (var i=0, c=node._children.length; i<c; i++) {
-        //         q.enqueue(node._children[i]);
-        //     }
-        // }
     }
-    //update(root);
 }
 
-function findElementTest(root, element) {
-//console.log("FINDING");
+function findGrouppedElement(root, elementName) {
+
     var q = new Queue();
     q.enqueue(root);
 
-    while (true) {
+    while (true){
         var node = q.dequeue();
 
         if (node == undefined){
-          //console.log(">>>Not found: " + element);
           return [0, 0];
         };
-
-        if (node == element)
-        {
-            //console.log(">>>Found: " + element );
-            return [1, node];
-            
+        if (node.name == elementName){
+            return [1, node];            
         }
-        
-        if (node.children != undefined)
-        {
-          for (var i=0, c=node.children.length; i<c; i++) {
-              q.enqueue(node.children[i]);
+        if (node.children != undefined){
+          for (var i=0, c=node.grouppedChildren.length; i<c; i++) {
+              q.enqueue(node.grouppedChildren[i]);
           }
         }
-        // if (node._children != undefined) 
-        // {
-        //     for (var i=0, c=node._children.length; i<c; i++) {
-        //         q.enqueue(node._children[i]);
-        //     }
-        // }
     }
-    //update(root);
 }
 
 //var properties = ["name","testObject","number","124114","other",null];
@@ -136,7 +108,7 @@ function addElement(_root, id_parent, newChild){
           foundParent[1].children.push(newChild);
      
         };
-         update(root);
+         update(root); //enable if using groupElements2()
       };
 
     } else {
@@ -171,21 +143,21 @@ function changeElement(){
 }
 
 function moveElment(childName, targetParentName){
-debugLog(">>>MOVE " + childName);
-try{
-  var foundChild = findElement(treeData[0], childName);
-  var foundTargetParent = findElement(treeData[0], targetParentName);
-  if (foundChild[0] == 1 && foundTargetParent[0] == 1) {
-      var toMove = delElementAndUngroup(treeData[0],childName);
-      addElementAndGroup(treeData[0], targetParentName, toMove);
-      update(root);
-  }else{
-    throw "One of the elments not found!";
-  };
+  debugLog(">>>MOVE " + childName);
+  try{
+    var foundChild = findElement(treeData[0], childName);
+    var foundTargetParent = findElement(treeData[0], targetParentName);
+    if (foundChild[0] == 1 && foundTargetParent[0] == 1) {
+        var toMove = delElementAndUngroup(treeData[0],childName);
+        addElementAndGroup(treeData[0], targetParentName, toMove);
+        update(root);
+    }else{
+      throw "One of the elments not found!";
+    };
 
-}catch(err){
-  debugLog("\t>>ERROR: in function moveElment()" + ", Message: " + err );
-}
+  }catch(err){
+    debugLog("\t>>ERROR: in function moveElment()" + ", Message: " + err );
+  }
 
 }
 
@@ -241,6 +213,7 @@ Array.prototype.unique2 = function()
 }
 
 //sorting by type and amount of the same type
+//very low performance
 function groupElements2(_root, id_parent){
   try{
     var threshold = 10;
@@ -258,7 +231,7 @@ function groupElements2(_root, id_parent){
         };
       };
       //console.log("non grouped: " + nonGrouped + " in " + parent.name);
-      if (nonGrouped >= threshold) {
+      if (nonGrouped >= threshold) {//debugger;
         var types = [];
         for (var i = 0; i < parent.children.length; i++) {    //get array of diiferent types from all children
           if (parent.children[i].type != "Group") {
@@ -295,8 +268,8 @@ function groupElements2(_root, id_parent){
 
             newGroup.children = [];
             for (var ii = 0; ii < filteredObjects.length; ii++) {
-              //addElement(_root, newGroup.name, filteredObjects[ii].shift());
-              newGroup.children.push(filteredObjects[ii].shift());
+              addElement(_root, newGroup.name, filteredObjects[ii].shift());
+              // newGroup.children.push(filteredObjects[ii].shift());
             };
             sortByName(newGroup);
             group_GLOBAL++;
@@ -314,7 +287,58 @@ function groupElements2(_root, id_parent){
   }
 }
 
+function groupElements3(_root, id_parent, newChild){
+  try{
+
+    var parent = findElement(_root, id_parent)[1];
+
+
+  }catch(err){
+
+    //
+
+  }
+}
+//very low performance:
 function createElementAndGroup(_root, id_parent, child_properties){
+  /*dobre do raportu jako test wydajnosci d3 engine'a:*/
+
+  // var exist = true;
+  // var newChild = createElement(child_properties);
+
+  // var foundParent = findElement(_root,id_parent);                 //Try to find parent with id_parent
+    
+  //   if (foundParent[0]) {                                         //Check if parent exists
+  //     if (foundParent[1].children == undefined) {
+  //       foundParent[1].children = [];
+  //     };
+
+  //     var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
+    
+  //     if (foundChild[0]) {
+  //       exist = true;
+  //       debugLog(newChild.name + " already exist!");
+  //     }else{
+  //       exist = false;
+  //     }
+  //   }else{
+  //     debugLog(id_parent + " parent not exist!");
+  //   };
+
+  //   if (!exist) {
+
+  //     if (foundParent[1].grouppedChildren == undefined) {
+  //       foundParent[1].grouppedChildren = []
+  //     };
+
+  //     foundParent[1].children.push(newChild);
+  //     //sortByName(foundParent[1]);
+
+  //   };
+  
+  /* tu sie konczy */
+
+//ORIGINAL:
   var previuoslyHidden = toggleAll();
   addElement(_root, id_parent, createElement(child_properties));
   groupElements2(_root,id_parent);
@@ -323,6 +347,14 @@ function createElementAndGroup(_root, id_parent, child_properties){
   update(root);
   updateLinks();
 }
+
+function createElementAndGroup2(_root, id_parent, child_properties){
+  var newChild = addElement(_root, id_parent, createElement(child_properties));
+  groupElements3(_root, newChild.parent.name);
+  update(root);
+
+}
+
 //used for moving the object only, the only difference to the upper function is that it 
 //doesn't create new object but takes an already existing object.
 function addElementAndGroup(_root, id_parent, child){
@@ -388,16 +420,17 @@ function createTree(client_id){
 
 function debugLog(body){
 
-var currentdate = new Date(); 
-var message =    currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + "@"  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds() + "."
-                + currentdate.getMilliseconds()  
-                + "\t " + body;
+  var currentdate = new Date(); 
+  var message =    currentdate.getDate() + "/"
+                  + (currentdate.getMonth()+1)  + "/" 
+                  + currentdate.getFullYear() + "@"  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds() + "."
+                  + currentdate.getMilliseconds()  
+                  + "\t " + body;
 
-// console.log('%c' + message, 'color: red');
-console.log(message);
+  // console.log('%c' + message, 'color: red');
+  console.log(message);
+  // //console.log(body);
 }

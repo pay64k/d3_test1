@@ -1,6 +1,6 @@
 function update(source) {
 
-  console.log("UPDATE123");
+  // console.log("UPDATE123");
 
   // Compute the new tree layout.
   var nodes = tree.nodes(root).reverse(),
