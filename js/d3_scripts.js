@@ -115,7 +115,7 @@ function findNodeByName(nodeName){
 // var nodes = d3.selectAll(".node");
 // return nodes.filter( function(d,i){return d.name == nodeName ;} ).data()[0];	//return as object due to data()[0], if the node was not found returns undefined
 var previuoslyHidden = toggleAll();					//look also in hiddden elements
-var node = findElement(treeData[0],nodeName)[1];
+var node = findElementNEW(treeData[0], "name", nodeName)[0];
 toggleSelection(previuoslyHidden);					//set elements to hidden affter looking
 return node;
 }

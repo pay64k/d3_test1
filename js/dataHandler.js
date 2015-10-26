@@ -1,3 +1,10 @@
+/*------------------------------------------------------------------------
+OLD VERSION of dataHandler. use functions from this to show how it was 
+working before changes. grouping elemtns woked differently
+------------------------------------------------------------------------*/
+
+
+
 // a very simple queue
 function Queue() {
     var queue = [];
@@ -16,7 +23,30 @@ function Queue() {
     };
 }
 
+//ORIGINAL:
+// function findElement(root, elementName) {
 
+//     var q = new Queue();
+//     q.enqueue(root);
+
+//     while (true) {
+//         var node = q.dequeue();
+
+//         if (node == undefined){
+//           return [0, 0];
+//         };
+//         if (node.name == elementName){
+//             return [1, node];            
+//         }
+//         if (node.children != undefined){
+//           for (var i=0, c=node.children.length; i<c; i++) {
+//               q.enqueue(node.children[i]);
+//           }
+//         }
+//     }
+// }
+
+//WORKING:
 function findElement(root, elementName) {
 
     var q = new Queue();
@@ -35,6 +65,52 @@ function findElement(root, elementName) {
           for (var i=0, c=node.children.length; i<c; i++) {
               q.enqueue(node.children[i]);
           }
+        }
+        if (node.inner_children !=undefined){
+          for (var i=0, c=node.inner_children.length; i<c; i++) {
+              q.enqueue(node.inner_children[i]);
+          }
+        }
+        if (node._children != undefined){
+           for (var i=0, c=node._children.length; i<c; i++) {
+          q.enqueue(node._children[i]);
+        }
+        }
+    }
+}
+
+function findElementNEW(root, propertyName, property) {
+
+    var q = new Queue();
+    q.enqueue(root);
+    var found = [];
+
+    while (true) {
+        var node = q.dequeue();
+
+        if (node == undefined){
+          return found;
+          //return [0, 0];
+        };
+
+        if (node[propertyName] == property){
+            found.push(node);
+            //return [1, node];            
+        }
+        if (node.children != undefined){
+          for (var i=0, c=node.children.length; i<c; i++) {
+              q.enqueue(node.children[i]);
+          }
+        }
+        if (node.inner_children !=undefined){
+          for (var i=0, c=node.inner_children.length; i<c; i++) {
+              q.enqueue(node.inner_children[i]);
+          }
+        }
+        if (node._children != undefined){
+           for (var i=0, c=node._children.length; i<c; i++) {
+          q.enqueue(node._children[i]);
+        }
         }
     }
 }
@@ -62,17 +138,25 @@ function findGrouppedElement(root, elementName) {
 }
 
 //var properties = ["name","testObject","number","124114","other",null];
-function createElement(_properties){
+function createElement(_properties, groupable){
   if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
     var obj = {};
       for (var i = 0; i < _properties.length; i+=2) {
         obj[_properties[i]]=_properties[i+1];
       };
-  debugLog(">>>Object created: " + obj[_properties[0]])
+  debugLog(">>>Temporary object created: " + obj[_properties[0]])
   if (_properties.length == 1) {
     debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
   };
   obj.hidden = false; //set as default after creation
+  obj.children = [];
+
+  if (groupable) {
+    obj.groupable = true;
+  }else{
+    obj.groupable = false;
+  };
+
   return obj;
   } else {
     debugLog("\t>>Create element: wrong properties!");
@@ -300,11 +384,10 @@ function groupElements3(_root, id_parent, newChild){
   }
 }
 //very low performance:
-function createElementAndGroup(_root, id_parent, child_properties){
+function createElementAndGroup(_root, id_parent, child_properties, groupable){
   /*dobre do raportu jako test wydajnosci d3 engine'a:*/
-
   var exist = true;
-  var newChild = createElement(child_properties);
+  var newChild = createElement(child_properties,groupable);
 
   var foundParent = findElement(_root,id_parent);                 //Try to find parent with id_parent
     
@@ -327,13 +410,28 @@ function createElementAndGroup(_root, id_parent, child_properties){
 
     if (!exist) {
 
-      if (foundParent[1].grouppedChildren == undefined) {
-        foundParent[1].grouppedChildren = []
+      if (foundParent[1].inner_children == undefined) {
+        foundParent[1].inner_children = []
       };
 
-      foundParent[1].children.push(newChild);
-      //sortByName(foundParent[1]);
+      if (foundParent[1].children == undefined) {
+        foundParent[1].children = [];
+      };
 
+      for (var i = 0; i < foundParent[1].children.length; i++) {
+        if (foundParent[1].children[i] ) {};
+      };
+
+      if (groupable) {
+        foundParent[1].inner_children.push(newChild);
+      }else{
+        foundParent[1].children.push(newChild);
+      };
+     
+      //newChild.parent = [];
+      //newChild.parent.push(foundParent[1]);
+      newChild.parent = foundParent[1];
+      
     };
   
   /* tu sie konczy */
@@ -347,6 +445,72 @@ function createElementAndGroup(_root, id_parent, child_properties){
   // update(root);
   // updateLinks();
 }
+
+function createElementAndGroupNEW(_root, id_parent, child_properties, groupable){
+  /*dobre do raportu jako test wydajnosci d3 engine'a:*/
+  var exist = true;
+  var newChild = createElement(child_properties,groupable);
+  var foundElementsList = findElementNEW(_root, "name", id_parent);       //Try to find parent with id_parent
+                                                             
+    
+    if (foundElementsList.length != 0) {     
+      var foundParent =  foundElementsList[0];                                       
+      if (foundParent.children == undefined) {
+        foundParent.children = [];
+      };
+
+      var foundChild = findElementNEW(_root, "name", newChild.name); //If parent exist find out if the newChild already exist
+    
+      if (foundChild.length >= 1) {
+        exist = true;
+        debugLog(newChild.name + " already exist!");
+      }else{
+        exist = false;
+      }
+    }else{
+      debugLog(id_parent + " parent not exist!");
+    };
+
+    if (!exist) {
+
+      if (foundParent.inner_children == undefined) {
+        foundParent.inner_children = []
+      };
+
+      if (foundParent.children == undefined) {
+        foundParent.children = [];
+      };
+
+      if (groupable) {
+        var foundGroups = findElementNEW(foundParent, "type", "Group");
+        var addedFLAG = false;
+        for (var i = 0; i < foundGroups.length; i++) {
+          if (foundGroups[i]["GroupType"] == newChild.type) {
+              foundGroups[i].inner_children.push(newChild);
+              debugLog("\t>>>" + newChild.name + " added to " + foundGroups[i].name + " in " + foundParent.name );
+              newChild.parent = foundGroups[i];
+              addedFLAG = true;
+              break;
+            };
+        };
+        if (!addedFLAG) {
+          var newGroup = createElement(["name", (newChild.type) + " Group", "type", "Group", "GroupType", newChild.type,"inner_children", [] ], false);
+          foundParent.children.push(newGroup);
+          newGroup.inner_children.push(newChild);
+          debugLog("\t>>>" + newChild.name + " added to " + newGroup.name + " in " + foundParent.name );
+          newChild.parent = newGroup;
+        };        
+      }else{
+        if (foundParent.hidden) {                //element is not groupable so it should be visible in the visualisation
+          foundParent._children.push(newChild);  //add to hidden children if parent is hidden
+        }else{
+          foundParent.children.push(newChild); 
+        };
+        debugLog("\t>>>" + newChild.name + " added to " + foundParent.name );
+      };
+
+    }
+  }
 
 function createElementAndGroup2(_root, id_parent, child_properties){
   var newChild = addElement(_root, id_parent, createElement(child_properties));

@@ -4,14 +4,14 @@ var addedRadiosNamesType2 = [];
 function testClick1(){
 
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"]);
+  createElementAndGroupNEW(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"],true);
   addedRadiosNamesType1.push(name);
   //update(root);
 }
 function testClick2(){
 
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  createElementAndGroup(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"]);
+  createElementAndGroupNEW(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"],true);
   addedRadiosNamesType2.push(name);
 }
 
@@ -254,3 +254,8 @@ function hideAllGroups(){
   update(root);
   updateLinks();
 }
+
+// var bla = [];
+// for (var i = 0; i < 1000; i++) {
+//    bla.push(findElement(root,"31241")[1]); 
+// };

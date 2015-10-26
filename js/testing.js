@@ -55,8 +55,8 @@ function testCreating(){
 	// 		addElement(treeData[0], "BTS2-2", createElement(["name", "Radio1-4"]));
 	// 		groupElements(treeData[0],"BTS2-2");
 	//update(root);
-	createElementAndGroup(treeData[0],"Client1",["name", "System2", "type","System"]);
-		 createElementAndGroup(treeData[0],"System2",["name", "BTS2-1", "type","BTS"]);
+	createElementAndGroupNEW(treeData[0],"Client1",["name", "System2", "type","System"], false);
+		 createElementAndGroupNEW(treeData[0],"System2",["name", "BTS2-1", "type","BTS"], false);
 		//  createElementAndGroup(treeData[0],"BTS2-1",["name", "Group1", "type","group"]);
 			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio1", "type","Radio", "property1", "test"]);
 			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio2", "type","Radio"]);
@@ -75,7 +75,7 @@ function testCreating(){
 		// createElementAndGroup(treeData[0],"System2",["name", "BTS2-2", "type","BTS"]);
 		// createElementAndGroup(treeData[0],"System2",["name", "BTS2-3", "type","BTS"]);
 		// createElementAndGroup(treeData[0],"System2",["name", "BTS2-4", "type","BTS"]);
-		createElementAndGroup(treeData[0],"System2",["name", "BTS2-5", "type","BTS"]);
+		createElementAndGroupNEW(treeData[0],"System2",["name", "BTS2-5", "type","BTS"], false);
 			//createElementAndGroup(treeData[0],"BTS2-5",["name", "bla1", "type","Something1"]);
 			// createElementAndGroup(treeData[0],"BTS2-5",["name", "bla2", "type","Something1"]);
 			// createElementAndGroup(treeData[0],"BTS2-5",["name", "bla3", "type","Something1"]);
