@@ -303,49 +303,49 @@ function groupElements3(_root, id_parent, newChild){
 function createElementAndGroup(_root, id_parent, child_properties){
   /*dobre do raportu jako test wydajnosci d3 engine'a:*/
 
-  // var exist = true;
-  // var newChild = createElement(child_properties);
+  var exist = true;
+  var newChild = createElement(child_properties);
 
-  // var foundParent = findElement(_root,id_parent);                 //Try to find parent with id_parent
+  var foundParent = findElement(_root,id_parent);                 //Try to find parent with id_parent
     
-  //   if (foundParent[0]) {                                         //Check if parent exists
-  //     if (foundParent[1].children == undefined) {
-  //       foundParent[1].children = [];
-  //     };
+    if (foundParent[0]) {                                         //Check if parent exists
+      if (foundParent[1].children == undefined) {
+        foundParent[1].children = [];
+      };
 
-  //     var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
+      var foundChild = findElement(foundParent[1],newChild.name); //If parent exist find out if the newChild already exist
     
-  //     if (foundChild[0]) {
-  //       exist = true;
-  //       debugLog(newChild.name + " already exist!");
-  //     }else{
-  //       exist = false;
-  //     }
-  //   }else{
-  //     debugLog(id_parent + " parent not exist!");
-  //   };
+      if (foundChild[0]) {
+        exist = true;
+        debugLog(newChild.name + " already exist!");
+      }else{
+        exist = false;
+      }
+    }else{
+      debugLog(id_parent + " parent not exist!");
+    };
 
-  //   if (!exist) {
+    if (!exist) {
 
-  //     if (foundParent[1].grouppedChildren == undefined) {
-  //       foundParent[1].grouppedChildren = []
-  //     };
+      if (foundParent[1].grouppedChildren == undefined) {
+        foundParent[1].grouppedChildren = []
+      };
 
-  //     foundParent[1].children.push(newChild);
-  //     //sortByName(foundParent[1]);
+      foundParent[1].children.push(newChild);
+      //sortByName(foundParent[1]);
 
-  //   };
+    };
   
   /* tu sie konczy */
 
 //ORIGINAL:
-  var previuoslyHidden = toggleAll();
-  addElement(_root, id_parent, createElement(child_properties));
-  groupElements2(_root,id_parent);
-  sortByName(findElement(_root,id_parent)[1]);
-  toggleSelection(previuoslyHidden);
-  update(root);
-  updateLinks();
+  // var previuoslyHidden = toggleAll();
+  // addElement(_root, id_parent, createElement(child_properties));
+  // groupElements2(_root,id_parent);
+  // sortByName(findElement(_root,id_parent)[1]);
+  // toggleSelection(previuoslyHidden);
+  // update(root);
+  // updateLinks();
 }
 
 function createElementAndGroup2(_root, id_parent, child_properties){

@@ -23,7 +23,7 @@ for (var i = 0; i < amount; i++) {
 };
     update(root);
     var endTime = new Date();
-console.log("\t>>Time spent createElementAndGroup " + (endTime - startTime) );
+    console.log("\t>>Time spent createElementAndGroup " + (endTime - startTime) );
 
 }
 
