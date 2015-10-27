@@ -57,21 +57,21 @@ function testCreating(){
 	//update(root);
 	createElementAndGroupNEW(treeData[0],"Client1",["name", "System2", "type","System"], false);
 		 createElementAndGroupNEW(treeData[0],"System2",["name", "BTS2-1", "type","BTS"], false);
-		//  createElementAndGroup(treeData[0],"BTS2-1",["name", "Group1", "type","group"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio1", "type","Radio", "property1", "test"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio2", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio3", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio4", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio5", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio6", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio7", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio8", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio9", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio10", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio11", "type","Radio"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio12", "type","RadioNEW"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio13", "type","RadioNEW"]);
-			// createElementAndGroup(treeData[0],"BTS2-1",["name", "Radio14", "type","Radio"]);
+		//  createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Group1", "type","group"]);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio1", "type","Radio", "property1", "test"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio2", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio3", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio4", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio5", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio6", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio7", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio8", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio9", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio10", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio11", "type","Radio"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio12", "type","RadioNEW"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio13", "type","RadioNEW"], true);
+			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio14", "type","Radio"], false);
 		// createElementAndGroup(treeData[0],"System2",["name", "BTS2-2", "type","BTS"]);
 		// createElementAndGroup(treeData[0],"System2",["name", "BTS2-3", "type","BTS"]);
 		// createElementAndGroup(treeData[0],"System2",["name", "BTS2-4", "type","BTS"]);
@@ -101,3 +101,46 @@ function testOptimizing(){
 	createElementAndGroup2(treeData[0],"Client1",["name", "System2", "type","System"]);
 		createElementAndGroup2(treeData[0],"System2",["name", "BTS2-1", "type","BTS"]);
 }
+
+function testNewLink(startNodeName,endNodeName){
+
+	activateElement(treeData[0],startNodeName);
+	activateElement(treeData[0],endNodeName);
+	var link = addLink(startNodeName, endNodeName, "123", 1, 0);
+	linksGLOBAL.push(link);
+
+}
+
+function testAddMultipleLinks(startNodeName){
+	var endNodeNames = ["Radio9", "Radio10", "Radio11", "Radio12", "Radio14"];
+	//endNodeNames = group;
+	activateElement(treeData[0],startNodeName);
+	for (var i = 0; i < endNodeNames.length; i++) {
+		activateElement(treeData[0],endNodeNames[i]);
+		var link = addLink(startNodeName, endNodeNames[i], ("Link" + i) , i, 0);
+		linksGLOBAL.push(link);
+	};
+}
+
+function testDeleteLinkAndDeactivate(linkID){
+
+	var deletedLink = removeLink(linkID)[0];
+
+	var startNode = deletedLink[0];
+	var endNode = deletedLink[1];
+
+	var temp = startNode.linkedTo.splice(startNode.linkedTo.indexOf(endNode),1);
+	var temp = endNode.linkedTo.splice(endNode.linkedTo.indexOf(startNode),1);
+
+	if (startNode.linkedTo.length == 0) {
+		deactivateElement(treeData[0], startNode.name);	
+	};
+	if (endNode.linkedTo.length == 0) {
+		deactivateElement(treeData[0], endNode.name);	
+	};
+	
+	
+	update(root);
+	updateLinks();
+}
+

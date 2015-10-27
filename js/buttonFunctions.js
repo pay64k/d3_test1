@@ -30,12 +30,12 @@ for (var i = 0; i < amount; i++) {
 function testDeleteAndUngroupUsage1(){
   var name = addedRadiosNamesType1.shift();
   //console.log("Delete " + name);
-  delElementAndUngroup(treeData[0],name);
+  deleteElement(treeData[0],name);
 }
 
 function testDeleteAndUngroupUsage2(){
   var name = addedRadiosNamesType2.shift();
-  delElementAndUngroup(treeData[0],name);
+  deleteElement(treeData[0],name);
 }
 
 function centerView(){
@@ -65,6 +65,7 @@ var node = findNodeByName(nodeName);
 
  //if (node.parent.hidden) {
   unhideParents(node);
+  activateElement(treeData[0],node.name);
   update(root);
  //};
 
@@ -96,12 +97,19 @@ var nodeAnimate = d3.selectAll(".node").filter( function(d,i){return d.name == n
         .style("fill", "#ED5151")
           .each("end", function() { 
             d3.select(this).transition()
-            .duration(200)
+            .duration(1000)
             .style("fill", "white")
             .style("fill-opacity", 1)
-            .attr("r",10)});
+            .attr("r",10)
+              .each("end",function(){
+                update(root);
+              })
+            deactivateElement(treeData[0],node.name);
+            });
       
       //.attr("r",10);
+      
+   
 }
 
 function getAllNames(){
@@ -143,6 +151,13 @@ function getAllNames(){
                 q.enqueue(node._children[i]);
             }
         }
+
+        if (node.inner_children != undefined) 
+        {
+            for (var i=0, c=node.inner_children.length; i<c; i++) {
+                q.enqueue(node.inner_children[i]);
+            }
+        }
     }
 
 }
@@ -174,23 +189,40 @@ function submitNewLink(){
   var selectedFrom = formFrom.options[formFrom.selectedIndex].text;
   var formTo = document.getElementById("linkTo");
   var selectedTo = formTo.options[formTo.selectedIndex].text;
+
+  var randomColor = Math.floor(Math.random() * 10) + 1;
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+
   linkNamesGLOBAL.push(linkName);
-  var link = addLink(selectedFrom,selectedTo,linkName,3);
-  linksGLOBAL.push(link);
+  newLinkAndActivate(selectedFrom, selectedTo, linkName, randomColor);
 }
 
 function delLastLink(){
   //removeLink(linkNamesGLOBAL.pop());
-  removeLink(linksGLOBAL[linksGLOBAL.length-1][3]);
+  //removeLink(linksGLOBAL[linksGLOBAL.length-1][3]);
+  deleteLinkAndDeactivate(linksGLOBAL[linksGLOBAL.length-1][3]);
+
+  update(root);
+  updateLinks();
 }
 
 function randomLink(){
-  var names = getAllNames();
+  var names = getAllNames();//debugger;
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  //linkNamesGLOBAL.push(linkName);
-  var link = addLink(names[Math.floor(Math.random() * names.length)], names[Math.floor(Math.random() * names.length)],linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
-  linksGLOBAL.push(link);
+  
+  do{
+    var name1 = names[Math.floor(Math.random() * names.length)];
+    var name2 = names[Math.floor(Math.random() * names.length)];
+
+    //if (name1 == "Client1" || name2 == "Client1") {debugger;};
+
+    console.log(name1 != "Client1" && name2 != "Client1")
+  }while(name1 == "Client1" || name2 == "Client1" || name1 == "System2" || name2 == "System2");
+
+  newLinkAndActivate(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
+
+  update(root);
+  updateLinks();
 }
 
 function clearAllLinks(){
@@ -200,8 +232,11 @@ function clearAllLinks(){
   // linkNamesGLOBAL=[];
 
 for (var i = linksGLOBAL.length - 1; i >= 0; i--) {
-  removeLink(linksGLOBAL[i][3]);
+  deleteLinkAndDeactivate(linksGLOBAL[i][3]);
 };
+
+  update(root);
+  updateLinks();
 
 }
 
@@ -213,7 +248,15 @@ function singleLink(){
 function delSpecificLink(){
   var linkForm = document.getElementById("specificLink");
   var selectedLink = linkForm.options[linkForm.selectedIndex].text;
-  removeLink(selectedLink);
+
+  var deletedLink = removeLink(selectedLink);
+  var linkEndNode = deletedLink[0][1];
+  
+  deactivateElement(treeData[0], linkEndNode.name);
+  update(root);
+  updateLinks();
+
+  //removeLink(selectedLink);
   //updateLinkForm();
 }
 

@@ -214,7 +214,7 @@ function hide(d) {
   }
 }
 
-function addLink(startNodeName, endNodeName, linkID, linkColorIndex, dashAmount){
+function addLink(startNodeName, endNodeName, linkID, linkColorIndex){
 
 debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link name: " + linkID);
 
@@ -330,6 +330,8 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 
 	debugLog("\t>>>Link created!");
 	updateLinks();
+	node1.linkedTo.push(node2);
+	node2.linkedTo.push(node1);
 	return [node1, node2, lineGraph, linkID];
 	}
 }
@@ -359,11 +361,19 @@ function removeLink(linkID){
 		//         .attr("stroke-dashoffset", -totalLength)
 		//         .remove();
 
-		var linkIndex = linksGLOBAL.indexOf(linkID);
-		linksGLOBAL.splice(linkIndex,1);
+		//var linkIndex = linksGLOBAL.indexOf(linkID);
+	
+		for (var i = 0; i < linksGLOBAL.length; i++) {
+			if (linksGLOBAL[i][3] == linkID) {
+				var linkIndex = i;
+			};
+		};
 
+		var deleted=linksGLOBAL.splice(linkIndex,1);
+		
 		updateLinks();
 		debugLog("\t>>>Link removed!");
+		return deleted;
 		}
 }
 
