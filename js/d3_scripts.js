@@ -7,7 +7,7 @@ function update(source) {
 	  links = tree.links(nodes);
 //debugger;
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) { d.y = d.depth * 200; });
+  nodes.forEach(function(d) { d.y = d.depth * 160; });
 
   // Update the nodes…
   var node = svg.selectAll("g.node")
@@ -16,29 +16,79 @@ function update(source) {
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("g")
 	  .attr("class", "node")
+	  .attr("id", function(d) { return d.name; })
 	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
 	  .on("click", click)
       .on("dblclick", dblclick);
+      // .on("mouseover", showTypeText)
+      // .on("mouseout", hideTypeText);
 
   nodeEnter.append("circle")
 	  .attr("r", 1e-6)
-	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+	  .on("mouseover", showTypeText)
+      .on("mouseout", hideTypeText);
+
+
+		var circleGroup = nodeEnter.append("g")
+	  		.attr("class","circleGroup")
+	  		.attr("transform", "scale(0)")
+	  		.on("mouseover", showTypeText)
+      		.on("mouseout", hideTypeText);;
+
+	  		circleGroup.append("circle")
+	  			.attr("r", 10)
+	  			.attr("transform","translate(" + 5 + "," + 5 + ")" );
+	  		circleGroup.append("circle")
+	  			.attr("r", 10)
+	  			.attr("transform","translate(" + 10 + "," + 10 + ")" );
+
 
   nodeEnter.append("text")
-	  .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
-	  .attr("dy", ".35em")
-	  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-	  .text(function(d) { return d.name + " \t" +d.type; })
+  	  .attr("class", "nameText")
+  	  .style("font-family", "Verdana")
+	  //.attr("x", function(d) { return d.children || d._children ? -13 : 13; })
+	  //.attr("x", -15)
+	  // .attr("dy", ".35em")
+	  .attr("y", -15)
+	  //.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+	  .attr("text-anchor", "middle")
+	  .text(function(d) { return d.name; })
 	  .style("fill-opacity", 1e-6);
+
+nodeEnter.append("text")
+	.attr("class", "typeText")
+	.attr("text-anchor", "start")
+	.style("font-family", "Verdana")
+	.attr("x", 20)
+	.attr("y", 3)
+	.text(function(d) { return d.type; })
+	.style("fill-opacity", 1e-6)
+	.style("fill", "red");
 
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
+  	  .ease("bounce")				//-----------------------------------------------node animation here
 	  .duration(duration)
 	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
   nodeUpdate.select("circle")
 	  .attr("r", 10)
 	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+	  			nodeUpdate.select(".circleGroup")
+
+	  				.attr("transform",  function(d){ 	if (d.inner_children != undefined) {
+	  												if (d.inner_children.length > 0) {
+														return "scale(1)";
+	  												}else{
+	  													return "scale(0)";
+	  												};
+	  											}else{
+	  												return "scale(0)";
+	  											} ; }  )
+
+	  				.style("fill", "#fff");
 
   nodeUpdate.select("text")
 	  .style("fill-opacity", 1);
@@ -51,6 +101,10 @@ function update(source) {
 
   nodeExit.select("circle")
 	  .attr("r", 1e-6);
+
+  nodeExit.select(".circleGroup")
+	  .attr("transform", "scale(0)");
+	  //.attr("transform","translate(" + 0 + "," + 0 + ")" );
 
   nodeExit.select("text")
 	  .style("fill-opacity", 1e-6);
@@ -89,7 +143,13 @@ function update(source) {
   //updateLinks();
 }
 
+function showTypeText(node){
+	d3.select("#" + node.name).select(".typeText").style("fill-opacity", 1);
+}
 
+function hideTypeText(node){
+	d3.select("#" + node.name).select(".typeText").style("fill-opacity", 1e-6);
+}
 
 // Toggle children on click.
 function click(d) {
@@ -272,8 +332,9 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 						.attr("id","G" + linkID)
 							.append("path")
 								//.attr("transform","scale(0)")
+								.attr("class", "flowline")
 			                    .attr("id", linkID)
-			                    .attr("stroke-width", 2)
+			                    //.attr("stroke-width", 2)
 			                    .attr("stroke", colors(linkColorIndex))
 			                    .attr("fill", "none")
 			                    .attr("d", lineFunction(lineDataRound))
@@ -284,22 +345,22 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 									var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
 								});
 								//.transition().duration(1).attr("transform","scale(1)");
-								//this coused linking to be drawn in the middle of the way if the links creation was too fast (clicking)
+								//this caused linking to be drawn in the middle of the way if the links creation was too fast (clicking)
 
 //for mouse hovering, it was not easy to point on the thin link line so there is one 'invisible' line sorrounding the visible line:
-	var invisibleLine = d3.select("#G"+linkID).append("path")
-								.attr("id", linkID)
-			                    .attr("stroke-width", 8)
-			                    .attr("stroke", "red")
-			                    .attr("stroke-opacity", 0)
-			                    .attr("fill", "none")
-			                    .attr("d", lineFunction(lineDataRound))
-			                    .on("mouseover", function(){
-			                    	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
-			                    })
-								.on("mouseout", function(){
-									var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
-								});
+	// var invisibleLine = d3.select("#G"+linkID).append("path")
+	// 							.attr("id", linkID)
+	// 		                    .attr("stroke-width", 8)
+	// 		                    .attr("stroke", "red")
+	// 		                    .attr("stroke-opacity", 0)
+	// 		                    .attr("fill", "none")
+	// 		                    .attr("d", lineFunction(lineDataRound))
+	// 		                    .on("mouseover", function(){
+	// 		                    	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
+	// 		                    })
+	// 							.on("mouseout", function(){
+	// 								var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
+	// 							});
 
 	var text = d3.select("#G"+linkID)
 						.append("text")
@@ -309,9 +370,9 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 						.text(linkID)
 						.style("visibility","hidden");
 						
-	// d3.select("#"+node1.name).attr("stroke","red");
+	 // d3.select("#"+node1.name).attr("stroke","red");
 	// console.log(node1.name);
-	// var totalLength = lineGraph.node().getTotalLength();
+	//var totalLength = lineGraph.node().getTotalLength();
 
 	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
 	//         .attr("stroke-dashoffset", totalLength)
@@ -350,7 +411,7 @@ function removeLink(linkID){
 
 		pathToDelete
 		.transition()
-			.duration(500)
+			//.duration(500)
 			.attr("transform","scale(0)")
 	        .remove();
 
@@ -440,4 +501,27 @@ var group = d3.select("#G"+linkName).select("text")
 
 
 
+}
+
+function changeFlow(linkName, flow){
+	var link = d3.select("G#"+linkName).select("path");
+	
+	switch(flow) {
+    case 0:
+        link.style("-webkit-animation", "noFlow 1s linear infinite");
+        break;
+    case 1:
+        link.style("-webkit-animation", "flow 1s linear infinite");
+        break;
+    case 2:
+        link.style("-webkit-animation", "oppostiteFlow 1s linear infinite");
+        break;
+    default:
+        debugLog("\t>>>Worng flow!");
+	}
+
+// 	var bla = d3.select("#GLink7221").select("path")
+// bla.style("-webkit-animation", "flow 1s linear infinite")
+// bla.style("-webkit-animation", "oppostiteFlow 1s linear infinite")
+// bla.style("-webkit-animation", "noFlow 1s linear infinite")
 }

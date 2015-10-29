@@ -3,15 +3,15 @@ var addedRadiosNamesType2 = [];
 
 function testClick1(){
 
-  var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  createElementAndGroupNEW(treeData[0],"BTS2-1",["name", name, "type","Radio", "property1", "test"],true);
+  var name =  "R" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+  createElementAndGroupNEW(treeData[0],"TG1-1",["name", name, "type","Radio", "property1", "test"],true);
   addedRadiosNamesType1.push(name);
   //update(root);
 }
 function testClick2(){
 
   var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  createElementAndGroupNEW(treeData[0],"BTS2-1",["name", name, "type","RadioNEW", "property1", "test"],true);
+  createElementAndGroupNEW(treeData[0],"TG1-2",["name", name, "type","RadioNEW", "property1", "test"],true);
   addedRadiosNamesType2.push(name);
 }
 
@@ -216,7 +216,6 @@ function randomLink(){
 
     //if (name1 == "Client1" || name2 == "Client1") {debugger;};
 
-    console.log(name1 != "Client1" && name2 != "Client1")
   }while(name1 == "Client1" || name2 == "Client1" || name1 == "System2" || name2 == "System2");
 
   newLinkAndActivate(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );

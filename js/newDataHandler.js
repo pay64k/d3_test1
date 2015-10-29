@@ -114,24 +114,26 @@ function createElementAndGroupNEW(_root, id_parent, child_properties, groupable)
       };
 
       if (groupable) {
-        var foundGroups = findElementNEW(foundParent, "type", "Group");
-        var addedFLAG = false;
-        for (var i = 0; i < foundGroups.length; i++) {
-          if (foundGroups[i]["GroupType"] == newChild.type) {
-              foundGroups[i].inner_children.push(newChild);
-              debugLog("\t>>>" + newChild.name + " added to " + foundGroups[i].name + " in " + foundParent.name );
-              newChild.parent = foundGroups[i];
-              addedFLAG = true;
-              break;
-            };
-        };
-        if (!addedFLAG) {
-          var newGroup = createElement(["name", (newChild.type) + " Group", "type", "Group", "GroupType", newChild.type,"inner_children", [] ], false);
-          foundParent.children.push(newGroup);
-          newGroup.inner_children.push(newChild);
-          debugLog("\t>>>" + newChild.name + " added to " + newGroup.name + " in " + foundParent.name );
-          newChild.parent = newGroup;
-        };
+        // var foundGroups = findElementNEW(foundParent, "type", "Group");
+        // var addedFLAG = false;
+        // for (var i = 0; i < foundGroups.length; i++) {
+        //   if (foundGroups[i]["GroupType"] == newChild.type) {
+        //       foundGroups[i].inner_children.push(newChild);
+        //       debugLog("\t>>>" + newChild.name + " added to " + foundGroups[i].name + " in " + foundParent.name );
+        //       newChild.parent = foundGroups[i];
+        //       addedFLAG = true;
+        //       break;
+        //     };
+        // };
+        // if (!addedFLAG) {
+        //   var newGroup = createElement(["name", (newChild.type) + " Group", "type", "Group", "GroupType", newChild.type,"inner_children", [] ], false);
+        //   foundParent.children.push(newGroup);
+        //   newGroup.inner_children.push(newChild);
+        //   debugLog("\t>>>" + newChild.name + " added to " + newGroup.name + " in " + foundParent.name );
+        //   newChild.parent = newGroup;
+        // };
+        foundParent.inner_children.push(newChild);
+        newChild.parent = foundParent;
         newChild.activated = false;        
       }else{
         if (foundParent.hidden) {                //element is not groupable so it should be visible in the visualisation
@@ -139,9 +141,8 @@ function createElementAndGroupNEW(_root, id_parent, child_properties, groupable)
         }else{
           foundParent.children.push(newChild); 
         };
-        debugLog("\t>>>" + newChild.name + " added to " + foundParent.name );
       };
-
+      debugLog("\t>>>" + newChild.name + " added to " + foundParent.name );
     }
   }
 
@@ -153,16 +154,17 @@ function deleteElement(_root, childName){
   }else{
     var found = foundList[0];
     var parent = found.parent;
-    if (parent.type == "Group") {                     //if its not a group then it can be only visible or not
+
+    if (found.groupable) {
       var deleted = found.parent.inner_children.splice(found.parent.inner_children.indexOf(found),1);
     }else{
       if (parent.hidden) {
-        var deleted = found.parent._children.splice(found.parent._children.indexOf(found),1);    //Get the index of found element in its parent children array
+        var deleted = found.parent._children.splice(found.parent._children.indexOf(found),1);
       }else{
         var deleted = found.parent.children.splice(found.parent.children.indexOf(found),1);
       };
-      
-    };    
+    };
+
     debugLog("\t>>Deleted " + found.name);
     return deleted;
   };
