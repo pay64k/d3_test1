@@ -504,7 +504,7 @@ var group = d3.select("#G"+linkName).select("text")
 }
 
 function changeFlow(linkName, flow){
-	var link = d3.select("G#"+linkName).select("path");
+	var link = d3.select("#G"+linkName).select("path");
 	
 	switch(flow) {
     case 0:
@@ -514,7 +514,7 @@ function changeFlow(linkName, flow){
         link.style("-webkit-animation", "flow 1s linear infinite");
         break;
     case 2:
-        link.style("-webkit-animation", "oppostiteFlow 1s linear infinite");
+        link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
         break;
     default:
         debugLog("\t>>>Worng flow!");
