@@ -516,6 +516,15 @@ function changeFlow(linkName, flow){
     case 2:
         link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
         break;
+    case "0":
+        link.style("-webkit-animation", "noFlow 1s linear infinite");
+        break;
+    case "1":
+        link.style("-webkit-animation", "flow 1s linear infinite");
+        break;
+    case "2":
+        link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
+        break;
     default:
         debugLog("\t>>>Worng flow!");
 	}

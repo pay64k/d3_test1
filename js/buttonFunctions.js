@@ -301,3 +301,20 @@ function hideAllGroups(){
 // for (var i = 0; i < 1000; i++) {
 //    bla.push(findElement(root,"31241")[1]); 
 // };
+
+
+function buttonChangeFlow(){
+    var linkForm = document.getElementById("specificLink");
+    var selectedLink = linkForm.options[linkForm.selectedIndex].text;
+
+    var radioButtons = document.getElementsByName("optradio");
+
+    for (var i = 0, length = radioButtons.length; i < length; i++) {
+    if (radioButtons[i].checked) {
+        // do whatever you want with the checked radio
+        changeFlow(selectedLink,radioButtons[i].value);
+        // only one radio can be logically checked, don't check the rest
+        break;
+    }
+}
+}
