@@ -208,7 +208,7 @@ function delLastLink(){
 
 function randomLink(){
   var names = getAllNames();//debugger;
-  var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+  var linkName = "Link" + Math.floor(Math.random() * (10000000 - 1 + 1)) + 1;
   
   do{
     var name1 = names[Math.floor(Math.random() * names.length)];
@@ -220,8 +220,8 @@ function randomLink(){
 
   newLinkAndActivate(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
 
-  update(root);
-  updateLinks();
+  // update(root);
+  // updateLinks();
 }
 
 function clearAllLinks(){
@@ -317,4 +317,10 @@ function buttonChangeFlow(){
         break;
     }
 }
+}
+
+function buttonUpdate(){
+  update(root);
+  updateLinks();
+  debugLog(">>>UPDATE BUTTON");
 }

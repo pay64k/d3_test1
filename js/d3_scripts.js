@@ -1,3 +1,14 @@
+//move to separate function, run once during initzialization, store colors in global variable
+var colorScale = [];
+var colorMax = 10;
+
+for (var i = 1; i <= colorMax; i++) {
+	colorScale.push(i);
+};
+
+var colors =  d3.scale.category10().domain(colorScale); //	https://github.com/mbostock/d3/wiki/Ordinal-Scales
+
+
 function update(source) {
 
   // console.log("UPDATE123");
@@ -281,15 +292,7 @@ debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link nam
 var node1 = findNodeByName(startNodeName);	//see if both nodes exist
 var node2 = findNodeByName(endNodeName);
 
-//move to separate function, run once during initzialization, store colors in global variable
-var colorScale = [];
-var colorMax = 10;
 
-for (var i = 1; i <= colorMax; i++) {
-	colorScale.push(i);
-};
-
-var colors =  d3.scale.category10().domain(colorScale); //	https://github.com/mbostock/d3/wiki/Ordinal-Scales
 
 //check if nodes exist
 if (node1 == 0 || node2 == 0) {	//compare to 0
@@ -298,7 +301,7 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 
 	unhideParents(node1);		//if yes unhide parents of both nodes
 	unhideParents(node2);
-	update(root);				//visually unhide nodes
+	//update(root);				//visually unhide nodes - update needs to be performed by other client due to performance limitations
 	//then draw a link:
 	var startX =   node1.y;
 	var startY =   node1.x;
@@ -310,6 +313,8 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	//console.log("start x: " + startX + ", start y: " + startY +" | " + "end x: " + endX + ", end y: " + endY );
 
 	var middleY =  (startY + endY) / 2; 
+
+	try{
 	
 	var lineData = [  { "x": startX, "y": startY },
 	                  { "x": startX + offset, "y": middleY }, 
@@ -390,7 +395,11 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	//         .attr("stroke-dashoffset", 0); 
 
 	debugLog("\t>>>Link created!");
-	updateLinks();
+	//updateLinks();
+}catch(err){
+	console.log("blaaaaaaaaaaaa");
+}
+
 	node1.linkedTo.push(node2);
 	node2.linkedTo.push(node1);
 	return [node1, node2, lineGraph, linkID];
@@ -410,9 +419,9 @@ function removeLink(linkID){
 		//var totalLength = pathToDelete.node().getTotalLength();
 
 		pathToDelete
-		.transition()
+		//.transition()
 			//.duration(500)
-			.attr("transform","scale(0)")
+			//.attr("transform","scale(0)")
 	        .remove();
 
 	//ORIGINAL animation:
@@ -427,12 +436,13 @@ function removeLink(linkID){
 		for (var i = 0; i < linksGLOBAL.length; i++) {
 			if (linksGLOBAL[i][3] == linkID) {
 				var linkIndex = i;
+				break;
 			};
 		};
 
 		var deleted=linksGLOBAL.splice(linkIndex,1);
 		
-		updateLinks();
+		//updateLinks();
 		debugLog("\t>>>Link removed!");
 		return deleted;
 		}

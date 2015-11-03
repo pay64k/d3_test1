@@ -310,3 +310,9 @@ var message =    currentdate.getDate() + "/"
 console.log(message);
 // //console.log(body);
 }
+
+// for (var i = 0; i < linksGLOBAL.length; i++) {
+//   if (linksGLOBAL[i][3]=="Link72501") {
+//     console.log(linksGLOBAL[i]);
+//   };
+// };

@@ -2,22 +2,27 @@
 <html lang="en">
 <head>
     <title>Test GUI</title>
+      <!--    Style Sheets:   -->
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/dropdownMenu.css">
       <link rel="stylesheet" href="css/tabs_templates/template2/tabcontent.css" type="text/css">
+      <link rel="stylesheet" href="css/nodeStyles.css">
+      <link rel="stylesheet" href="css/flowline.css">
+      <!--    Libraries:   -->
       <script src="js/lib/jquery.min.js"></script>
       <script src="js/lib/bootstrap.min.js"></script>
       <script src="js/lib/d3.min.js"></script>
       <script src="js/lib/tabcontent.js"></script>
+      <script src="js/lib/stomp.js"></script>
+      <script src="js/lib/sockjs-0.3.js"></script>
     
       <!--    Custom Scripts:   -->
-      <link rel="stylesheet" href="css/nodeStyles.css">
-      <link rel="stylesheet" href="css/flowline.css">
       <script src="js/globalVariables.js"></script>
       <script src="js/newDataHandler.js"></script>
       <script src="js/data.js"></script>
       <script src="js/d3_scripts.js"></script>
       <script src="js/buttonFunctions.js"></script>
+      <script src="js/stomp/connection.js"></script>
       <!--    Test Scripts    -->
       <script src="js/testing.js"></script>
 </head>
@@ -161,7 +166,7 @@ centerView(); //has to be called right away during initialization
     <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()">Add</button></th>
     <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()">Delete Type1</button></th>
     <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)">Add More</button></th>  
-    <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update(root)">update(root)</button></th>  
+    <th class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()">update(root)</button></th>  
   </tr>
   <tr>
     <th class="tg-baqh">Type2</th>
