@@ -194,7 +194,7 @@ function submitNewLink(){
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
 
   linkNamesGLOBAL.push(linkName);
-  newLinkAndActivate(selectedFrom, selectedTo, linkName, randomColor, false);
+  newLinkAndActivate(selectedFrom, selectedTo, linkName, randomColor, true);
 }
 
 function delLastLink(){
