@@ -285,7 +285,7 @@ function hide(d) {
   }
 }
 
-function addLink(startNodeName, endNodeName, linkID, linkColorIndex){
+function addLink(startNodeName, endNodeName, linkID, linkColorIndex, visible){
 
 debugLog(">>>Create Link: " + startNodeName + " to " + endNodeName + "; Link name: " + linkID);
 
@@ -313,8 +313,6 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 	//console.log("start x: " + startX + ", start y: " + startY +" | " + "end x: " + endX + ", end y: " + endY );
 
 	var middleY =  (startY + endY) / 2; 
-
-	try{
 	
 	var lineData = [  { "x": startX, "y": startY },
 	                  { "x": startX + offset, "y": middleY }, 
@@ -351,6 +349,12 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 								});
 								//.transition().duration(1).attr("transform","scale(1)");
 								//this caused linking to be drawn in the middle of the way if the links creation was too fast (clicking)
+
+if (visible) {
+	lineGraph.style("opacity", 0.5);
+}else{
+	lineGraph.style("opacity", 0);
+};
 
 //for mouse hovering, it was not easy to point on the thin link line so there is one 'invisible' line sorrounding the visible line:
 	// var invisibleLine = d3.select("#G"+linkID).append("path")
@@ -396,9 +400,6 @@ if (node1 == 0 || node2 == 0) {	//compare to 0
 
 	debugLog("\t>>>Link created!");
 	//updateLinks();
-}catch(err){
-	console.log("blaaaaaaaaaaaa");
-}
 
 	node1.linkedTo.push(node2);
 	node2.linkedTo.push(node1);
@@ -495,7 +496,7 @@ if (node2.parent.hidden) {
 	var linkName = linkData[3];
 	//var link = d3.select("svg").select("g").select("path#"+linkName);
 
-var group = d3.select("#G"+linkName).select("text")
+	var group = d3.select("#G"+linkName).select("text")
 									.transition()
 									.attr("x", (startX + offset) )
 									.attr("y", ((startY + endY) / 2));

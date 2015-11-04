@@ -252,11 +252,11 @@ function deactivateElement(_root, childName){
   };
 }
 
-function newLinkAndActivate(startNodeName,endNodeName, linkName, linkColorIndex){
+function newLinkAndActivate(startNodeName,endNodeName, linkName, linkColorIndex, visible){
 
   activateElement(treeData[0],startNodeName);
   activateElement(treeData[0],endNodeName);
-  var link = addLink(startNodeName, endNodeName, linkName, linkColorIndex);
+  var link = addLink(startNodeName, endNodeName, linkName, linkColorIndex, visible);
   linksGLOBAL.push(link);
 
 }

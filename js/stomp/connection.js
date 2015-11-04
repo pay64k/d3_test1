@@ -47,6 +47,10 @@ var callback = function(message) {
       // updateBar();
       // toggleLight();
 
+      if (messageBody == "NEW_RADIO") {
+        testClick1();
+      };
+
   } else {
       console.log("got empty message");
       

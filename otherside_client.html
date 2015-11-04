@@ -52,7 +52,10 @@ function sendTest3() {
    client.send("/queue/example_QD2", {priority: 9}, "Message1");
 }
 function sendNewRadio() {
-   client.send("/queue/example_QD2", {priority: 9}, "New radio");
+  for (var i = 0; i < 50; i++) {
+    client.send("/queue/example_QD2", {priority: 9}, "NEW_RADIO");
+  };
+   
 }
 </script>
 
@@ -60,8 +63,8 @@ function sendNewRadio() {
 
 <body lang="en">
 <h1>Clilent 2 TEST</h1>
-<button onclick="sendTest1()">Send Message1</button>
-<button onclick="sendTest2()">Send Message2</button>
-<button onclick="sendTest3()">Send Message3</button>
-<button onclick="sendNewRadio()">Send NewRadio</button>
+<button onclick="sendTest1()">Update</button>
+<button onclick="sendTest2()">120 Links</button>
+<button onclick="sendTest3()">New radio</button>
+<button onclick="sendNewRadio()">50 radios</button>
 </body>

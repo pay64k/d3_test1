@@ -194,7 +194,7 @@ function submitNewLink(){
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
 
   linkNamesGLOBAL.push(linkName);
-  newLinkAndActivate(selectedFrom, selectedTo, linkName, randomColor);
+  newLinkAndActivate(selectedFrom, selectedTo, linkName, randomColor, false);
 }
 
 function delLastLink(){
@@ -273,6 +273,23 @@ var select = document.getElementById("specificLink");
       };
   };
 
+var linksDIV = document.getElementById("listDIV");
+
+var selectStrStart = "<select id='linksList' multiple='multiple'>";
+var optionsStr = "";
+var selectStrEnd = "</select>";
+
+for (var i = 0; i < linkNames.length; i++) {
+  optionsStr = optionsStr.concat("<option>" + linkNames[i] + "</option>");
+};
+
+var finalStr = selectStrStart + optionsStr + selectStrEnd;
+
+
+// var str = "<select id='linksList' multiple='multiple'><option>Value 1</option><option>Value 2</option><option>Value 3asdasd</option></select>";
+linksDIV.innerHTML = finalStr;
+$('#linksList').toChecklist({showCheckboxes : true, addSearchBox : true, animateSearch : false});
+
 }
 
 function showAllGroups(){
@@ -317,6 +334,35 @@ function buttonChangeFlow(){
         break;
     }
 }
+}
+
+function buttonLinksFilter(){
+  var checkboxes = document.getElementsByName('linksList[]');
+  for (var i = 0; i < checkboxes.length; i++) {
+      var linkID = checkboxes[i].value;
+      var link = d3.select("#G"+linkID);
+    if (checkboxes[i].checked) {
+      //set link to visible
+      link.attr("opacity", 0.5);
+
+    }else{
+      //set link to invisible
+      link.attr("opacity", 0);
+    };
+    
+  };
+}
+
+function buttonLinksFilterCheckAll(){
+  $('#linksList').toChecklist('checkAll');
+}
+
+function buttonLinksFilterUncheckAll(){
+  $('#linksList').toChecklist('clearAll');
+}
+
+function buttonLinksFilterInvertSelection(){
+  $('#linksList').toChecklist('invert');
 }
 
 function buttonUpdate(){
