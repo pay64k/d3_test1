@@ -37,6 +37,9 @@
 
 
 <script>
+
+
+
 function sendUpdate() {
   var message = {command: "UPDATE"};
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
@@ -74,11 +77,32 @@ function sendMove(){
   var message = {command: "MOVE", name: "blaTEST", targetParent: "BTS2-5"};
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
   sendUpdate();
-  
+
 }
 
 function sendAddLink(){
-  var message = {command: "ADD_LINK", fromName: "blaTEST", toName: "Radio1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
+  var message = {command: "ADD_LINK", fromName: "Radio12", toName: "Radio1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+  sendUpdate();
+
+}
+
+function sendDelLink(){
+  var message = {command: "DEL_LINK", linkName: "linkBLA" };
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+  sendUpdate();
+}
+
+
+function sendCombo(){
+
+var message = {command: "NEW_OBJECT", newObject: {name: "blaTEST", type: "Radio", groupable: false}, parent: "BTS2-1"};
+client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+sendUpdate();
+  var message = {command: "MOVE", name: "blaTEST", targetParent: "BTS2-5"};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+
+    var message = {command: "ADD_LINK", fromName: "blaTEST", toName: "Radio1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
   sendUpdate();
 
@@ -90,6 +114,7 @@ function sendAddLink(){
 
 <body lang="en">
 <h1>Clilent 2 TEST</h1>
+<button onclick="sendCombo()">Combo</button>
 <button onclick="sendUpdate()">Update</button>
 <button onclick="send120Links()">120 Links</button>
 <button onclick="sendNewRadio()">New radio</button>
@@ -97,6 +122,7 @@ function sendAddLink(){
 <button onclick="sendDelete()">Delete</button>
 <button onclick="sendMove()">Move</button>
 <button onclick="sendAddLink()">AddLink</button>
+<button onclick="sendDelLink()">DelLink</button>
 
 
 </body>

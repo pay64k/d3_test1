@@ -295,10 +295,12 @@ var node2 = findNodeByName(endNodeName);
 
 
 //check if nodes exist
-if (node1 == 0 || node2 == 0) {	//compare to 0
+if (node1 == 0 || node2 == 0 || node1 == undefined || node2 == undefined) {	//compare to 0
 	debugLog("\t>>>One of the nodes doesn't exist! Can't create link!");
 }else{
 
+	activateElement(treeData[0],startNodeName);
+ 	activateElement(treeData[0],endNodeName);
 	unhideParents(node1);		//if yes unhide parents of both nodes
 	unhideParents(node2);
 	//update(root);				//visually unhide nodes - update needs to be performed by other client due to performance limitations
@@ -355,22 +357,6 @@ if (visible) {
 }else{
 	lineGraph.style("opacity", 0);
 };
-
-//for mouse hovering, it was not easy to point on the thin link line so there is one 'invisible' line sorrounding the visible line:
-	// var invisibleLine = d3.select("#G"+linkID).append("path")
-	// 							.attr("id", linkID)
-	// 		                    .attr("stroke-width", 8)
-	// 		                    .attr("stroke", "red")
-	// 		                    .attr("stroke-opacity", 0)
-	// 		                    .attr("fill", "none")
-	// 		                    .attr("d", lineFunction(lineDataRound))
-	// 		                    .on("mouseover", function(){
-	// 		                    	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
-	// 		                    })
-	// 							.on("mouseout", function(){
-	// 								var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
-	// 							});
-
 	var text = d3.select("#G"+linkID)
 						.append("text")
 						.attr("x", (startX + offset) )
@@ -379,25 +365,6 @@ if (visible) {
 						.text(linkID)
 						.style("visibility","hidden");
 						
-	 // d3.select("#"+node1.name).attr("stroke","red");
-	// console.log(node1.name);
-	//var totalLength = lineGraph.node().getTotalLength();
-
-	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
-	//         .attr("stroke-dashoffset", totalLength)
-	//         .transition()
-	//         .duration(200)
-	//         .ease("linear")
-	//         .attr("stroke-dasharray", 0); 
-
-//ORIGINAL:
-	// lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
-	//         .attr("stroke-dashoffset", totalLength)
-	//         .transition()
-	//         .duration(200)
-	//         .ease("linear")
-	//         .attr("stroke-dashoffset", 0); 
-
 	debugLog("\t>>>Link created!");
 	//updateLinks();
 
@@ -410,29 +377,14 @@ if (visible) {
 
 function removeLink(linkID){
 	debugLog(">>>Remove Link: " + linkID);
-	//to delete the path:
 	var pathToDelete = d3.select("#G"+linkID);
 
 	if (pathToDelete[0][0] == null) {
 		debugLog("\t>>> Error: Link doesnt exist!; Name: " + linkID);
 	}else{
 
-		//var totalLength = pathToDelete.node().getTotalLength();
+	pathToDelete.remove();
 
-		pathToDelete
-		//.transition()
-			//.duration(500)
-			//.attr("transform","scale(0)")
-	        .remove();
-
-	//ORIGINAL animation:
-		// pathToDelete.transition()
-		//         .duration(750)
-		//         .ease("linear")
-		//         .attr("stroke-dashoffset", -totalLength)
-		//         .remove();
-
-		//var linkIndex = linksGLOBAL.indexOf(linkID);
 	
 		for (var i = 0; i < linksGLOBAL.length; i++) {
 			if (linksGLOBAL[i][3] == linkID) {
@@ -442,8 +394,6 @@ function removeLink(linkID){
 		};
 
 		var deleted=linksGLOBAL.splice(linkIndex,1);
-		
-		//updateLinks();
 		debugLog("\t>>>Link removed!");
 		return deleted;
 		}
@@ -461,6 +411,9 @@ function updateLinks(){
 }
 
 function updateLink(linkData){
+if (linkData == undefined) {
+	return 0;
+};
 var node1 = linkData[0];
 var node2 = linkData[1];
 

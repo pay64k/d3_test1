@@ -49,6 +49,11 @@ var callback = function(message) {
         newLinkAndActivate(message.fromName,message.toName, message.linkName, message.linkColorIndex, message.visible);
         break;
 
+      case "DEL_LINK":
+        deleteLinkAndDeactivate(message.linkName);
+        break;
+
+
       case "UPDATE":
         update(root);
         updateLinks();

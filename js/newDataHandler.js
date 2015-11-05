@@ -89,6 +89,12 @@ function createElementAndGroupNEW(_root, id_parent, element){
   element.hidden = false;
   element.children = [];
   element.linkedTo = [];
+  if (element.groupable) {
+    element.activated = false;
+  }else{
+    element.activated = true;
+  };
+ // element.activated = false;
 
   var newChild = element;
   var foundElementsList = findElementNEW(_root, "name", id_parent);       //Try to find parent with id_parent
@@ -267,10 +273,14 @@ function deactivateElement(_root, childName){
 
 function newLinkAndActivate(startNodeName,endNodeName, linkName, linkColorIndex, visible){
 
-  activateElement(treeData[0],startNodeName);
-  activateElement(treeData[0],endNodeName);
+  // activateElement(treeData[0],startNodeName);
+  // activateElement(treeData[0],endNodeName);
   var link = addLink(startNodeName, endNodeName, linkName, linkColorIndex, visible);
-  linksGLOBAL.push(link);
+  
+  if (link != undefined) {
+    linksGLOBAL.push(link); 
+  };
+ 
 
 }
 
