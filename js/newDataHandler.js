@@ -52,11 +52,13 @@ function findElementNEW(root, propertyName, property) {
 }
 
 function createElement(_properties, groupable){
+  
   if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
     var obj = {};
       for (var i = 0; i < _properties.length; i+=2) {
         obj[_properties[i]]=_properties[i+1];
       };
+
   debugLog(">>>Temporary object created: " + obj[_properties[0]])
   if (_properties.length == 1) {
     debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");

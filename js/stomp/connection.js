@@ -14,50 +14,68 @@ var on_error =  function() {
 
 var callback = function(message) {
     // called when the client receives a STOMP message from the server
+    //check if message is array of objects and call processMessage the number of times
     if (message.body) {
 
-      var messageBody = message.body;
+      var messageBody = JSON.parse(message.body);
 
-      console.log("got message with body " + message.body)
+      console.log("Got message with body " + message.body)
 
-      if (messageBody == "Message1") {
-        update(root);
-        updateLinks();
-      };
+      processMessage(messageBody);
+    }
+  };
 
-      if (messageBody == "Message2") {
-        randomLink();
-      }
+  function processMessage(message){
 
-      if (messageBody.indexOf("CMD:NEW_OBJECT") > -1 ) {
-        var objStrEndIndex = messageBody.indexOf("];");
-        var objStr = messageBody.substring(20, objStrEndIndex );
-        console.log(objStr);
-        var objProperties = objStr.split(",");
-        console.log(objProperties);
-        // createElement(objProperties,false);
-        createElementAndGroupNEW(treeData[0],"BTS2-1",objProperties, false)
-      };
+    switch(message.command) {
+      case: "NEW_OBJECT":
+        break;
 
-      //divAppend('#first',message.body);
-      //debugClient(client);
-      // if (message.body=="New radio") {
-      //   newRadio(1);
-      // };
-      // updateBar();
-      // toggleLight();
+      default:
+        console.log("error")
+        break; 
+    }
 
-      if (messageBody == "NEW_RADIO") {
-        testClick1();
-      };
-
-  } else {
-      console.log("got empty message");
-      
   }
 
+//       if (messageBody == "update") {
+//         update(root);
+//         updateLinks();
+//       };
 
-};
+//       if (messageBody == "120links") {
+//         randomLink();
+//       }
+
+//       if (messageBody.indexOf("CMD:NEW_OBJECT") > -1 ) {
+//         var objStrEndIndex = messageBody.indexOf("];");
+//         var objStr = messageBody.substring(20, objStrEndIndex );
+//         //console.log(objStr);
+//         var objProperties = objStr.split(",");
+//         //console.log(objProperties);
+//         // createElement(objProperties,false);
+//         createElementAndGroupNEW(treeData[0],"BTS2-1",objProperties, false)
+//       };
+
+//       //divAppend('#first',message.body);
+//       //debugClient(client);
+//       // if (message.body=="New radio") {
+//       //   newRadio(1);
+//       // };
+//       // updateBar();
+//       // toggleLight();
+
+//       if (messageBody == "NEW_RADIO") {
+//         testClick1();
+//       };
+
+//   } else {
+//       console.log("got empty message");
+      
+//   }
+
+
+// };
 
 client.connect('test_user1', 'test', on_connect, on_error, '/');
 client.heartbeat.outgoing = 0;

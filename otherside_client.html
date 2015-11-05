@@ -38,18 +38,21 @@
 
 <script>
 function sendTest1() {
-   client.send("/queue/example_QD2", {priority: 9}, "Message1");
+   client.send("/queue/example_QD2", {priority: 9}, "update");
 }
 function sendTest2() {
   for (var i = 0; i < 120; i++) {
-    client.send("/queue/example_QD2", {priority: 9}, "Message2");
+    client.send("/queue/example_QD2", {priority: 9}, "120links");
 }
-client.send("/queue/example_QD2", {priority: 9}, "Message1");
+client.send("/queue/example_QD2", {priority: 9}, "update");
   };
    
 function sendTest3() {
-   client.send("/queue/example_QD2", {priority: 9}, "CMD:NEW_OBJECT;OBJ=[name,RadioFromMSG,type,Radio];PARENT=BTS2-1;VISIBLE=true;");
-   client.send("/queue/example_QD2", {priority: 9}, "Message1");
+   //client.send("/queue/example_QD2", {priority: 9}, "CMD:NEW_OBJECT;OBJ=[name,RadioFromMSG,type,Radio];PARENT=BTS2-1;VISIBLE=true;");
+   var message = {command: "NEW_OBJECT", name: "blaTEST", type: "Radio", parent: "BTS2-1", visible: true};
+   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+   var message2 = {command: "update"};
+   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message2));
 }
 function sendNewRadio() {
   for (var i = 0; i < 50; i++) {

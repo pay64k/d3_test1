@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="css/tabs_templates/template2/tabcontent.css" type="text/css">
       <link rel="stylesheet" href="css/nodeStyles.css">
       <link rel="stylesheet" href="css/flowline.css">
+      <link rel="stylesheet" href="css/jquery.ripple.css">
       <link type="text/css" rel="stylesheet" media="screen" href="css/jquery.toChecklist.min.css" />
       <!--    Libraries:   -->
       <script src="js/lib/jquery.min.js"></script>
@@ -17,6 +18,8 @@
       <script src="js/lib/stomp.js"></script>
       <script src="js/lib/sockjs-0.3.js"></script>
       <script src="js/lib/jquery.toChecklist.js"></script>
+
+      <script src="js/lib/jquery.ripple.js"></script>
     
       <!--    Custom Scripts:   -->
       <script src="js/globalVariables.js"></script>
@@ -32,6 +35,7 @@
   $(function() {
     $('#linksList').toChecklist( {showCheckboxes : true, addSearchBox : true, animateSearch : false} );
   });
+
 </script>
 
 </head>
@@ -172,19 +176,19 @@ centerView(); //has to be called right away during initialization
 <table class="tg" id="table">
   <tr>
     <th class="tg-baqh">Type1</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()">Add</button></th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()">Delete Type1</button></th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)">Add More</button></th>  
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()">update(root)</button></th>  
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()" data-ripple>Add</button></th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()" data-ripple>Delete Type1</button></th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)" data-ripple>Add More</button></th>  
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()" data-ripple>update(root)</button></th>  
   </tr>
   <tr>
     <th class="tg-baqh">Type2</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()">Add</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()">Delete Type2</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()" data-ripple>Add</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()" data-ripple>Delete Type2</button></td>
   </tr>
   <tr>
     <th class="tg-baqh">Functions</th>
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" >Center View</button></td>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" data-ripple>Center View</button></td>
 
     <td class="tg-baqh">
       <div class="tg-baqh">
@@ -198,14 +202,14 @@ centerView(); //has to be called right away during initialization
       </div>
     </td>
 
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" >Focus</button></td>
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="showAllGroups()" >Show Groups</button></td>
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="hideAllGroups()" >Hide Groups</button></td>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" data-ripple>Focus</button></td>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="showAllGroups()" data-ripple>Show Groups</button></td>
+    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="hideAllGroups()" data-ripple>Hide Groups</button></td>
   </tr>
   <tr>
     <th class="tg-baqh">Links</th>
 
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="updateForms()">Update Forms</button></td>
+    <td class="tg-baqh"><button id="updateButton" type="button" class="btn btn-primary btn-lg" onclick="updateForms()" data-ripple>Update Forms</button></td>
 
     <td class="tg-baqh">
       <div class="tg-baqh">
@@ -231,11 +235,11 @@ centerView(); //has to be called right away during initialization
       </div>
     </td>
 
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()">Submit</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()">Random Link</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()">Single Random</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()">Del last link</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()">Clear All</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()" data-ripple>Submit</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()" data-ripple>Random Link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()" data-ripple>Single Random</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()" data-ripple>Clear All</button></td>
   </tr>
 
   <tr>
@@ -253,7 +257,7 @@ centerView(); //has to be called right away during initialization
       </div>
     </td>
 
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()">Del Link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()" data-ripple>Del Link</button></td>
 
     <td class="tg-baqh">
       <div class="radio">
@@ -267,7 +271,7 @@ centerView(); //has to be called right away during initialization
       </div>
     </td>
 
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonChangeFlow()">Flow</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonChangeFlow()" data-ripple>Flow</button></td>
 
   </tr>
 
@@ -279,10 +283,10 @@ centerView(); //has to be called right away during initialization
         </div>
       </td>
       <td class="tg-baqh">
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilter()">Apply</button></br></br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterCheckAll()">Check All</button></br></br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterUncheckAll()">Uncheck All</button></br></br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterInvertSelection()">Invert Selection</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilter()" data-ripple>Apply</button></br></br>
+        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterCheckAll()" data-ripple>Check All</button></br></br>
+        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterUncheckAll()" data-ripple>Uncheck All</button></br></br>
+        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterInvertSelection()" data-ripple>Invert Selection</button>
       </td>
   </tr>
 
@@ -312,4 +316,9 @@ centerView(); //has to be called right away during initialization
         </div>
     </div>
 </body>
+
+<script>
+$('button').ripple( {event: 'mousedown',color: '#000'});
+</script>
+
 </html>
