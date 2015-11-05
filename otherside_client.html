@@ -37,37 +37,66 @@
 
 
 <script>
-function sendTest1() {
-   client.send("/queue/example_QD2", {priority: 9}, "update");
+function sendUpdate() {
+  var message = {command: "UPDATE"};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
 }
-function sendTest2() {
+function send120Links() {
   for (var i = 0; i < 120; i++) {
     client.send("/queue/example_QD2", {priority: 9}, "120links");
 }
-client.send("/queue/example_QD2", {priority: 9}, "update");
+client.send("/queue/example_QD2", {priority: 9}, "UPDATE");
   };
    
-function sendTest3() {
+function sendNewRadio() {
    //client.send("/queue/example_QD2", {priority: 9}, "CMD:NEW_OBJECT;OBJ=[name,RadioFromMSG,type,Radio];PARENT=BTS2-1;VISIBLE=true;");
-   var message = {command: "NEW_OBJECT", name: "blaTEST", type: "Radio", parent: "BTS2-1", visible: true};
+   var message = {command: "NEW_OBJECT", newObject: {name: "blaTEST", type: "Radio", groupable: false}, parent: "BTS2-1"};
    client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
-   var message2 = {command: "update"};
+
+   var message2 = {command: "UPDATE"};
    client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message2));
 }
-function sendNewRadio() {
+function send50Radios() {
   for (var i = 0; i < 50; i++) {
     client.send("/queue/example_QD2", {priority: 9}, "NEW_RADIO");
   };
    
 }
+
+function sendDelete(){
+  var message = {command: "DELETE", name: "blaTEST"};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+
+  sendUpdate();
+}
+
+function sendMove(){
+  var message = {command: "MOVE", name: "blaTEST", targetParent: "BTS2-5"};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+  sendUpdate();
+  
+}
+
+function sendAddLink(){
+  var message = {command: "ADD_LINK", fromName: "blaTEST", toName: "Radio1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+  sendUpdate();
+
+}
+
 </script>
 
 </head>
 
 <body lang="en">
 <h1>Clilent 2 TEST</h1>
-<button onclick="sendTest1()">Update</button>
-<button onclick="sendTest2()">120 Links</button>
-<button onclick="sendTest3()">New radio</button>
-<button onclick="sendNewRadio()">50 radios</button>
+<button onclick="sendUpdate()">Update</button>
+<button onclick="send120Links()">120 Links</button>
+<button onclick="sendNewRadio()">New radio</button>
+<button onclick="send50Radios()">50 radios</button>
+<button onclick="sendDelete()">Delete</button>
+<button onclick="sendMove()">Move</button>
+<button onclick="sendAddLink()">AddLink</button>
+
+
 </body>

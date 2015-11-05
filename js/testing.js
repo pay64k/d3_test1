@@ -36,27 +36,19 @@ addElement(treeData[0],"Test radio3",bla);
 
 function testCreating(){
 
-	createElementAndGroupNEW(treeData[0],"Client1",["name", "System2", "type","System"], false);
-		 createElementAndGroupNEW(treeData[0],"System2",["name", "BTS2-1", "type","BTS"], false);
-			 createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "TG1-1", "type","Talkgroup"], false);
-				createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio1", "type","Radio", "property1", "test"], true);
-			createElementAndGroupNEW(treeData[0],"BTS2-1",["name", "Radio2", "type","Radio"], false);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio3", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio4", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio5", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio6", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio7", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio8", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio9", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio10", "type","Radio"], true);
-				// createElementAndGroupNEW(treeData[0],"TG1-1",["name", "Radio11", "type","Radio"], true);
-		createElementAndGroupNEW(treeData[0],"System2",["name", "BTS2-5", "type","BTS"], false);
+	createElementAndGroupNEW(treeData[0],"Client1", {name: "System2", type: "System", groupable: false} ); 
+		 createElementAndGroupNEW(treeData[0],"System2", {name: "BTS2-1", type: "BTS", groupable: false} );
+			 createElementAndGroupNEW(treeData[0],"BTS2-1", {name: "TG1-1", type: "Talkgroup", groupable: false} );
+				createElementAndGroupNEW(treeData[0],"TG1-1", {name: "Radio1", type: "Radio", property1: "test", groupable: true} );
+			createElementAndGroupNEW(treeData[0],"BTS2-1", {name: "Radio2", type: "Radio", groupable: false} );
 
-	createElementAndGroupNEW(treeData[0],"Client1",["name", "System1", "type","System"], false);
-		 createElementAndGroupNEW(treeData[0],"System1",["name", "BTS1-1", "type","BTS"], false);
-			createElementAndGroupNEW(treeData[0],"BTS1-1",["name", "TG1-2", "type","Talkgroup"], false);
-				createElementAndGroupNEW(treeData[0],"TG1-2",["name", "Radio12", "type","Radio", "property1", "test"], true);
-				createElementAndGroupNEW(treeData[0],"TG1-2",["name", "Radio13", "type","Radio"], true);
+		createElementAndGroupNEW(treeData[0],"System2", {name: "BTS2-5", type: "BTS", groupable: false} );
+
+	createElementAndGroupNEW(treeData[0],"Client1", {name: "System1", type: "System", groupable: false} );
+		 createElementAndGroupNEW(treeData[0],"System1", {name: "BTS1-1", type: "BTS", groupable: false} );
+			createElementAndGroupNEW(treeData[0],"BTS1-1", {name: "TG1-2", type: "Talkgroup", groupable: false} );
+				createElementAndGroupNEW(treeData[0],"TG1-2", {name: "Radio12", type: "Radio", property1: "test", groupable: true} );
+				createElementAndGroupNEW(treeData[0],"TG1-2", {name: "Radio13", type: "Radio", groupable: true} );
 
 
 } 

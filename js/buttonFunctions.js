@@ -3,16 +3,16 @@ var addedRadiosNamesType2 = [];
 
 function testClick1(){
 
-  var name =  "R" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  createElementAndGroupNEW(treeData[0],"TG1-1",["name", name, "type","Radio", "property1", "test"],true);
+  var randomName =  "R" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+  createElementAndGroupNEW(treeData[0],"TG1-1",{name: randomName, type: "Radio", property1: "test", groupable: true});
   addedRadiosNamesType1.push(name);
   //update(root);
 }
 function testClick2(){
 
-  var name =  "" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
-  createElementAndGroupNEW(treeData[0],"TG1-2",["name", name, "type","RadioNEW", "property1", "test"],true);
-  addedRadiosNamesType2.push(name);
+  var randomName =  "R" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+  createElementAndGroupNEW(treeData[0],"TG1-2",{name: randomName, type: "RadioTYPE2", property1: "test", groupable: true});
+  addedRadiosNamesType1.push(name);
 }
 
 function addMore(amount){

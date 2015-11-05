@@ -51,42 +51,48 @@ function findElementNEW(root, propertyName, property) {
     }
 }
 
-function createElement(_properties, groupable){
+function createElement(element){
   
-  if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
-    var obj = {};
-      for (var i = 0; i < _properties.length; i+=2) {
-        obj[_properties[i]]=_properties[i+1];
-      };
+  // if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
+  //   var obj = {};
+  //     for (var i = 0; i < _properties.length; i+=2) {
+  //       obj[_properties[i]]=_properties[i+1];
+  //     };
 
-  debugLog(">>>Temporary object created: " + obj[_properties[0]])
-  if (_properties.length == 1) {
-    debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
-  };
-  obj.hidden = false; //set as default after creation
-  obj.children = [];
-  obj.linkedTo = [];
+  // debugLog(">>>Temporary object created: " + obj[_properties[0]])
 
-  if (groupable) {
-    obj.groupable = true;
-  }else{
-    obj.groupable = false;
-  };
+  // if (_properties.length == 1) {
+  //   debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
+  // };
 
-  return obj;
-  } else {
-    debugLog("\t>>Create element: wrong properties!");
-  };
+  element.hidden = false; //set as default after creation
+  element.children = [];
+  element.linkedTo = [];
+
+  // if (groupable) {
+  //   element.groupable = true;
+  // }else{
+  //   element.groupable = false;
+  // };
+
+  return element;
+  // } else {
+  //   debugLog("\t>>Create element: wrong properties!");
+  // };
 
 }
 
-function createElementAndGroupNEW(_root, id_parent, child_properties, groupable){
+function createElementAndGroupNEW(_root, id_parent, element){
   /*dobre do raportu jako test wydajnosci d3 engine'a:*/
   var exist = true;
-  var newChild = createElement(child_properties,groupable);
+
+  element.hidden = false;
+  element.children = [];
+  element.linkedTo = [];
+
+  var newChild = element;
   var foundElementsList = findElementNEW(_root, "name", id_parent);       //Try to find parent with id_parent
-                                                             
-    
+   
     if (foundElementsList.length != 0) {     
       var foundParent =  foundElementsList[0];                                       
       if (foundParent.children == undefined) {
@@ -115,7 +121,7 @@ function createElementAndGroupNEW(_root, id_parent, child_properties, groupable)
         foundParent.children = [];
       };
 
-      if (groupable) {
+      if (element.groupable) {
         // var foundGroups = findElementNEW(foundParent, "type", "Group");
         // var addedFLAG = false;
         // for (var i = 0; i < foundGroups.length; i++) {
@@ -158,15 +164,20 @@ function deleteElement(_root, childName){
     var parent = found.parent;
 
     if (found.groupable) {
-      var deleted = found.parent.inner_children.splice(found.parent.inner_children.indexOf(found),1);
+      var deleted = found.parent.inner_children.splice(found.parent.inner_children.indexOf(found),1)[0];
     }else{
       if (parent.hidden) {
-        var deleted = found.parent._children.splice(found.parent._children.indexOf(found),1);
+        var deleted = found.parent._children.splice(found.parent._children.indexOf(found),1)[0];
       }else{
-        var deleted = found.parent.children.splice(found.parent.children.indexOf(found),1);
+        var deleted = found.parent.children.splice(found.parent.children.indexOf(found),1)[0];
       };
     };
-
+    //debugger;
+    if (deleted.linkedTo.length > 0) {
+      for (var i = 0; i < deleted.linkedTo.length; i++) {
+        deleteLinkAndDeactivate(deleted.linkedTo[i][1]);
+      };
+    };
     debugLog("\t>>Deleted " + found.name);
     return deleted;
   };

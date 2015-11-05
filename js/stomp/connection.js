@@ -15,24 +15,50 @@ var on_error =  function() {
 var callback = function(message) {
     // called when the client receives a STOMP message from the server
     //check if message is array of objects and call processMessage the number of times
+
+    //console.log("Got message with body " + message.body)
+
     if (message.body) {
+      var message = JSON.parse(message.body);
 
-      var messageBody = JSON.parse(message.body);
+      debugLog(">>>Received message: " + message.command)
 
-      console.log("Got message with body " + message.body)
-
-      processMessage(messageBody);
-    }
-  };
-
+      processMessage(message);
+    
+    }else{
+      debugLog(">>>Received message without any body!");
+    };
+}
   function processMessage(message){
 
     switch(message.command) {
-      case: "NEW_OBJECT":
+
+      case "NEW_OBJECT":
+        createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
         break;
 
+      case "DELETE":
+        deleteElement(treeData[0], message.name);
+        break;
+
+      case "MOVE":
+        moveElement(message.name, message.targetParent);
+        break
+
+      case "ADD_LINK":
+        newLinkAndActivate(message.fromName,message.toName, message.linkName, message.linkColorIndex, message.visible);
+        break;
+
+      case "UPDATE":
+        update(root);
+        updateLinks();
+        break;
+
+      
+
+
       default:
-        console.log("error")
+        debugLog("Received unknown command: " + message.command);
         break; 
     }
 

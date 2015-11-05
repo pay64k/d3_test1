@@ -401,8 +401,8 @@ if (visible) {
 	debugLog("\t>>>Link created!");
 	//updateLinks();
 
-	node1.linkedTo.push(node2);
-	node2.linkedTo.push(node1);
+	node1.linkedTo.push([node2, linkID]);
+	node2.linkedTo.push([node1, linkID]);
 	return [node1, node2, lineGraph, linkID];
 	}
 }
