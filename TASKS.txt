@@ -1,0 +1,12 @@
+message processing
+
+chowanie elementow linkowancyh ktorych linki sa ukryte
+filtrowanie linkow wd radia
+
+eventy - okienko oddzielne - lista eventow w tabie zamiaast seq diagramow
+	filtr po type, nazwie itp
+	
+filtrowanie tym:
+http://www.jqueryscript.net/demo/jQuery-Plugin-For-Checkbox-Based-Toggle-Buttons-TinyToggle/
+	
+configuration tab
