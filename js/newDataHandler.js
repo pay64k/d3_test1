@@ -51,52 +51,16 @@ function findElementNEW(root, propertyName, property) {
     }
 }
 
-function createElement(element){
-  
-  // if (_properties.constructor === Array && _properties.length >= 1) {   //check if the _properties is an array and if there is at least one property name
-  //   var obj = {};
-  //     for (var i = 0; i < _properties.length; i+=2) {
-  //       obj[_properties[i]]=_properties[i+1];
-  //     };
-
-  // debugLog(">>>Temporary object created: " + obj[_properties[0]])
-
-  // if (_properties.length == 1) {
-  //   debugLog("\t>>WARNING: Only 1 argument in properties ( " + _properties[0] + " )");
-  // };
-
-  element.hidden = false; //set as default after creation
-  element.children = [];
-  element.linkedTo = [];
-
-  // if (groupable) {
-  //   element.groupable = true;
-  // }else{
-  //   element.groupable = false;
-  // };
-
-  return element;
-  // } else {
-  //   debugLog("\t>>Create element: wrong properties!");
-  // };
-
-}
 
 function createElementAndGroupNEW(_root, id_parent, element){
   /*dobre do raportu jako test wydajnosci d3 engine'a:*/
   var exist = true;
-
+  //add additional properties:
   element.hidden = false;
   element.children = [];
   element.linkedTo = [];
-  if (element.groupable) {
-    element.activated = false;
-  }else{
-    element.activated = true;
-  };
- // element.activated = false;
-
-  var newChild = element;
+  element.activated = false;
+ 
   var foundElementsList = findElementNEW(_root, "name", id_parent);       //Try to find parent with id_parent
    
     if (foundElementsList.length != 0) {     
@@ -105,11 +69,11 @@ function createElementAndGroupNEW(_root, id_parent, element){
         foundParent.children = [];
       };
 
-      var foundChild = findElementNEW(_root, "name", newChild.name); //If parent exist find out if the newChild already exist
+      var foundChild = findElementNEW(_root, "name", element.name); //If parent exist find out if the newChild already exist
     
       if (foundChild.length >= 1) {
         exist = true;
-        debugLog(newChild.name + " already exist!");
+        debugLog(element.name + " already exist!");
       }else{
         exist = false;
       }
@@ -128,35 +92,17 @@ function createElementAndGroupNEW(_root, id_parent, element){
       };
 
       if (element.groupable) {
-        // var foundGroups = findElementNEW(foundParent, "type", "Group");
-        // var addedFLAG = false;
-        // for (var i = 0; i < foundGroups.length; i++) {
-        //   if (foundGroups[i]["GroupType"] == newChild.type) {
-        //       foundGroups[i].inner_children.push(newChild);
-        //       debugLog("\t>>>" + newChild.name + " added to " + foundGroups[i].name + " in " + foundParent.name );
-        //       newChild.parent = foundGroups[i];
-        //       addedFLAG = true;
-        //       break;
-        //     };
-        // };
-        // if (!addedFLAG) {
-        //   var newGroup = createElement(["name", (newChild.type) + " Group", "type", "Group", "GroupType", newChild.type,"inner_children", [] ], false);
-        //   foundParent.children.push(newGroup);
-        //   newGroup.inner_children.push(newChild);
-        //   debugLog("\t>>>" + newChild.name + " added to " + newGroup.name + " in " + foundParent.name );
-        //   newChild.parent = newGroup;
-        // };
-        foundParent.inner_children.push(newChild);
-        newChild.parent = foundParent;
-        newChild.activated = false;        
+        foundParent.inner_children.push(element);
+        element.parent = foundParent;
+        element.activated = false;        
       }else{
         if (foundParent.hidden) {                //element is not groupable so it should be visible in the visualisation
-          foundParent._children.push(newChild);  //add to hidden children if parent is hidden
+          foundParent._children.push(element);  //add to hidden children if parent is hidden
         }else{
-          foundParent.children.push(newChild); 
+          foundParent.children.push(element); 
         };
       };
-      debugLog("\t>>>" + newChild.name + " added to " + foundParent.name );
+      debugLog("\t>>>" + element.name + " added to " + foundParent.name );
     }
   }
 
@@ -170,7 +116,12 @@ function deleteElement(_root, childName){
     var parent = found.parent;
 
     if (found.groupable) {
-      var deleted = found.parent.inner_children.splice(found.parent.inner_children.indexOf(found),1)[0];
+      if (found.activated) {
+        var deleted = found.parent.children.splice(found.parent.children.indexOf(found),1)[0];
+      }else{
+        var deleted = found.parent.inner_children.splice(found.parent.inner_children.indexOf(found),1)[0];
+      };
+      
     }else{
       if (parent.hidden) {
         var deleted = found.parent._children.splice(found.parent._children.indexOf(found),1)[0];
@@ -178,10 +129,10 @@ function deleteElement(_root, childName){
         var deleted = found.parent.children.splice(found.parent.children.indexOf(found),1)[0];
       };
     };
-    //debugger;
+    //delete all links assocaiated with node:
     if (deleted.linkedTo.length > 0) {
       for (var i = 0; i < deleted.linkedTo.length; i++) {
-        deleteLinkAndDeactivate(deleted.linkedTo[i][1]);
+        deleteLink(deleted.linkedTo[i][1]);
       };
     };
     debugLog("\t>>Deleted " + found.name);
@@ -190,120 +141,62 @@ function deleteElement(_root, childName){
 }
 
 function moveElement(childName,targetParentName){
+  //determine if both elements exist
   var foundChild = findElementNEW(treeData[0], "name", childName)[0];
-  var foundTargetParent = findElementNEW(treeData[0], "name", targetParentName)[0];
-
-  if (foundChild != undefined && foundTargetParent != undefined) {
-
-    if (foundChild.parent.type == "Group") {                     
-      var move = foundChild.parent.inner_children.splice(foundChild.parent.inner_children.indexOf(foundChild),1);
-    }else{
-      if (foundChild.parent.hidden) {
-        var move = foundChild.parent._children.splice(foundChild.parent._children.indexOf(foundChild),1);    
-      }else{
-        var move = foundChild.parent.children.splice(foundChild.parent.children.indexOf(foundChild),1);
-      };
-    };
-
-    if (foundTargetParent.type == "Group") {  
-        move[0].groupable = true;  
-        move[0].parent = foundTargetParent;                 
-        foundTargetParent.inner_children.push(move[0]);
-    }else{
-      if (foundTargetParent.hidden) {
-        foundTargetParent._children.push(move[0]); 
-        move[0].groupable = false;   
-      }else{
-        if (foundTargetParent.children == undefined) {
-          foundTargetParent.children = [];
-          }
-        foundTargetParent.children.push(move[0]);
-        move[0].groupable = false; 
-        
-      };
-    };
-
-  }else{
-    debugLog("\t>>>ERROR: Couln't find one of the elements in moveElement()");
-  };
-
-}
-
-function activateElement(_root, childName){
-  var foundList = findElementNEW(_root, "name", childName);
-  if (foundList.length != 0) {
-    var found = foundList[0];
-    var parent = found.parent;
-    if (!found.activated && parent != "null") {    //for focusing view on client node, since it has no parents                 
-      var move = found.parent.inner_children.splice(found.parent.inner_children.indexOf(found),1)[0];
-      if (parent.children == undefined) {
-        parent.children = [];
-      };
-      if (move != undefined) {
-        move.activated = true;
-        parent.children.push(move);
-      };
+  if (foundChild != undefined) {
+    var foundTargetParent = findElementNEW(treeData[0], "name", targetParentName)[0];
+    if (foundTargetParent != undefined) {
+      //extract element from parent depending on properties of element and parent:
+      if (foundChild.groupable) {
+        if (foundChild.activated) {
+          var move = foundChild.parent.children.splice(foundChild.parent.children.indexOf(foundChild),1)[0];
+        }else{
+          var move = foundChild.parent.inner_children.splice(foundChild.parent.inner_children.indexOf(foundChild),1)[0];
+        };
       
+      }else{
+       if (foundChild.parent.hidden) {
+          var move = foundChild.parent._children.splice(foundChild.parent._children.indexOf(foundChild),1)[0];
+       }else{
+         var move = foundChild.parent.children.splice(foundChild.parent.children.indexOf(foundChild),1)[0];
+       };
     };
-  }else{
-    debugLog("\t>>> Element not found: " + childName);
-  };
-}
-
-function deactivateElement(_root, childName){
-  var foundList = findElementNEW(_root, "name", childName);
-  if (foundList.length != 0) {
-    var found = foundList[0];
-    var parent = found.parent;
-    if (found.activated) {                     
-      var move = found.parent.children.splice(found.parent.children.indexOf(found),1)[0];
-      if (parent.children == undefined) {
-        parent.children = [];
-      };
-      if (move != undefined) {
-        move.activated = false;
-        parent.inner_children.push(move);
-      };
+    //add element to found parent depending on properites:
+      if (move.groupable) {
+        if (move.activated) {
+          createProperty(foundTargetParent,"children");
+          move.parent = foundTargetParent;
+          foundTargetParent.children.push(move);
+        }else{
+          createProperty(foundTargetParent,"inner_children");
+          move.parent = foundTargetParent;
+          foundTargetParent.inner_children.push(move);
+        };
       
+      }else{
+       if (foundTargetParent.hidden) {
+          createProperty(foundTargetParent,"children");
+          foundTargetParent.children.push(move);
+       }else{
+          createProperty(foundTargetParent,"_children");
+          move.parent = foundTargetParent;
+          foundTargetParent._children.push(move);
+       };
+    };
+
+    }else{
+      debugLog(">>>Couldn't find target parent name: " + targetParentName + " in moveElement()");
     };
   }else{
-    debugLog("\t>>> Element not found: " + childName + " in deactivateElement()");
+    debugLog(">>>Couldn't find element name: " + childName + " in moveElement()");
   };
-}
-
-function newLinkAndActivate(startNodeName,endNodeName, linkName, linkColorIndex, visible){
-
-  // activateElement(treeData[0],startNodeName);
-  // activateElement(treeData[0],endNodeName);
-  var link = addLink(startNodeName, endNodeName, linkName, linkColorIndex, visible);
-  
-  if (link != undefined) {
-    linksGLOBAL.push(link); 
-  };
- 
 
 }
 
-function deleteLinkAndDeactivate(linkID){
-
-  var deletedLink = removeLink(linkID)[0];
-
-  var startNode = deletedLink[0];
-  var endNode = deletedLink[1];
-
-  var temp = startNode.linkedTo.splice(startNode.linkedTo.indexOf(endNode),1);
-  var temp = endNode.linkedTo.splice(endNode.linkedTo.indexOf(startNode),1);
-
-  if (startNode.linkedTo.length == 0) {
-    deactivateElement(treeData[0], startNode.name); 
+function createProperty(node, propertyName){
+  if (node[propertyName] == undefined) {
+    node[propertyName] = [];
   };
-  if (endNode.linkedTo.length == 0) {
-    deactivateElement(treeData[0], endNode.name); 
-  };
-  
-  
-  // update(root);
-  // updateLinks();
 }
 
 function addMultipleLinks(startNodeName, endNodeNames){
@@ -319,23 +212,16 @@ function addMultipleLinks(startNodeName, endNodeNames){
 
 function debugLog(body){
 
-var currentdate = new Date(); 
-var message =    currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + "@"  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds() + "."
-                + currentdate.getMilliseconds()  
-                + "\t " + body;
+  var currentdate = new Date(); 
+  var message =    currentdate.getDate() + "/"
+                  + (currentdate.getMonth()+1)  + "/" 
+                  + currentdate.getFullYear() + "@"  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds() + "."
+                  + currentdate.getMilliseconds()  
+                  + "\t " + body;
 
-// console.log('%c' + message, 'color: red');
-console.log(message);
-// //console.log(body);
+  console.log(message);
+
 }
-
-// for (var i = 0; i < linksGLOBAL.length; i++) {
-//   if (linksGLOBAL[i][3]=="Link72501") {
-//     console.log(linksGLOBAL[i]);
-//   };
-// };

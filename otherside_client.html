@@ -53,7 +53,7 @@ client.send("/queue/example_QD2", {priority: 9}, "UPDATE");
    
 function sendNewRadio() {
    //client.send("/queue/example_QD2", {priority: 9}, "CMD:NEW_OBJECT;OBJ=[name,RadioFromMSG,type,Radio];PARENT=BTS2-1;VISIBLE=true;");
-   var message = {command: "NEW_OBJECT", newObject: {name: "blaTEST", type: "Radio", groupable: false}, parent: "BTS2-1"};
+   var message = {command: "NEW_OBJECT", newObject: {name: "blaTEST", type: "Radio", groupable: true}, parent: "TG1-1"};
    client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
 
    var message2 = {command: "UPDATE"};
@@ -81,7 +81,7 @@ function sendMove(){
 }
 
 function sendAddLink(){
-  var message = {command: "ADD_LINK", fromName: "Radio12", toName: "Radio1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
+  var message = {command: "ADD_LINK", fromName: "System1", toName: "TG1-1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
   sendUpdate();
 
@@ -96,13 +96,13 @@ function sendDelLink(){
 
 function sendCombo(){
 
-var message = {command: "NEW_OBJECT", newObject: {name: "blaTEST", type: "Radio", groupable: false}, parent: "BTS2-1"};
+var message = {command: "NEW_OBJECT", newObject: {name: "blaTEST", type: "Radio", groupable: true}, parent: "BTS2-1"};
 client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
 sendUpdate();
   var message = {command: "MOVE", name: "blaTEST", targetParent: "BTS2-5"};
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
 
-    var message = {command: "ADD_LINK", fromName: "blaTEST", toName: "Radio1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
+    var message = {command: "ADD_LINK", fromName: "blaTEST", toName: "TG1-1", linkName:"linkBLA", linkColorIndex: 5, visible: true};
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
   sendUpdate();
 

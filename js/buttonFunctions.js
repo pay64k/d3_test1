@@ -203,7 +203,7 @@ function delLastLink(){
   deleteLinkAndDeactivate(linksGLOBAL[linksGLOBAL.length-1][3]);
 
   update(root);
-  updateLinks();
+  updateAllLinks();
 }
 
 function randomLink(){
@@ -221,7 +221,7 @@ function randomLink(){
   newLinkAndActivate(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
 
   // update(root);
-  // updateLinks();
+  // updateAllLinks();
 }
 
 function clearAllLinks(){
@@ -235,7 +235,7 @@ for (var i = linksGLOBAL.length - 1; i >= 0; i--) {
 };
 
   update(root);
-  updateLinks();
+  updateAllLinks();
 
 }
 
@@ -253,7 +253,7 @@ function delSpecificLink(){
   
   deactivateElement(treeData[0], linkEndNode.name);
   update(root);
-  updateLinks();
+  updateAllLinks();
 
   //removeLink(selectedLink);
   //updateLinkForm();
@@ -300,7 +300,7 @@ function showAllGroups(){
         show(nodes[i]);
       };
   update(root);
-  updateLinks();
+  updateAllLinks();
 }
 
 function hideAllGroups(){
@@ -311,7 +311,7 @@ function hideAllGroups(){
         hide(nodes[i]);
       };
   update(root);
-  updateLinks();
+  updateAllLinks();
 }
 
 // var bla = [];
@@ -367,6 +367,6 @@ function buttonLinksFilterInvertSelection(){
 
 function buttonUpdate(){
   update(root);
-  updateLinks();
+  updateAllLinks();
   debugLog(">>>UPDATE BUTTON");
 }

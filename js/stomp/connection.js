@@ -46,17 +46,17 @@ var callback = function(message) {
         break
 
       case "ADD_LINK":
-        newLinkAndActivate(message.fromName,message.toName, message.linkName, message.linkColorIndex, message.visible);
+        newLink(message.fromName,message.toName, message.linkName, message.linkColorIndex, message.visible);
         break;
 
       case "DEL_LINK":
-        deleteLinkAndDeactivate(message.linkName);
+        deleteLink(message.linkName);
         break;
 
 
       case "UPDATE":
         update(root);
-        updateLinks();
+        updateAllLinks();
         break;
 
       
