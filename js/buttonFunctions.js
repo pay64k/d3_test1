@@ -60,12 +60,12 @@ function focusView(){
 
 var focusForm = document.getElementById("focusForm");
 var nodeName = focusForm.options[focusForm.selectedIndex].text;
-var node = findNodeByName(nodeName);
+var node = findElementNEW(treeData[0], "name", nodeName)[0];
 
 
  //if (node.parent.hidden) {
   unhideParents(node);
-  activateElement(treeData[0],node.name);
+  setActivation(node,true);
   update(root);
  //};
 
@@ -104,7 +104,7 @@ var nodeAnimate = d3.selectAll(".node").filter( function(d,i){return d.name == n
               .each("end",function(){
                 update(root);
               })
-            deactivateElement(treeData[0],node.name);
+            setActivation(node,false);
             });
       
       //.attr("r",10);

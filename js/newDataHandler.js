@@ -199,17 +199,6 @@ function createProperty(node, propertyName){
   };
 }
 
-function addMultipleLinks(startNodeName, endNodeNames){
-  //var endNodeNames = ["Radio9", "Radio10", "Radio11", "Radio12", "Radio14"];
-  //endNodeNames = group;
-  activateElement(treeData[0],startNodeName);
-  for (var i = 0; i < endNodeNames.length; i++) {
-    activateElement(treeData[0],endNodeNames[i]);
-    var link = addLink(startNodeName, endNodeNames[i], ("Link" + i) , i, 0);
-    linksGLOBAL.push(link);
-  };
-}
-
 function debugLog(body){
 
   var currentdate = new Date(); 
