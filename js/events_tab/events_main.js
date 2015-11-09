@@ -1,6 +1,8 @@
 var heightCounter = 0 ;
 var eventDistance = 100;
-var scrollSpeed = 70;
+var scrollingSpeed = 50;
+var offsetX_events = 50;
+var offsetY_events = 30;
 	
 var events_data = 	[	{eventEntry: "1", eventVisible: true, _event: 	{eventType:"msgType1", eventName: "event1", node1: "NODE1", node2: "NODE2"} }, 
 						{eventEntry: "2", eventVisible: false, _event: 	{eventType:"msgType2", eventName: "event2", node1: "NODE1", node2: "NODE2"} }, 
@@ -16,8 +18,7 @@ var events_data = 	[	{eventEntry: "1", eventVisible: true, _event: 	{eventType:"
 					];
 
 function events_init(){
-	var offsetX = 50;
-	var offsetY = 30;
+
 
 	var svg = d3.select("#canvas_events")
 	.style("width", "500px")
@@ -28,7 +29,7 @@ function events_init(){
 	    	.style("width", "100%")
 	    	.on("wheel.zoom", scrollFun)
 	    		.append("g")
-	    			.attr("transform", "translate(" + offsetX + "," + offsetY + ")")
+	    			.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
 	    			.attr("id", "events_group");
 }
 
@@ -36,21 +37,55 @@ function scrollFun(){
 	dx = d3.event.wheelDeltaX;
     dy = d3.event.wheelDeltaY;
 
-    //console.log(dx + " | " + dy);
+   // console.log(dx + " | " + dy);
 
     var group = d3.select("#events_group");
     var currentPostitionY = d3.transform(group.attr("transform")).translate[1];
 
     if (dy < 0) {
-    	group
-    	.transition().duration(150)
-    	.attr("transform", "translate(" + 50 + "," + (currentPostitionY - scrollSpeed) + ")");
+
+    	if (false) {
+			group
+			.transition().duration(20)
+			.attr("transform", "translate(" + offsetX_events + "," + (currentPostitionY) + ")");
+    	}else{
+    		group
+			.transition().duration(20)
+			.attr("transform", "translate(" + offsetX_events + "," + (currentPostitionY - scrollingSpeed) + ")");
+    	};
     }else{
-    	group
-		.transition().duration(150)
-    	.attr("transform", "translate(" + 50 + "," + (currentPostitionY + scrollSpeed) + ")");
-    };
+    	if (false) {
+			group
+			.transition().duration(20)
+	    	.attr("transform", "translate(" + offsetX_events + "," + (currentPostitionY) + ")");
+    	}else{
+	    	group
+			.transition().duration(20)
+	    	.attr("transform", "translate(" + offsetX_events + "," + (currentPostitionY + scrollingSpeed) + ")");
+   	
+    	};
+	};
+    //console.log(currentPostitionY);
 }
+
+function viewTop(){
+	var group = d3.select("#events_group")
+		.transition().duration(400)
+		.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")");
+}
+
+function viewBottom(){
+	var maxBottomPosition = 0;	//furthest position of a visible event
+	for (var i = events_data.length - 1; i >= 0; i--) {
+			if (events_data[i].eventVisible && events_data[i].y > maxBottomPosition) {
+				maxBottomPosition =  events_data[i].y;
+			}; 
+		};	
+	var group = d3.select("#events_group")
+		.transition().duration(400)
+		.attr("transform", "translate(" + offsetX_events + "," + ( 650 - maxBottomPosition  ) + ")");
+}
+
 function update_events(){
 
 heightCounter=0;
@@ -62,7 +97,7 @@ heightCounter=0;
 			heightCounter++;
 		}else{
 			events_data[i].x = 0;
-			events_data[i].y = 0;
+			//events_data[i].y = 0;
 		};
 		
 	};
@@ -90,7 +125,7 @@ heightCounter=0;
 
 	var events_groupExit = events_group.exit().transition()
 		.duration(500)
-		.attr("transform", function(d) { return "translate(" + 300+ "," + d.y + ") scale(0)"; })
+		.attr("transform", function(d) { return "translate(" + 300 + "," + d.y + ") scale(0)"; })
 		.remove();
 }
 
