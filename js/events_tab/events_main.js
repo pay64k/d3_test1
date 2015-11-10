@@ -1,28 +1,37 @@
 var heightCounter = 0 ;
 var eventDistance = 100;
 var scrollingSpeed = 50;
-var offsetX_events = 50;
+var offsetX_events = 75;
 var offsetY_events = 30;
+var eventEntryCounter = 11; //change to 1 later
+var canvasHeight = 700;
 	
-var events_data = 	[	{eventEntry: "1", eventVisible: true, _event: 	{eventType:"msgType1", eventName: "event1", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "2", eventVisible: false, _event: 	{eventType:"msgType2", eventName: "event2", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "3", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event3", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "4", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event4", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "5", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event5", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "6", eventVisible: true, _event: 	{eventType:"msgType3", eventName: "event6", node1: "NODE1", node2: "NODE2"} },
-						{eventEntry: "7", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event7", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "8", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event8", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "9", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event9", node1: "NODE1", node2: "NODE2"} }, 
-						{eventEntry: "10", eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event10", node1: "NODE1", node2: "NODE2"} }, 
+var events_data = 	[	{eventEntry: 1, eventVisible: true, _event: 	{eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 2, eventVisible: false, _event: 	{eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 3, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event3", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 4, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event4", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 5, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event5", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
+						{eventEntry: 6, eventVisible: true, _event: 	{eventType:"msgType3", eventName: "event6", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } },
+						{eventEntry: 7, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event7", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 8, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event8", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
+						{eventEntry: 9, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event9", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 10, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event10", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
 					
 					];
+
+var arrowHeadPathD = "m 210,0 16,-8 -16,-8 z";
+var arrowHeadStyles = "fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1";
+var arrowBodyPathD = "m 30,0 180,0";
+var arrowBodyStyles = "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none";
 
 function events_init(){
 
 
 	var svg = d3.select("#canvas_events")
 	.style("width", "500px")
-	.style("height", "700px")
+	.style("height", canvasHeight + "px")
+	.style("float", "left")
+	.style("margin", "5px")
 		.append("svg")
 	    	.style("display", "block") 
 	    	.style("height", "100%")
@@ -31,6 +40,23 @@ function events_init(){
 	    		.append("g")
 	    			.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
 	    			.attr("id", "events_group");
+}
+
+function addEvent(event){
+	var newEvent = { eventEntry: eventEntryCounter, eventVisible: true, _event: event };
+	eventEntryCounter++;
+	events_data.push(newEvent);
+}
+
+function clearAllEvents(){
+	eventEntryCounter=1;
+	events_data = [];
+	update_events();
+}
+
+function filterEvents(filter){
+	
+	update_events();
 }
 
 function scrollFun(){
@@ -83,7 +109,7 @@ function viewBottom(){
 		};	
 	var group = d3.select("#events_group")
 		.transition().duration(400)
-		.attr("transform", "translate(" + offsetX_events + "," + ( 650 - maxBottomPosition  ) + ")");
+		.attr("transform", "translate(" + offsetX_events + "," + ( canvasHeight - offsetY_events - maxBottomPosition  ) + ")");
 }
 
 function update_events(){
@@ -107,15 +133,30 @@ heightCounter=0;
 	var events_groupEnter = events_group.enter().append("g")			
 			.attr("id", function(d) { return d._event.eventName; } )
 			.attr("class", "node")
-			.attr("transform", function(d, i) { return "translate(" + (-300) + "," + d.y + ") scale(0)"; });
+			.attr("transform", function(d, i) { return "translate(" + (-500) + "," + d.y + ") scale(0)"; });
 			
 	events_groupEnter.append("circle")
 			.attr("r", 10);
 
+	events_groupEnter.append("path")
+			.attr("d", arrowBodyPathD )
+			.attr("style", arrowBodyStyles);
+
+	events_groupEnter.append("path")
+			.attr("d", arrowHeadPathD )
+			.attr("style", arrowHeadStyles);	
+
+
 	events_groupEnter.append("text")
-			.text(function(d) { return d._event.eventName; })
+			.text(function(d) { return d._event.node1; })
 			.attr("text-anchor", "middle")
-			.attr("y",20);
+			.attr("y",25);
+
+	events_groupEnter.append("text")
+			.text(function(d) { return "# " + d.eventEntry; })
+			.attr("text-anchor", "end")
+			.attr("x",-25)
+			.attr("y",5);
 				
 
 	var events_groupUpdate = events_group.transition()
@@ -125,7 +166,7 @@ heightCounter=0;
 
 	var events_groupExit = events_group.exit().transition()
 		.duration(500)
-		.attr("transform", function(d) { return "translate(" + 300 + "," + d.y + ") scale(0)"; })
+		.attr("transform", function(d) { return "translate(" + 500 + "," + d.y + ") scale(1)"; })
 		.remove();
 }
 

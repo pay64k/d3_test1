@@ -57,6 +57,7 @@ var callback = function(message) {
       case "UPDATE":
         update(root);
         updateAllLinks();
+        update_events();
         break;
 
       

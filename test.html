@@ -168,7 +168,7 @@ centerView(); //has to be called right away during initialization
 
 
 <style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
+.tg  {border-collapse:collapse;border-spacing:0;margin: 5px; float: left;}
 .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
 .tg .tg-baqh{text-align:center;vertical-align:center}
@@ -300,11 +300,38 @@ centerView(); //has to be called right away during initialization
     <div id="canvas_events" style="border-style: solid; border-width: 1px"></div> <script>events_init();update_events();</script>  
 
     <table class="tg" id="table">
+
+ <tr>    
+    <th class="tg-baqh">Util</th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
+  </tr>
+
   <tr>    
     <th class="tg-baqh">View</th>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
   </tr>
+
+  <tr>    
+    <th class="tg-baqh">Events</th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"})' data-ripple>Add</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllEvents()" data-ripple>Clear All</button></td>
+    <td>
+
+<!--     <svg>
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 224.89214,38.711169 16.65195,-8.335028 -16.65595,-8.327028 z"
+       id="path3360"/>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 45,30.362205 180,0"
+       id="path4207" />
+       <svg> -->
+
+       </td>
+  </tr>
+
   </table>
 
   </div>
