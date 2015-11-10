@@ -10,19 +10,23 @@ var events_data = 	[	{eventEntry: 1, eventVisible: true, _event: 	{eventType:"ms
 						{eventEntry: 2, eventVisible: false, _event: 	{eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
 						{eventEntry: 3, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event3", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
 						{eventEntry: 4, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event4", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 5, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event5", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
+						{eventEntry: 5, eventVisible: true, _event: 	{eventType:"shortData", eventName: "event5", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
 						{eventEntry: 6, eventVisible: true, _event: 	{eventType:"msgType3", eventName: "event6", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } },
 						{eventEntry: 7, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event7", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 8, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event8", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
+						{eventEntry: 8, eventVisible: true, _event: 	{eventType:"shortData", eventName: "event8", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
 						{eventEntry: 9, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event9", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
 						{eventEntry: 10, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event10", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
 					
 					];
 
-var arrowHeadPathD = "m 210,0 16,-8 -16,-8 z";
-var arrowHeadStyles = "fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1";
+var arrowHeadPathD = "m 210,8 16,-8 -16,-8 z";
+var arrowHeadStyles = "fill:#000000;stroke:none;stroke-width:1px;";
 var arrowBodyPathD = "m 30,0 180,0";
-var arrowBodyStyles = "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none";
+var arrowBodyStyles = "fill:none;stroke:#000000;stroke-width:3px;";
+
+var envelopePart1D = "m 30,-40 0,30 49,0 0,-30 z";
+var envelopePart2D = "M 30,-40 54,-20 79,-40";
+var envelopeStyles = "fill:none;stroke:#000000;stroke-width:3px;";
 
 function events_init(){
 
@@ -130,33 +134,59 @@ heightCounter=0;
 
 	var events_group = d3.select("#events_group").selectAll("g").data( events_data.filter(function(d){ return d.eventVisible ? d.eventEntry : null }), function(d) {return d.eventEntry} );
 	
+
+
+
 	var events_groupEnter = events_group.enter().append("g")			
 			.attr("id", function(d) { return d._event.eventName; } )
 			.attr("class", "node")
 			.attr("transform", function(d, i) { return "translate(" + (-500) + "," + d.y + ") scale(0)"; });
 			
+	events_groupEnter.append("text")
+			.text(function(d) { return "# " + d.eventEntry; })
+			.attr("text-anchor", "end")
+			.attr("x",-25)
+			.attr("y",5);
+
 	events_groupEnter.append("circle")
-			.attr("r", 10);
-
-	events_groupEnter.append("path")
-			.attr("d", arrowBodyPathD )
-			.attr("style", arrowBodyStyles);
-
-	events_groupEnter.append("path")
-			.attr("d", arrowHeadPathD )
-			.attr("style", arrowHeadStyles);	
-
+						.attr("r", 10);
 
 	events_groupEnter.append("text")
 			.text(function(d) { return d._event.node1; })
 			.attr("text-anchor", "middle")
 			.attr("y",25);
 
+	events_groupEnter.append("path")
+						.attr("d", arrowBodyPathD )
+						.attr("style", arrowBodyStyles);
+
+	events_groupEnter.append("path")
+						.attr("d", arrowHeadPathD )
+						.attr("style", arrowHeadStyles);	
+
+	events_groupEnter.append("circle")
+						.attr("r", 10)
+						.attr("cx", 256);
+
 	events_groupEnter.append("text")
-			.text(function(d) { return "# " + d.eventEntry; })
-			.attr("text-anchor", "end")
-			.attr("x",-25)
-			.attr("y",5);
+			.text(function(d) { return d._event.node2; })
+			.attr("text-anchor", "middle")
+			.attr("y",25)
+			.attr("x",256);
+
+	var envelopeGroup = events_groupEnter.append("g")
+								.attr("transform", "translate(69.5,0)");
+
+	envelopeGroup.append("path")
+			.attr("d", envelopePart1D )
+			.attr("style", envelopeStyles)
+			.attr("transform", envelopeVisibility);
+
+	envelopeGroup.append("path")
+			.attr("d", envelopePart2D )
+			.attr("style", envelopeStyles)
+			.attr("transform", envelopeVisibility);
+
 				
 
 	var events_groupUpdate = events_group.transition()
@@ -170,3 +200,10 @@ heightCounter=0;
 		.remove();
 }
 
+function envelopeVisibility(d){
+	if (d._event.eventType == "shortData") {
+		return "scale(1)"
+	}else{
+		return "scale(0)"
+	};
+}
