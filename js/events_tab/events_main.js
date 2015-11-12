@@ -58,6 +58,14 @@ function clearAllEvents(){
 	update_events();
 }
 
+function getUniqueEventTypes(){
+	var allEventTypes = [];
+	for (var i = 0; i < events_data.length; i++) {
+		allEventTypes.push(events_data[i]._event.eventType)
+	};
+	return allEventTypes.unique();
+}
+
 function filterEvents(filter){
 	
 	update_events();
@@ -113,12 +121,33 @@ function viewBottom(){
 		};	
 	var group = d3.select("#events_group")
 		.transition().duration(400)
-		.attr("transform", "translate(" + offsetX_events + "," + ( canvasHeight - offsetY_events - maxBottomPosition  ) + ")");
+		.attr("transform", "translate(" + offsetX_events + "," + ( canvasHeight - offsetY_events - maxBottomPosition -20  ) + ")");
+}
+
+function focusOnEvent(eventEntry){
+	for (var i = 0; i < events_data.length; i++) {
+		if (events_data[i].eventEntry == eventEntry && events_data[i].eventVisible) {
+			var eventGroup = d3.select("#events_group").select("#eventEntry" + events_data[i].eventEntry );
+
+			var currentEventPostitionY = d3.transform(eventGroup.attr("transform")).translate[1];
+			var currentEventPostitionX = d3.transform(eventGroup.attr("transform")).translate[0];
+
+			var eventGroupSVG = d3.select("#events_group");
+
+			eventGroupSVG.transition().duration(400)
+					.attr("transform", "translate(" + offsetX_events + "," + ( - currentEventPostitionY + offsetY_events  ) + ")");
+
+			eventGroup.transition().duration(1000)
+				.attr("transform", "scale(2)");
+				//add scale 1 efter transition
+
+		};
+	};
 }
 
 function update_events(){
 
-heightCounter=0;
+	heightCounter=0;
 
 	for (var i = 0; i < events_data.length; i++) {
 		if (events_data[i].eventVisible) {
@@ -136,7 +165,7 @@ heightCounter=0;
 	
 
 	var events_groupEnter = events_group.enter().append("g")			
-			.attr("id", function(d) { return d._event.eventName; } )
+			.attr("id", function(d) { return "eventEntry" + d.eventEntry; } )
 			.attr("class", "node")
 			.attr("transform", function(d, i) { return "translate(" + (-500) + "," + d.y + ") scale(0)"; });
 			
@@ -208,4 +237,18 @@ function envelopeVisibility(d){
 	}else{
 		return "scale(0)"
 	};
+}
+
+Array.prototype.unique = function()
+{
+  var n = {},r=[];
+  for(var i = 0; i < this.length; i++) 
+  {
+    if (!n[this[i]]) 
+    {
+      n[this[i]] = true; 
+      r.push(this[i]); 
+    }
+  }
+  return r;
 }
