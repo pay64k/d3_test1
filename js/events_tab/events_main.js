@@ -1,5 +1,5 @@
 var heightCounter = 0 ;
-var eventDistance = 100;
+var eventDistance = 130;
 var scrollingSpeed = 50;
 var offsetX_events = 75;
 var offsetY_events = 30;
@@ -24,8 +24,8 @@ var arrowHeadStyles = "fill:#000000;stroke:none;stroke-width:1px;";
 var arrowBodyPathD = "m 30,0 180,0";
 var arrowBodyStyles = "fill:none;stroke:#000000;stroke-width:3px;";
 
-var envelopePart1D = "m 30,-40 0,30 49,0 0,-30 z";
-var envelopePart2D = "M 30,-40 54,-20 79,-40";
+var envelopePart1D = "m 100,-40 0,30 49,0 0,-30 z";
+var envelopePart2D = "M 100,-40 124,-20 149,-40";
 var envelopeStyles = "fill:none;stroke:#000000;stroke-width:3px;";
 
 function events_init(){
@@ -135,8 +135,6 @@ heightCounter=0;
 	var events_group = d3.select("#events_group").selectAll("g").data( events_data.filter(function(d){ return d.eventVisible ? d.eventEntry : null }), function(d) {return d.eventEntry} );
 	
 
-
-
 	var events_groupEnter = events_group.enter().append("g")			
 			.attr("id", function(d) { return d._event.eventName; } )
 			.attr("class", "node")
@@ -156,14 +154,6 @@ heightCounter=0;
 			.attr("text-anchor", "middle")
 			.attr("y",25);
 
-	events_groupEnter.append("path")
-						.attr("d", arrowBodyPathD )
-						.attr("style", arrowBodyStyles);
-
-	events_groupEnter.append("path")
-						.attr("d", arrowHeadPathD )
-						.attr("style", arrowHeadStyles);	
-
 	events_groupEnter.append("circle")
 						.attr("r", 10)
 						.attr("cx", 256);
@@ -174,18 +164,30 @@ heightCounter=0;
 			.attr("y",25)
 			.attr("x",256);
 
-	var envelopeGroup = events_groupEnter.append("g")
-								.attr("transform", "translate(69.5,0)");
 
-	envelopeGroup.append("path")
-			.attr("d", envelopePart1D )
-			.attr("style", envelopeStyles)
-			.attr("transform", envelopeVisibility);
+		events_groupEnter.append("path")
+				.attr("d", envelopePart1D )
+				.attr("style", envelopeStyles)
+				.attr("transform", envelopeVisibility);
 
-	envelopeGroup.append("path")
-			.attr("d", envelopePart2D )
-			.attr("style", envelopeStyles)
-			.attr("transform", envelopeVisibility);
+		events_groupEnter.append("path")
+				.attr("d", envelopePart2D )
+				.attr("style", envelopeStyles)
+				.attr("transform", envelopeVisibility);
+
+		events_groupEnter.append("path")
+				.attr("d", arrowBodyPathD )
+				.attr("style", arrowBodyStyles);
+
+		events_groupEnter.append("path")
+							.attr("d", arrowHeadPathD )
+							.attr("style", arrowHeadStyles);
+
+	events_groupEnter.append("text")
+			.text(function(d) { return d._event.eventType; })
+			.attr("text-anchor", "middle")
+			.attr("y",25)
+			.attr("x",128);
 
 				
 

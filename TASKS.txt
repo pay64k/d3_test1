@@ -1,5 +1,7 @@
 message processing
 
+update button functions for testing
+
 chowanie elementow linkowancyh ktorych linki sa ukryte
 filtrowanie linkow wd radia
 
@@ -8,5 +10,7 @@ eventy - okienko oddzielne - lista eventow w tabie zamiaast seq diagramow
 	
 filtrowanie tym:
 http://www.jqueryscript.net/demo/jQuery-Plugin-For-Checkbox-Based-Toggle-Buttons-TinyToggle/
+lub tym:
+http://www.jqueryscript.net/form/CSS3-Animated-jQuery-Toggle-Switch-Plugin-rcSwitcher.html
 	
 configuration tab
