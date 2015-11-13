@@ -6,16 +6,16 @@ var offsetY_events = 30;
 var eventEntryCounter = 11; //change to 1 later
 var canvasHeight = 700;
 	
-var events_data = 	[	{eventEntry: 1, eventVisible: true, _event: 	{eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 2, eventVisible: false, _event: 	{eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 3, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event3", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 4, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event4", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 5, eventVisible: true, _event: 	{eventType:"shortData", eventName: "event5", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
-						{eventEntry: 6, eventVisible: true, _event: 	{eventType:"msgType3", eventName: "event6", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } },
-						{eventEntry: 7, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event7", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 8, eventVisible: true, _event: 	{eventType:"shortData", eventName: "event8", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
-						{eventEntry: 9, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event9", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 10, eventVisible: true, _event: 	{eventType:"msgType2", eventName: "event10", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+var events_data = 	[	{eventEntry: 1, eventVisible: true, _event: 	{testSession: "test1", eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 2, eventVisible: false, _event: 	{testSession: "test1", eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 3, eventVisible: true, _event: 	{testSession: "test1", eventType:"msgType2", eventName: "event3", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 4, eventVisible: true, _event: 	{testSession: "test1", eventType:"msgType2", eventName: "event4", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 5, eventVisible: true, _event: 	{testSession: "test1", eventType:"shortData", eventName: "event5", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
+						{eventEntry: 6, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType3", eventName: "event6", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } },
+						{eventEntry: 7, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType2", eventName: "event7", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 8, eventVisible: true, _event: 	{testSession: "test2", eventType:"shortData", eventName: "event8", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
+						{eventEntry: 9, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType2", eventName: "event9", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
+						{eventEntry: 10, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType2", eventName: "event10", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
 					
 					];
 
@@ -66,9 +66,48 @@ function getUniqueEventTypes(){
 	return allEventTypes.unique();
 }
 
-function filterEvents(filter){
+function getUniqueEventSessions(){
+	var allEventTestSession = [];
+	for (var i = 0; i < events_data.length; i++) {
+		allEventTestSession.push(events_data[i].testSession)
+	};
+	return allEventTestSession.unique();
+}
+
+function filterEvents(filter){ 	//filter = {filterType: "byEventProperty", eventPropertyName: "eventType", eventProperty:"msgType1", visible: true }
+								//filter = {filterType: "byEventEntry", rangeStart: 0, rangeEnd: 10, visible: true}
 	
+	switch(filter.filterType){
+		case "byEventProperty":
+		filterByProperty(events_data, filter.eventPropertyName, filter.eventProperty, filter.visible);
+		break;
+
+		case "byEventEntry":
+		filterByEntry(events_data, filter.rangeStart, filter.rangeEnd, filter.visible);
+		break;
+
+		default:
+		break;
+	}
+
 	update_events();
+}
+
+function filterByProperty(eventData, eventPropertyName, eventProperty, visible){
+	for (var i = 0; i < eventData.length; i++) {
+		if (eventData[i]._event[eventPropertyName] == eventProperty) {
+			eventData[i].eventVisible = visible;
+		};
+	};
+}
+
+function filterByEntry(eventData, rangeStart, rangeEnd, visible){
+	if (rangeEnd > eventData.length) {
+		rangeEnd = eventData.length;
+	};
+	for (var i = rangeStart-1; i < rangeEnd; i++) {
+		eventData[i].eventVisible = visible;
+	};
 }
 
 function scrollFun(){
@@ -138,7 +177,11 @@ function focusOnEvent(eventEntry){
 					.attr("transform", "translate(" + offsetX_events + "," + ( - currentEventPostitionY + offsetY_events  ) + ")");
 
 			eventGroup.transition().duration(1000)
-				.attr("transform", "scale(2)");
+				.attr("transform", "translate("+ currentEventPostitionX +","+ currentEventPostitionY +")scale(1.5)")
+					.each("end",function(){
+                		d3.select(this).transition().duration(1000)
+							.attr("transform", "translate("+ currentEventPostitionX +","+ currentEventPostitionY +")scale(1)");
+              		});
 				//add scale 1 efter transition
 
 		};
@@ -251,4 +294,13 @@ Array.prototype.unique = function()
     }
   }
   return r;
+}
+
+// for (var i = 0; i < 1000; i++) {
+// 	addEvent({eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"});
+// 	}
+
+function bla(){
+	var $el = $('#events_group');
+	var listView = new infinity.ListView($el);
 }
