@@ -18,10 +18,9 @@
       <script src="js/lib/stomp.js"></script>
       <script src="js/lib/sockjs-0.3.js"></script>
       <script src="js/lib/jquery.toChecklist.js"></script>
+      <script src="js/lib/jstorage.min.js"></script>
 
       <script src="js/lib/jquery.ripple.js"></script>
-      <script src="js/lib/infinity.min.js"></script>
-
     
       <!--    Custom Scripts:   -->
       <script src="js/globalVariables.js"></script>
@@ -32,6 +31,7 @@
       <script src="js/buttonFunctions.js"></script>
       <script src="js/stomp/connection.js"></script>
       <script src="js/events_tab/events_main.js"></script>
+      <script src="js/storageFunctions.js"></script>
       <!--    Test Scripts    -->
       <script src="js/testing.js"></script>
 
@@ -316,22 +316,11 @@ centerView(); //has to be called right away during initialization
 
   <tr>    
     <th class="tg-baqh">Events</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"})' data-ripple>Add</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"}, true)' data-ripple>Add</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllEvents()" data-ripple>Clear All</button></td>
-    <td>
-
-<!--     <svg>
-    <path
-       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 224.89214,38.711169 16.65195,-8.335028 -16.65595,-8.327028 z"
-       id="path3360"/>
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 45,30.362205 180,0"
-       id="path4207" />
-       <svg> -->
-
-       </td>
+    
+    
+  
   </tr>
 
   </table>

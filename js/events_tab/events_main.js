@@ -3,21 +3,10 @@ var eventDistance = 130;
 var scrollingSpeed = 50;
 var offsetX_events = 75;
 var offsetY_events = 30;
-var eventEntryCounter = 11; //change to 1 later
+var eventEntryCounter = 1; //change to 1 later
 var canvasHeight = 700;
 	
-var events_data = 	[	{eventEntry: 1, eventVisible: true, _event: 	{testSession: "test1", eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 2, eventVisible: false, _event: 	{testSession: "test1", eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 3, eventVisible: true, _event: 	{testSession: "test1", eventType:"msgType2", eventName: "event3", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 4, eventVisible: true, _event: 	{testSession: "test1", eventType:"msgType2", eventName: "event4", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 5, eventVisible: true, _event: 	{testSession: "test1", eventType:"shortData", eventName: "event5", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
-						{eventEntry: 6, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType3", eventName: "event6", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } },
-						{eventEntry: 7, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType2", eventName: "event7", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 8, eventVisible: true, _event: 	{testSession: "test2", eventType:"shortData", eventName: "event8", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" } }, 
-						{eventEntry: 9, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType2", eventName: "event9", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-						{eventEntry: 10, eventVisible: true, _event: 	{testSession: "test2", eventType:"msgType2", eventName: "event10", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" } }, 
-					
-					];
+var events_data = [];
 
 var arrowHeadPathD = "m 210,8 16,-8 -16,-8 z";
 var arrowHeadStyles = "fill:#000000;stroke:none;stroke-width:1px;";
@@ -44,18 +33,56 @@ function events_init(){
 	    		.append("g")
 	    			.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
 	    			.attr("id", "events_group");
+
+loadEventsDataFromStorage();
+//addTestEvents();
+
 }
 
-function addEvent(event){
-	var newEvent = { eventEntry: eventEntryCounter, eventVisible: true, _event: event };
-	eventEntryCounter++;
+function addTestEvents(){
+	addEvent({testSession: "test1", eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test1", eventType:"msgType3", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test2", eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+				
+}
+
+function loadEventsDataFromStorage(){
+	// debugger;
+	var index = $.jStorage.index();
+	if (index.length == 0) {
+		events_data = [];
+	}else{
+		events_data = [];
+		for (var i = 0; i < index.length; i++) {
+			events_data.push( $.jStorage.get( index[i] ) );
+		};
+		eventEntryCounter = index.length + 1;
+	};
+}
+
+function addEvent(event, visible){
+
+	var newEvent = { eventEntry: eventEntryCounter, eventVisible: visible, _event: event };
+	addEventToStorage(eventEntryCounter, newEvent);
 	events_data.push(newEvent);
+	eventEntryCounter++;
 }
 
 function clearAllEvents(){
-	eventEntryCounter=1;
-	events_data = [];
-	update_events();
+
+	if (confirm("Are you sure to clear all events?") == true) {
+    	eventEntryCounter=1;
+		events_data = [];
+		$.jStorage.flush();
+		update_events();
+	};
 }
 
 function getUniqueEventTypes(){
@@ -182,8 +209,6 @@ function focusOnEvent(eventEntry){
                 		d3.select(this).transition().duration(1000)
 							.attr("transform", "translate("+ currentEventPostitionX +","+ currentEventPostitionY +")scale(1)");
               		});
-				//add scale 1 efter transition
-
 		};
 	};
 }

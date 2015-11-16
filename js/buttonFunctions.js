@@ -218,7 +218,7 @@ function randomLink(){
 
   }while(name1 == "Client1" || name2 == "Client1" || name1 == "System2" || name2 == "System2");
 
-  newLinkAndActivate(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
+  newLink(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
 
   // update(root);
   // updateAllLinks();
@@ -230,8 +230,8 @@ function clearAllLinks(){
   // };
   // linkNamesGLOBAL=[];
 
-for (var i = linksGLOBAL.length - 1; i >= 0; i--) {
-  deleteLinkAndDeactivate(linksGLOBAL[i][3]);
+for (var i = linksData.length - 1; i >= 0; i--) {
+  deleteLink(linksData[i][0]);
 };
 
   update(root);
@@ -261,8 +261,8 @@ function delSpecificLink(){
 
 function updateLinkForm(){
   var linkNames = [];
-  for (var i = 0; i < linksGLOBAL.length; i++) {
-    linkNames.push(linksGLOBAL[i][3]);
+  for (var i = 0; i < linksData.length; i++) {
+    linkNames.push(linksData[i][0]);
   };
 
 var select = document.getElementById("specificLink");
@@ -343,7 +343,7 @@ function buttonLinksFilter(){
       var link = d3.select("#G"+linkID);
     if (checkboxes[i].checked) {
       //set link to visible
-      link.attr("opacity", 0.5);
+      link.attr("opacity", 1);
 
     }else{
       //set link to invisible
