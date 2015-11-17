@@ -175,6 +175,55 @@ function populateForm(formID){
 
 }
 
+function populateEventForm(formID){
+var values = 0 ;
+
+  switch(formID){
+    case "eventType":
+      values = getUniqueEventTypes();
+      break;
+
+    case "testSession":
+      values = getUniqueEventSessions();
+      break;
+
+    case "node1":
+      values = getUniqueEventNode1();
+      break;
+
+    case "node2":
+      values = getUniqueEventNode2();
+      break;
+
+    case "eventSuccess":
+      values = [true, false];
+      break;
+
+    default:
+      break;
+
+  }
+
+  var select = document.getElementById(formID);
+  if (select != null) {
+    select.options.length = 0;  //reset for no repeats
+     select.options[select.options.length] = new Option("All", "showAll");
+      for(var i = 0; i < values.length; i++) {
+       select.options[select.options.length] = new Option(values[i], values[i]);
+      };
+
+  };
+
+}
+
+function updateEventForms(){
+  populateEventForm("eventType");
+  populateEventForm("testSession");
+  populateEventForm("node1");
+  populateEventForm("node2");
+  populateEventForm("eventSuccess");
+}
+
 function updateForms(){
   populateForm("linkFrom");
   populateForm("linkTo");
