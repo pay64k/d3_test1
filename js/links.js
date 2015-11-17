@@ -12,8 +12,10 @@ function setActivation(node, activate){
 			move.activated = true;
 		}else if(node.activated && !activate){
 			var move = node.parent.children.splice(node.parent.children.indexOf(node),1)[0];
-			move.parent.inner_children.push(move);
-			move.activated = false;			
+			if (move != undefined) {			//in case when node has been deleted - this is undefined only if the node has been deleted, so it becomes undefined when trying to splice it in row above
+				move.parent.inner_children.push(move);
+				move.activated = false;	
+			};
 		};
 	};
 }

@@ -207,8 +207,6 @@ centerView(); //has to be called right away during initialization
     </td>
 
     <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" data-ripple>Focus</button></td>
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="showAllGroups()" data-ripple>Show Groups</button></td>
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="hideAllGroups()" data-ripple>Hide Groups</button></td>
   </tr>
   <tr>
     <th class="tg-baqh">Links</th>
@@ -242,7 +240,7 @@ centerView(); //has to be called right away during initialization
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()" data-ripple>Submit</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()" data-ripple>Random Link</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()" data-ripple>Single Random</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td>
+<!--     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td> -->
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()" data-ripple>Clear All</button></td>
   </tr>
 
@@ -333,7 +331,7 @@ centerView(); //has to be called right away during initialization
         <form role="form">
           <div class="form-group">
             <label for="testSession">E Session</label>
-            <select class="form-control" id="testSession" onchange="">
+            <select class="form-control" id="testSession" onchange="applyFilterCombination()">
               </select>
           </div>
         </form>
@@ -345,7 +343,7 @@ centerView(); //has to be called right away during initialization
         <form role="form">
           <div class="form-group">
             <label for="eventType">E Type</label>
-             <select class="form-control" id="eventType" onchange="">
+             <select class="form-control" id="eventType" onchange="applyFilterCombination()">
               </select>
           </div>
         </form>
@@ -357,7 +355,7 @@ centerView(); //has to be called right away during initialization
         <form role="form">
           <div class="form-group">
             <label for="eventSuccess">E Success</label>
-             <select class="form-control" id="eventSuccess" onchange="">
+             <select class="form-control" id="eventSuccess" onchange="applyFilterCombination()">
               </select>
           </div>
         </form>
@@ -372,7 +370,7 @@ centerView(); //has to be called right away during initialization
         <form role="form">
           <div class="form-group">
             <label for="node1">E Node1</label>
-             <select class="form-control" id="node1" onchange="">
+             <select class="form-control" id="node1" onchange="applyFilterCombination()">
               </select>
           </div>
         </form>
@@ -384,7 +382,7 @@ centerView(); //has to be called right away during initialization
         <form role="form">
           <div class="form-group">
             <label for="node2">E Node2</label>
-             <select class="form-control" id="node2" onchange="">
+             <select class="form-control" id="node2" onchange="applyFilterCombination()">
               </select>
           </div>
         </form>

@@ -65,6 +65,7 @@ var node = findElementNEW(treeData[0], "name", nodeName)[0];
 
  //if (node.parent.hidden) {
   unhideParents(node);
+  var nodeOriginalActivation = node.activated;
   setActivation(node,true);
   update(root);
  //};
@@ -104,7 +105,7 @@ var nodeAnimate = d3.selectAll(".node").filter( function(d,i){return d.name == n
               .each("end",function(){
                 update(root);
               })
-            setActivation(node,false);
+            setActivation(node,nodeOriginalActivation);
             });
       
       //.attr("r",10);
@@ -242,18 +243,19 @@ function submitNewLink(){
   var randomColor = Math.floor(Math.random() * 10) + 1;
   var linkName = "Link" + Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
 
-  linkNamesGLOBAL.push(linkName);
-  newLinkAndActivate(selectedFrom, selectedTo, linkName, randomColor, true);
-}
-
-function delLastLink(){
-  //removeLink(linkNamesGLOBAL.pop());
-  //removeLink(linksGLOBAL[linksGLOBAL.length-1][3]);
-  deleteLinkAndDeactivate(linksGLOBAL[linksGLOBAL.length-1][3]);
-
+  newLink(selectedFrom, selectedTo, linkName, randomColor, true);
   update(root);
   updateAllLinks();
 }
+
+// function delLastLink(){
+//   //removeLink(linkNamesGLOBAL.pop());
+//   //removeLink(linksGLOBAL[linksGLOBAL.length-1][3]);
+//   deleteLinkAndDeactivate(linksGLOBAL[linksGLOBAL.length-1][3]);
+
+//   update(root);
+//   updateAllLinks();
+// }
 
 function randomLink(){
   var names = getAllNames();//debugger;
@@ -269,43 +271,33 @@ function randomLink(){
 
   newLink(name1, name2 ,linkName, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1 );
 
-  // update(root);
-  // updateAllLinks();
+  update(root);
+  updateAllLinks();
 }
 
 function clearAllLinks(){
-  // for (var i = 0; i < linkNamesGLOBAL.length; i++) {
-  //   removeLink(linkNamesGLOBAL[i]);
-  // };
-  // linkNamesGLOBAL=[];
-
-for (var i = linksData.length - 1; i >= 0; i--) {
-  deleteLink(linksData[i][0]);
-};
-
+  for (var i = linksData.length - 1; i >= 0; i--) {
+    deleteLink(linksData[i][0]);
+  };
   update(root);
   updateAllLinks();
-
 }
 
 function singleLink(){
   clearAllLinks();
   randomLink();
+  update(root);
+  updateAllLinks();
+
 }
 
 function delSpecificLink(){
   var linkForm = document.getElementById("specificLink");
   var selectedLink = linkForm.options[linkForm.selectedIndex].text;
 
-  var deletedLink = removeLink(selectedLink);
-  var linkEndNode = deletedLink[0][1];
-  
-  deactivateElement(treeData[0], linkEndNode.name);
+  deleteLink(selectedLink);
   update(root);
   updateAllLinks();
-
-  //removeLink(selectedLink);
-  //updateLinkForm();
 }
 
 function updateLinkForm(){
@@ -341,32 +333,6 @@ $('#linksList').toChecklist({showCheckboxes : true, addSearchBox : true, animate
 
 }
 
-function showAllGroups(){
-  var nodes = d3.selectAll(".node")
-    .filter( function(d,i){return d.hidden == true && d.type == "Group" ;} )
-    .data();
-      for (var i = 0; i < nodes.length; i++) {
-        show(nodes[i]);
-      };
-  update(root);
-  updateAllLinks();
-}
-
-function hideAllGroups(){
-  var nodes = d3.selectAll(".node")
-    .filter( function(d,i){return d.hidden == false && d.type == "Group" ;} )
-    .data();
-      for (var i = 0; i < nodes.length; i++) {
-        hide(nodes[i]);
-      };
-  update(root);
-  updateAllLinks();
-}
-
-// var bla = [];
-// for (var i = 0; i < 1000; i++) {
-//    bla.push(findElement(root,"31241")[1]); 
-// };
 
 
 function buttonChangeFlow(){
@@ -390,16 +356,34 @@ function buttonLinksFilter(){
   for (var i = 0; i < checkboxes.length; i++) {
       var linkID = checkboxes[i].value;
       var link = d3.select("#G"+linkID);
+
+      for (var i = 0; i < linksData.length; i++) {
+        if (linksData[i][0] == linkID) {
+          var node1 = linksData[i][1];
+          var node2 = linksData[i][2];
+          break;
+        };
+      };
+
     if (checkboxes[i].checked) {
       //set link to visible
       link.attr("opacity", 1);
+      //show linked nodes
+      //debugger;
+      setActivation(node1,true);
+      setActivation(node2,true);
 
     }else{
       //set link to invisible
       link.attr("opacity", 0);
+      //hide linked nodes
+      setActivation(node1,false);
+      setActivation(node2,false);
     };
     
   };
+  update(root);
+  updateAllLinks();
 }
 
 function buttonLinksFilterCheckAll(){
