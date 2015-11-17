@@ -108,6 +108,22 @@ sendUpdate();
 
 }
 
+function speedTestFunction(){
+  console.log("Sent");
+  var randomName =  "R" + Math.floor(Math.random() * (1000000000 - 1 + 1)) + 1;
+  var message = {command: "NEW_OBJECT", newObject: {name: randomName , type: "Radio", groupable: true}, parent: "TG1-1"};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+
+}
+
+function speedTestFunction2(){
+  console.log("Sent");
+  var randomName =  "R" + Math.floor(Math.random() * (1000000000 - 1 + 1)) + 1;
+  var message = {command: "ADD_LINK", fromName: "Radio12", toName: "TG1-2", linkName: randomName, linkColorIndex: 5, visible: true};
+  client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
+
+}
+
 </script>
 
 </head>
@@ -124,5 +140,7 @@ sendUpdate();
 <button onclick="sendAddLink()">AddLink</button>
 <button onclick="sendDelLink()">DelLink</button>
 
+<button onclick="myVar = setInterval(speedTestFunction2, 1);">Speed Test Start</button>
+<button onclick="clearInterval(myVar);">Speed Test Stop</button>
 
 </body>

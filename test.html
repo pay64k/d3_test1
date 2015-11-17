@@ -1,286 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Test GUI</title>
-      <!--    Style Sheets:   -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <link rel="stylesheet" href="css/dropdownMenu.css">
-      <link rel="stylesheet" href="css/tabs_templates/template2/tabcontent.css" type="text/css">
-      <link rel="stylesheet" href="css/nodeStyles.css">
-      <link rel="stylesheet" href="css/flowline.css">
-      <link rel="stylesheet" href="css/jquery.ripple.css">
-      <link type="text/css" rel="stylesheet" media="screen" href="css/jquery.toChecklist.min.css" />
-      <!--    Libraries:   -->
-      <script src="js/lib/jquery.min.js"></script>
-      <script src="js/lib/bootstrap.min.js"></script>
-      <script src="js/lib/d3.min.js"></script>
-      <script src="js/lib/tabcontent.js"></script>
-      <script src="js/lib/stomp.js"></script>
-      <script src="js/lib/sockjs-0.3.js"></script>
-      <script src="js/lib/jquery.toChecklist.js"></script>
-      <script src="js/lib/jstorage.min.js"></script>
-
-      <script src="js/lib/jquery.ripple.js"></script>
+    <!--    Style Sheets:   -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/dropdownMenu.css">
+    <link rel="stylesheet" href="css/tabs_templates/template2/tabcontent.css" type="text/css">
+    <link rel="stylesheet" href="css/nodeStyles.css">
+    <link rel="stylesheet" href="css/flowline.css">
+    <link rel="stylesheet" href="css/jquery.ripple.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="css/jquery.toChecklist.min.css" />
+    <!--    Libraries:   -->
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/d3.min.js"></script>
+    <script src="js/lib/tabcontent.js"></script>
+    <script src="js/lib/stomp.js"></script>
+    <script src="js/lib/sockjs-0.3.js"></script>
+    <script src="js/lib/jquery.toChecklist.js"></script>
+    <script src="js/lib/jstorage.min.js"></script>
+    <script src="js/lib/jquery.ripple.js"></script>
     
-      <!--    Custom Scripts:   -->
-      <script src="js/globalVariables.js"></script>
-      <script src="js/newDataHandler.js"></script>
-      <script src="js/data.js"></script>
-      <script src="js/d3_scripts.js"></script>
-      <script src="js/links.js"></script>
-      <script src="js/buttonFunctions.js"></script>
-      <script src="js/stomp/connection.js"></script>
-      <script src="js/events_tab/events_main.js"></script>
-      <script src="js/storageFunctions.js"></script>
-      <!--    Test Scripts    -->
-      <script src="js/testing.js"></script>
-
-<script type="text/javascript">
-  $(function() {
+    <!--    Custom Scripts:   -->
+    <script src="js/globalVariables.js"></script>
+    <script src="js/newDataHandler.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/d3_scripts.js"></script>
+    <script src="js/links.js"></script>
+    <script src="js/buttonFunctions.js"></script>
+    <script src="js/stomp/connection.js"></script>
+    <script src="js/events_tab/events_main.js"></script>
+    <script src="js/storageFunctions.js"></script>
+    <!--    Test Scripts    -->
+    <script src="js/testing.js"></script>
+    <script type="text/javascript">
+    $(function() {
     $('#linksList').toChecklist( {showCheckboxes : true, addSearchBox : true, animateSearch : false} );
-  });
-
-</script>
-
-</head>
-
-<body style="background:#F6F9FC; font-family:Arial;">
+    });
+    </script>
+  </head>
+  <body style="background:#F6F9FC; font-family:Arial;">
     <div style="width: 1100px; margin: 0 auto; padding: 120px 0 40px;">
-        <ul class="tabs" data-persist="true">
-            <li><a href="#view1">System Overview</a></li>
-            <li><a href="#view2">Events</a></li>
-            <li><a href="#view3">Configuration</a></li>
-        </ul>
-        <div class="tabcontents">
-            <div id="view1">
-
-<div class="dropdown" style="position:relative">
-    <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Click Here <span class="caret"></span></a>
-    <ul class="dropdown-menu">
-        <li>
-            <a class="trigger right-caret">Level 1</a>
-            <ul class="dropdown-menu sub-menu">
-                <li><a href="#">Level 2</a></li>
-                <li>
+      <ul class="tabs" data-persist="true">
+        <li><a href="#view1">System Overview</a></li>
+        <li><a href="#view2">Events</a></li>
+        <li><a href="#view3">Configuration</a></li>
+      </ul>
+      <div class="tabcontents">
+        <div id="view1">
+          <div class="dropdown" style="position:relative">
+            <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Click Here <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="trigger right-caret">Level 1</a>
+                <ul class="dropdown-menu sub-menu">
+                  <li><a href="#">Level 2</a></li>
+                  <li>
                     <a class="trigger right-caret">Level 2</a>
                     <ul class="dropdown-menu sub-menu">
-                        <li><a href="#">Level 3</a></li>
-                        <li><a href="#">Level 3</a></li>
-                        <li>
-                            <a class="trigger right-caret">Level 3</a>
-                            <ul class="dropdown-menu sub-menu">
-                                <li><a href="#">Level 4</a></li>
-                                <li><a href="#">Level 4</a></li>
-                                <li><a href="#">Level 4</a></li>
-                            </ul>
-                        </li>
+                      <li><a href="#">Level 3</a></li>
+                      <li><a href="#">Level 3</a></li>
+                      <li>
+                        <a class="trigger right-caret">Level 3</a>
+                        <ul class="dropdown-menu sub-menu">
+                          <li><a href="#">Level 4</a></li>
+                          <li><a href="#">Level 4</a></li>
+                          <li><a href="#">Level 4</a></li>
+                        </ul>
+                      </li>
                     </ul>
-                </li>
-                <li><a href="#">Level 2</a></li>
+                  </li>
+                  <li><a href="#">Level 2</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Level 1</a></li>
+              <li><a href="#">Level 1</a></li>
             </ul>
-        </li>
-        <li><a href="#">Level 1</a></li>
-        <li><a href="#">Level 1</a></li>
-    </ul>
-</div>
-
-<div id="canvas" style="border-style: solid; border-width: 1px"></div>
-<script>
-
-// ************** Generate the tree diagram  *****************
-var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    width = 960 - margin.right - margin.left,
-    height = 700 - margin.top - margin.bottom;
-
-var offsetX = (width + margin.right + margin.left)/2, 
-    offsetY=height/2;
-
-var zoomMin = 0.2, zoomMax = 7;
-    
-var i = 0,
-    duration = 500,
-    root;
-
-var tree = d3.layout.tree()
-    //.size([height, width]);
-  .nodeSize([55, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
-
-var diagonal = d3.svg.diagonal()
-    .projection(function(d) { return [ d.y, d.x]; });   
-
-// var div = d3.select("body").select(".tabcontents").select("#view1").append("div")
-//   .style("border-style", "solid")
-//   .style("border-width", "2px")
-//   .style("width", width + margin.right + margin.left + 10 + "px")
-//   .style("height", height + margin.top + margin.bottom + 10 + "px");
-
-
-var zoom = d3.behavior.zoom()
-            .scaleExtent([zoomMin, zoomMax])
-            .on("zoom", redraw);
-
-
-var svg = d3.select("#canvas").append("svg")
-     .attr("width", 1035)
-     .attr("height", 705)
-  .call(zoom)
-  .append("g")
-    .attr("transform", "translate(" + offsetX + "," + offsetY + ")");
-
-//------------ Zooming ------------
-
-
-function redraw() {
-     d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
- }
-
-// function for handling zoom event
-// function zoom() {
-//  svg.attr("transform", "translate(" + (d3.event.translate[0]  + offsetX) + ","   + (d3.event.translate[1] + offsetY )+ ")scale(" + d3.event.scale + ")");
-
-// }
-
-//---------------------------------
-
-//defining starting point 
-root = treeData[0]
-
-root.x0 = height / 2;
-root.y0 = 0;
-  
-update(root);
-
-
-//d3.select(self.frameElement).style("height", "500px");
-
- // var delay = setInterval(function(){newNewChild(0,0);},100);
-
-testCreating();
-update(root);
-centerView(); //has to be called right away during initialization
-//treeData[0].children = [];
-
-//testOptimizing();
-// var interval = setInterval(function() {
-//   testClick1();
-// }, 100);
-//clearInterval(interval)
-
-</script>
-
-
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;margin: 5px; float: left;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg .tg-baqh{text-align:center;vertical-align:center}
-.tg .tg-yw4l{vertical-align:top}
-</style>
-<div>
-<table class="tg" id="table">
-  <tr>
-    <th class="tg-baqh">Type1</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()" data-ripple>Add</button></th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()" data-ripple>Delete Type1</button></th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)" data-ripple>Add More</button></th>  
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()" data-ripple>update(root)</button></th>  
-  </tr>
-  <tr>
-    <th class="tg-baqh">Type2</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()" data-ripple>Add</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()" data-ripple>Delete Type2</button></td>
-  </tr>
-  <tr>
-    <th class="tg-baqh">Functions</th>
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" data-ripple>Center View</button></td>
-
-    <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="focusForm">Focus View:</label>
-              <select class="form-control" id="focusForm">
-              </select>
           </div>
-        </form>
-      </div>
-    </td>
-
-    <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" data-ripple>Focus</button></td>
-  </tr>
-  <tr>
-    <th class="tg-baqh">Links</th>
-
-    <td class="tg-baqh"><button id="updateButton" type="button" class="btn btn-primary btn-lg" onclick="updateForms()" data-ripple>Update Forms</button></td>
-
-    <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="linkFrom">From:</label>
-              <select class="form-control" id="linkFrom">
-              </select>
+          <div id="canvas" style="border-style: solid; border-width: 1px"></div>
+          <script>
+          // ************** Generate the tree diagram  *****************
+          var margin = {top: 20, right: 120, bottom: 20, left: 120},
+          width = 960 - margin.right - margin.left,
+          height = 700 - margin.top - margin.bottom;
+          var offsetX = (width + margin.right + margin.left)/2,
+          offsetY=height/2;
+          var zoomMin = 0.2, zoomMax = 7;
+          
+          var i = 0,
+          duration = 500,
+          root;
+          var tree = d3.layout.tree()
+          //.size([height, width]);
+          .nodeSize([55, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
+          var diagonal = d3.svg.diagonal()
+          .projection(function(d) { return [ d.y, d.x]; });
+          // var div = d3.select("body").select(".tabcontents").select("#view1").append("div")
+          //   .style("border-style", "solid")
+          //   .style("border-width", "2px")
+          //   .style("width", width + margin.right + margin.left + 10 + "px")
+          //   .style("height", height + margin.top + margin.bottom + 10 + "px");
+          var zoom = d3.behavior.zoom()
+          .scaleExtent([zoomMin, zoomMax])
+          .on("zoom", redraw);
+          var svg = d3.select("#canvas").append("svg")
+          .attr("width", 1035)
+          .attr("height", 705)
+          .call(zoom)
+          .append("g")
+          .attr("transform", "translate(" + offsetX + "," + offsetY + ")");
+          //------------ Zooming ------------
+          function redraw() {
+          d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+          }
+          // function for handling zoom event
+          // function zoom() {
+          //  svg.attr("transform", "translate(" + (d3.event.translate[0]  + offsetX) + ","   + (d3.event.translate[1] + offsetY )+ ")scale(" + d3.event.scale + ")");
+          // }
+          //---------------------------------
+          //defining starting point
+          root = treeData[0]
+          root.x0 = height / 2;
+          root.y0 = 0;
+          
+          update(root);
+          //d3.select(self.frameElement).style("height", "500px");
+          // var delay = setInterval(function(){newNewChild(0,0);},100);
+          testCreating();
+          update(root);
+          centerView(); //has to be called right away during initialization
+          //treeData[0].children = [];
+          //testOptimizing();
+          // var interval = setInterval(function() {
+          //   testClick1();
+          // }, 100);
+          //clearInterval(interval)
+          </script>
+          <style type="text/css">
+          .tg  {border-collapse:collapse;border-spacing:0;margin: 5px; float: left;}
+          .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+          .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+          .tg .tg-baqh{text-align:center;vertical-align:center}
+          .tg .tg-yw4l{vertical-align:top}
+          </style>
+          <div>
+            <table class="tg" id="table">
+              <tr>
+                <th class="tg-baqh">Type1</th>
+              <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()" data-ripple>Add</button></th>
+            <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()" data-ripple>Delete Type1</button></th>
+          <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)" data-ripple>Add More</button></th>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()" data-ripple>update(root)</button></th>
+      </tr>
+      <tr>
+        <th class="tg-baqh">Type2</th>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()" data-ripple>Add</button></td>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()" data-ripple>Delete Type2</button></td>
+      </tr>
+      <tr>
+        <th class="tg-baqh">Functions</th>
+        <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" data-ripple>Center View</button></td>
+        <td class="tg-baqh">
+          <div class="tg-baqh">
+            <form role="form">
+              <div class="form-group">
+                <label for="focusForm">Focus View:</label>
+                <select class="form-control" id="focusForm">
+                </select>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </td>
-
-    <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="linkTo">To:</label>
-              <select class="form-control" id="linkTo">
-              </select>
+        </td>
+        <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" data-ripple>Focus</button></td>
+      </tr>
+      <tr>
+        <th class="tg-baqh">Links</th>
+        <td class="tg-baqh"><button id="updateButton" type="button" class="btn btn-primary btn-lg" onclick="updateForms()" data-ripple>Update Forms</button></td>
+        <td class="tg-baqh">
+          <div class="tg-baqh">
+            <form role="form">
+              <div class="form-group">
+                <label for="linkFrom">From:</label>
+                <select class="form-control" id="linkFrom">
+                </select>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </td>
-
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()" data-ripple>Submit</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()" data-ripple>Random Link</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()" data-ripple>Single Random</button></td>
-<!--     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td> -->
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()" data-ripple>Clear All</button></td>
-  </tr>
-
-  <tr>
-    <th class="tg-baqh">Links Cont</th>
-    
-    <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="specificLink">Link Select:</label>
-              <select class="form-control" id="specificLink">
-              </select>
+        </td>
+        <td class="tg-baqh">
+          <div class="tg-baqh">
+            <form role="form">
+              <div class="form-group">
+                <label for="linkTo">To:</label>
+                <select class="form-control" id="linkTo">
+                </select>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </td>
-
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()" data-ripple>Del Link</button></td>
-
-    <td class="tg-baqh">
-      <div class="radio">
-       <label><input type="radio" name="optradio" value="0">0</label>
-      </div>
-      <div class="radio">
-        <label><input type="radio" name="optradio" value="1">1</label>
-      </div>
-      <div class="radio">
-       <label><input type="radio" name="optradio" value="2">2</label>
-      </div>
-    </td>
-
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonChangeFlow()" data-ripple>Flow</button></td>
-
-  </tr>
-
-  <tr>
-    <th class="tg-baqh">Links Selection</th>
-      <td class="tg-baqh">
-        <div id="listDIV">
+        </td>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()" data-ripple>Submit</button></td>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()" data-ripple>Random Link</button></td>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()" data-ripple>Single Random</button></td>
+        <!--     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td> -->
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()" data-ripple>Clear All</button></td>
+      </tr>
+      <tr>
+        <th class="tg-baqh">Links Cont</th>
+        
+        <td class="tg-baqh">
+          <div class="tg-baqh">
+            <form role="form">
+              <div class="form-group">
+                <label for="specificLink">Link Select:</label>
+                <select class="form-control" id="specificLink">
+                </select>
+              </div>
+            </form>
+          </div>
+        </td>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()" data-ripple>Del Link</button></td>
+        <td class="tg-baqh">
+          <div class="radio">
+            <label><input type="radio" name="optradio" value="0">0</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="optradio" value="1">1</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="optradio" value="2">2</label>
+          </div>
+        </td>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonChangeFlow()" data-ripple>Flow</button></td>
+      </tr>
+      <tr>
+        <th class="tg-baqh">Links Selection</th>
+        <td class="tg-baqh">
+          <div id="listDIV">
           <select id="linksList" multiple="multiple"></select>
         </div>
       </td>
@@ -290,123 +245,102 @@ centerView(); //has to be called right away during initialization
         <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterUncheckAll()" data-ripple>Uncheck All</button></br></br>
         <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterInvertSelection()" data-ripple>Invert Selection</button>
       </td>
-  </tr>
-
-</table>
-
-</div>            
-  </div>
-  <div id="view2" >
-    <div id="canvas_events" style="border-style: solid; border-width: 1px"></div> <script>events_init();update_events();</script>  
-    <div style="float:left;">
-    <table class="tg" id="table">
-
- <tr>    
-    <th class="tg-baqh">Util</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
-  </tr>
-
-  <tr>    
-    <th class="tg-baqh">View</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
-  </tr>
-
-  <tr>    
-    <th class="tg-baqh">Events</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({testSession: "fromButtonSession",eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"}, true)' data-ripple>Add</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllEvents()" data-ripple>Clear All</button></td>
-  </tr>
-
-  <tr>    
-    <th class="tg-baqh">Filters</th>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="updateEventForms()" data-ripple>Update</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="applyFilterCombination()" data-ripple>Apply</button></td>
-    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="resetFilters()" data-ripple>Reset</button></td>
-  </tr>
-
-<tr>
-      <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="testSession">E Session</label>
-            <select class="form-control" id="testSession" onchange="applyFilterCombination()">
-              </select>
-          </div>
-        </form>
-      </div>
-    </td>   
-
-     <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="eventType">E Type</label>
-             <select class="form-control" id="eventType" onchange="applyFilterCombination()">
-              </select>
-          </div>
-        </form>
-      </div>
-    </td>
-
-     <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="eventSuccess">E Success</label>
-             <select class="form-control" id="eventSuccess" onchange="applyFilterCombination()">
-              </select>
-          </div>
-        </form>
-      </div>
-    </td>
-
-  </tr>
-
-  <tr>
-    <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="node1">E Node1</label>
-             <select class="form-control" id="node1" onchange="applyFilterCombination()">
-              </select>
-          </div>
-        </form>
-      </div>
-    </td>
-
-    <td class="tg-baqh">
-      <div class="tg-baqh">
-        <form role="form">
-          <div class="form-group">
-            <label for="node2">E Node2</label>
-             <select class="form-control" id="node2" onchange="applyFilterCombination()">
-              </select>
-          </div>
-        </form>
-      </div>
-    </td>
-  </tr>
-
+    </tr>
   </table>
 </div>
-  </div>
-            <div id="view3">
-
-
-
+</div>
+<div id="view2" >
+<div id="canvas_events" style="border-style: solid; border-width: 1px"></div> <script>events_init();update_events();</script>
+<div style="float:left;">
+  <table class="tg" id="table">
+    <tr>
+      <th class="tg-baqh">Util</th>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
+    </tr>
+    <tr>
+      <th class="tg-baqh">View</th>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
+    </tr>
+    <tr>
+      <th class="tg-baqh">Events</th>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({testSession: "fromButtonSession", eventSuccess: true, eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"}, true)' data-ripple>Add</button></td>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllEvents()" data-ripple>Clear All</button></td>
+    </tr>
+    <tr>
+      <th class="tg-baqh">Filters</th>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="updateEventForms()" data-ripple>Update</button></td>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="applyFilterCombination()" data-ripple>Apply</button></td>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="resetFilters()" data-ripple>Reset</button></td>
+    </tr>
+    <tr>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="testSession">E Session</label>
+              <select class="form-control" id="testSession" onchange="applyFilterCombination()">
+              </select>
             </div>
+          </form>
         </div>
-    </div>
+      </td>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="eventType">E Type</label>
+              <select class="form-control" id="eventType" onchange="applyFilterCombination()">
+              </select>
+            </div>
+          </form>
+        </div>
+      </td>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="eventSuccess">E Success</label>
+              <select class="form-control" id="eventSuccess" onchange="applyFilterCombination()">
+              </select>
+            </div>
+          </form>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="node1">E Node1</label>
+              <select class="form-control" id="node1" onchange="applyFilterCombination()">
+              </select>
+            </div>
+          </form>
+        </div>
+      </td>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="node2">E Node2</label>
+              <select class="form-control" id="node2" onchange="applyFilterCombination()">
+              </select>
+            </div>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+<div id="view3">
+</div>
+</div>
+</div>
 </body>
-
-
-
-
 <script>
 $('button').ripple( {event: 'mousedown',color: '#000'});
 </script>
-
 </html>

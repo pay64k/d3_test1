@@ -31,3 +31,9 @@ function addTestEvents(){
 				
 }
 
+function addMoreEvents(amount){
+	for (var i = 0; i < amount; i++) {
+	addEvent({testSession: "bigTest", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	};
+}
+
