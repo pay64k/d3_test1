@@ -30,6 +30,7 @@
     <script src="js/buttonFunctions.js"></script>
     <script src="js/stomp/connection.js"></script>
     <script src="js/events_tab/events_main.js"></script>
+    <script src="js/events_tab/events_filter_functions.js"></script>
     <script src="js/storageFunctions.js"></script>
     <!--    Test Scripts    -->
     <script src="js/testing.js"></script>
@@ -250,7 +251,7 @@
 </div>
 </div>
 <div id="view2" >
-<div id="canvas_events" style="border-style: solid; border-width: 1px"></div> <script>events_init();update_events();</script>
+<div id="canvas_events" style="border-style: solid; border-width: 1px"></div> 
 <div style="float:left;">
   <table class="tg" id="table">
     <tr>
@@ -332,15 +333,33 @@
         </div>
       </td>
     </tr>
+    <tr>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="pages">Page Sel</label>
+              <select class="form-control" id="pages" onchange="updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text)">
+              </select>
+            </div>
+          </form>
+        </div>
+      </td>
+    </tr>
   </table>
 </div>
 </div>
+
+
 <div id="view3">
 </div>
 </div>
 </div>
 </body>
 <script>
+events_init();
+updateEventForms();
+applyFilterCombination();
 $('button').ripple( {event: 'mousedown',color: '#000'});
 </script>
 </html>

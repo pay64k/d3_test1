@@ -17,7 +17,7 @@ function testCreating(){
 
 } 
 
-function addTestEvents(){
+function addTestEventsMore(){
 	addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
 	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
 	addEvent({testSession: "test1", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
@@ -28,7 +28,60 @@ function addTestEvents(){
 	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE3", node1Type: "single", node2: "NODE5", node2Type: "single" }, true);
 	addEvent({testSession: "test2", eventSuccess: false, eventType:"msgType2", eventName: "event1", node1: "NODE4", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
 	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+		addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE3", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType1", eventName: "event1", node1: "NODE2", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE3", node1Type: "single", node2: "NODE5", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: false, eventType:"msgType2", eventName: "event1", node1: "NODE4", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+		addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE3", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType1", eventName: "event1", node1: "NODE2", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE3", node1Type: "single", node2: "NODE5", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: false, eventType:"msgType2", eventName: "event1", node1: "NODE4", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+		addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE3", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType1", eventName: "event1", node1: "NODE2", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE3", node1Type: "single", node2: "NODE5", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: false, eventType:"msgType2", eventName: "event1", node1: "NODE4", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
 				
+}
+
+function addTestEventLess(){
+	addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE3", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType1", eventName: "event1", node1: "NODE2", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE3", node1Type: "single", node2: "NODE5", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: false, eventType:"msgType2", eventName: "event1", node1: "NODE4", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+		addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE3", node2Type: "single" }, true);
+	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType1", eventName: "event1", node1: "NODE2", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"shortData", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "group" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE3", node1Type: "single", node2: "NODE5", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: false, eventType:"msgType2", eventName: "event1", node1: "NODE4", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
+	addEvent({testSession: "test2", eventSuccess: true, eventType:"msgType2", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
 }
 
 function addMoreEvents(amount){

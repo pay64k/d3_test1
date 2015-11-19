@@ -176,6 +176,18 @@ function populateForm(formID){
 
 }
 
+function populatePagingForm(pageAmount){
+
+  var select = document.getElementById("pages");
+  if (select != null) {
+    select.options.length = 0;  //reset for no repeats
+      for(var i = 0; i < pageAmount; i++) {
+       select.options[select.options.length] = new Option(i, i);
+      };
+
+  };
+}
+
 function populateEventForm(formID){
 var values = 0 ;
 

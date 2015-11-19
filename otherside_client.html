@@ -22,6 +22,26 @@
     var callback = function(message) {
     // called when the client receives a STOMP message from the server
     if (message.body) {
+      var messageBody = JSON.parse(message.body);
+
+      if (messageBody.command == "REQUEST_EVENTS") {
+
+        for (var i = messageBody.from; i < messageBody.to; i++) {
+          var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
+        };
+
+       
+      
+      };
+
+      if(messageBody.command == "REQUEST_EV_CURR_AMOUNT"){
+
+        var response = { command: "EVENTS_AMOUNT", amount: storedEvents.length};
+        client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(response));
+      
+      }
+
       console.log("got message with body " + message.body)
     } else {
       console.log("got empty message");
@@ -140,7 +160,82 @@ function speedTestFunction2(){
 <button onclick="sendAddLink()">AddLink</button>
 <button onclick="sendDelLink()">DelLink</button>
 
-<button onclick="myVar = setInterval(speedTestFunction2, 1);">Speed Test Start</button>
+<button onclick="myVar = setInterval(speedTestFunction, 1);">Speed Test Start</button>
 <button onclick="clearInterval(myVar);">Speed Test Stop</button>
 
 </body>
+
+
+<script>
+
+var storedEvents = [  {testSession: "test1", eventSuccess: true, eventType:"mobility",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },  
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_simplex",  eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_duplex",   eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_tx",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_hang",     eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_end",      eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call_end",    eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_single",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_group",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_report",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_fail",           eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status",            eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status_ack",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status_nack",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+
+                      {testSession: "test1", eventSuccess: true, eventType:"mobility",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },  
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_simplex",  eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_duplex",   eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_tx",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_hang",     eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_end",      eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call_end",    eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_single",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_group",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_report",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_fail",           eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status",            eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status_ack",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status_nack",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType1", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"msgType3", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }
+
+                      ]
+
+</script>

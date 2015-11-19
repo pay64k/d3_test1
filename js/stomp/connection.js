@@ -32,7 +32,7 @@ var callback = function(message) {
   function processMessage(message){
 
     switch(message.command) {
-
+//-------------------------- DIAGRAM related cases: --------------------------
       case "NEW_OBJECT":
         createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
         break;
@@ -51,6 +51,15 @@ var callback = function(message) {
 
       case "DEL_LINK":
         deleteLink(message.linkName);
+        break;
+//-------------------------- EVENTS related cases: --------------------------
+      case "EVENTS_AMOUNT":
+        console.log(message);
+        break;
+
+      case"EVENTS_BATCH":
+        console.log(message);
+        //add
         break;
 
 

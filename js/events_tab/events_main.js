@@ -7,6 +7,7 @@ var eventEntryCounter = 1; //change to 1 later
 var canvasHeight = 700;
 	
 var events_data = [];
+var events_data_paged = [];
 
 var arrowHeadPathD = "m 210,8 16,-8 -16,-8 z";
 var arrowBodyPathD = "m 30,0 180,0";
@@ -17,6 +18,19 @@ var arrowFailedStyle = "fill:#ff5656;stroke:#ff5656;stroke-width:1px;"
 var envelopePart1D = "m 100,-40 0,30 49,0 0,-30 z";
 var envelopePart2D = "M 100,-40 124,-20 149,-40";
 var envelopeStyles = "fill:none;stroke:#000000;stroke-width:3px;";
+
+function updateEventView(activePage){
+
+	// //filter
+	// var fiteredEvents = applyFilterCombination(); 
+	// //page
+	// var pagedEvents = pageEvents(fiteredEvents);
+	//get current page number
+	//var activePage = page;
+	//update
+	update_events_specific(events_data_paged[activePage].events);
+
+}
 
 function events_init(){
 
@@ -35,8 +49,10 @@ function events_init(){
 	    			.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
 	    			.attr("id", "events_group");
 
-loadEventsDataFromStorage();
+//loadEventsDataFromStorage();
 //addTestEvents();
+addTestEventsMore();
+
 
 }
 
@@ -57,7 +73,7 @@ function loadEventsDataFromStorage(){
 function addEvent(event, visible){
 
 	var newEvent = { eventEntry: eventEntryCounter, eventVisible: visible, _event: event };
-	addEventToStorage(eventEntryCounter, newEvent);
+	//addEventToStorage(eventEntryCounter, newEvent);
 	events_data.push(newEvent);
 	eventEntryCounter++;
 }
@@ -104,94 +120,16 @@ function getUniqueEventNode2(){
 	return allEventNode2.unique();
 }
 
-function filterEvents(data,filter){ 	//filter = {filterType: "byEventProperty", eventPropertyName: "eventType", eventProperty:"msgType1", visible: true }
-										//filter = {filterType: "byEventEntry", rangeStart: 0, rangeEnd: 10, visible: true}
-	var nodesAfected = [];
-	switch(filter.filterType){
-		case "byEventProperty":
-			switch(filter.eventProperty){
-				case "showAll":
-					for (var i = 0; i < data.length; i++) {
-						data[i].eventVisible = true;
-						nodesAfected.push(data[i]);
-					};
-					break;
 
-				case "hideAll":
-					for (var i = 0; i < data.length; i++) {
-						data[i].eventVisible = false;
-						nodesAfected.push(data[i]);
-					};
-					break;
 
-				default:
-					nodesAfected = filterByProperty(data, filter.eventPropertyName, filter.eventProperty, filter.visible);
-					break;
-			}
-			break;
-
-		case "byEventEntry":
-			filterByEntry(data, filter.rangeStart, filter.rangeEnd, filter.visible);
-			break;
-
-		default:
-		break;
-	}
-
-	// update_events();
-	// viewTop();
-	return nodesAfected;
+function requestEvents(from, to){
+	var request = {command: "REQUEST_EVENTS", from: from, to: to };
+ 	client.send("/queue/example_QD1", {priority: 9}, JSON.stringify(request));
 }
 
-function filterByProperty(eventData, eventPropertyName, eventProperty, visible){
-	var nodesAfected = [];
-	for (var i = 0; i < eventData.length; i++) {
-		if (eventData[i]._event[eventPropertyName] == eventProperty) {
-			eventData[i].eventVisible = visible;
-			nodesAfected.push(eventData[i]);
-		}else{
-			eventData[i].eventVisible = !visible;
-		};
-	};
-	return nodesAfected;
-}
-
-function filterByEntry(eventData, rangeStart, rangeEnd, visible){
-	if (rangeEnd > eventData.length) {
-		rangeEnd = eventData.length;
-	};
-	for (var i = rangeStart-1; i < rangeEnd; i++) {
-		eventData[i].eventVisible = visible;
-	};
-}
-
-function applyFilterCombination(){
-	var formsID = ["testSession","eventType", "node1", "node2", "eventSuccess"];
-	var formsValues = [];
-	var nodesAfected = [];
-	for (var i = 0; i < formsID.length; i++) {
-		var tempValue = document.getElementById(formsID[i]).value;
-		
-		if (tempValue == "true") {
-			tempValue = true;
-		};
-		if (tempValue == "false") {
-			tempValue = false;
-		};
-		
-		formsValues.push(tempValue);
-	};
-	nodesAfected = filterEvents(events_data, {filterType: "byEventProperty", eventPropertyName: "testSession", eventProperty:"hideAll", visible: true });
-	for (var i = 0; i < formsValues.length; i++) {
-		nodesAfected = filterEvents(nodesAfected,{filterType: "byEventProperty", eventPropertyName: formsID[i], eventProperty:formsValues[i], visible: true });
-	};
-	update_events();
-	viewTop();
-}
-
-function resetFilters(){
-	updateEventForms();
-	applyFilterCombination();
+function requestCurrentEventAmount(){
+	var request = {command: "REQUEST_EV_CURR_AMOUNT"};
+ 	client.send("/queue/example_QD1", {priority: 9}, JSON.stringify(request));
 }
 
 function scrollFun(){
@@ -200,7 +138,7 @@ function scrollFun(){
 
     var group = d3.select("#events_group");
     var currentPostitionY = d3.transform(group.attr("transform")).translate[1];
-
+    //console.log(currentPostitionY);
     if (dy < 0) {
 		group
 		.transition().duration(20)
@@ -276,7 +214,102 @@ function update_events(){
 	var events_groupEnter = events_group.enter().append("g")			
 			.attr("id", function(d) { return "eventEntry" + d.eventEntry; } )
 			.attr("class", "node")
-			.attr("transform", function(d, i) { return "translate(" + (-500) + "," + d.y + ") scale(0)"; });
+			.attr("transform", function(d, i) { return "translate(" + (-100) + "," + d.y + ") scale(0)"; });
+			
+	events_groupEnter.append("text")
+			.text(function(d) { return "# " + d.eventEntry; })
+			.attr("text-anchor", "end")
+			.attr("x",-25)
+			.attr("y",5);
+
+	events_groupEnter.append("circle")
+						.attr("r", 10);
+
+	events_groupEnter.append("text")
+			.text(function(d) { return d._event.node1; })
+			.attr("text-anchor", "middle")
+			.attr("y",25);
+
+	events_groupEnter.append("circle")
+						.attr("r", 10)
+						.attr("cx", 256);
+
+	events_groupEnter.append("text")
+			.text(function(d) { return d._event.node2; })
+			.attr("text-anchor", "middle")
+			.attr("y",25)
+			.attr("x",256);
+
+
+		events_groupEnter.append("path")
+				.attr("d", envelopePart1D )
+				.attr("style", envelopeStyles)
+				.attr("transform", envelopeVisibility);
+
+		events_groupEnter.append("path")
+				.attr("d", envelopePart2D )
+				.attr("style", envelopeStyles)
+				.attr("transform", envelopeVisibility);
+
+		events_groupEnter.append("path")
+				.attr("d", arrowBodyPathD )
+				.attr("style", arrowColor);
+
+		events_groupEnter.append("path")
+							.attr("d", arrowHeadPathD )
+							.attr("style", arrowColor);
+
+	events_groupEnter.append("text")
+			.text(function(d) { return d._event.eventType; })
+			.attr("text-anchor", "middle")
+			.attr("y",25)
+			.attr("x",128);
+
+				
+
+	var events_groupUpdate = events_group.transition()
+		.duration(500)
+		.ease("bounce")
+		.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ") scale(1)"; });
+
+	var events_groupExit = events_group.exit().transition()
+		.duration(500)
+		.attr("transform", function(d) { return "translate(" + 500 + "," + d.y + ") scale(1)"; })
+		.remove();
+}
+
+function envelopeVisibility(d){
+	if (d._event.eventType == "shortData") {
+		return "scale(1)"
+	}else{
+		return "scale(0)"
+	};
+}
+
+
+function update_events_specific(e_data){
+
+	heightCounter=0;
+
+	for (var i = 0; i < e_data.length; i++) {
+		if (e_data[i].eventVisible) {
+			e_data[i].x = 0;
+			e_data[i].y = eventDistance * heightCounter;
+			heightCounter++;
+		}else{
+			e_data[i].x = 0;
+			//events_data[i].y = 0;
+		};
+		
+	};
+
+	var events_group = d3.select("#events_group").selectAll("g").data( e_data.filter(function(d){ return d.eventVisible ? d.eventEntry : null }), function(d) {return d.eventEntry} );
+	
+
+	var events_groupEnter = events_group.enter().append("g")			
+			.attr("id", function(d) { return "eventEntry" + d.eventEntry; } )
+			.attr("class", "node")
+			.attr("transform", function(d, i) { return "translate(" + (-100) + "," + d.y + ") scale(0)"; });
 			
 	events_groupEnter.append("text")
 			.text(function(d) { return "# " + d.eventEntry; })
