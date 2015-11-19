@@ -58,18 +58,20 @@ var callback = function(message) {
         break;
 
       case"EVENTS_BATCH":
-        console.log(message);
-        //add
+        addEvent(message._event, message.visible);
         break;
 
 
       case "UPDATE":
         update(root);
         updateAllLinks();
-        update_events();
+        // update_events();
         break;
 
-      
+      case "UPDATE_EVENTS":
+        applyFilterCombination();
+        updateEventForms();
+        break;      
 
 
       default:

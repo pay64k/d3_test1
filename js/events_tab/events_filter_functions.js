@@ -97,32 +97,47 @@ function resetFilters(){
 
 
 //---------------------------- Paging functions ----------------------------
+var eventsPerPage = 10;
+
+function setEventsPerPageAndSvgHeight(amount){
+	eventsPerPage = amount;
+	var svg = d3.select("#canvas_events").select("svg").style("height",getSVGHeight());
+	applyFilterCombination();
+}
 
 function pageEvents(e_data) {
 
-	var eventsPerPage = 10;
-
-	var eventsAmount = e_data.length;
-
-	var pagesAmount = Math.ceil(eventsAmount / eventsPerPage);
-
-	var pageContent = []; //[{page:1, events: [{123},{456}]},{page:2, events: [{1223},{4536}]}]
-	var pageObject = {page: 0, events:[]};
-	var pageNumber = 1;
-	var currentEventNumber = 0;
-
-
-	for (var i = pageNumber; i <= pagesAmount; i++) {
-		pageObject = {page: 0, events:[]};
-		pageObject.page = i;
-		for (currentEventNumber; currentEventNumber < eventsPerPage*pageNumber; currentEventNumber++) {
-			if (e_data[currentEventNumber]==undefined) {break;};
-			pageObject.events.push(e_data[currentEventNumber]);
-		};
-		
-		pageContent.push(pageObject);
-		pageNumber++;
+	// var eventsPerPage = 10;
+	var pageObject = {
+		page: 0,
+		events: []
 	};
+	var eventsAmount = e_data.length;
+	if (eventsAmount == 0) {
+		return [{page: 0, events: []}];
+	} else {;
+		var pagesAmount = Math.ceil(eventsAmount / eventsPerPage);
 
-	return pageContent;
+		var pageContent = []; //[{page:1, events: [{123},{456}]},{page:2, events: [{1223},{4536}]}]
+
+		var pageNumber = 1;
+		var currentEventNumber = 0;
+
+
+		for (var i = pageNumber; i <= pagesAmount; i++) {
+			pageObject = { page: 0,events: [] };
+			pageObject.page = i;
+			for (currentEventNumber; currentEventNumber < eventsPerPage * pageNumber; currentEventNumber++) {
+				if (e_data[currentEventNumber] == undefined) {
+					break;
+				};
+				pageObject.events.push(e_data[currentEventNumber]);
+			};
+
+			pageContent.push(pageObject);
+			pageNumber++;
+		};
+
+		return pageContent;
+	}
 }

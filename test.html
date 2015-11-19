@@ -254,15 +254,19 @@
 <div id="canvas_events" style="border-style: solid; border-width: 1px"></div> 
 <div style="float:left;">
   <table class="tg" id="table">
-    <tr>
+    <!-- <tr>
       <th class="tg-baqh">Util</th>
       <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
-    </tr>
-    <tr>
+    </tr> -->
+<!--     <tr>
       <th class="tg-baqh">View</th>
       <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
       <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
-    </tr>
+    </tr> -->
+<tr>
+  <th class="tg-baqh">Load</th>
+  <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="loadEvents()" data-ripple>Load Events</button></td>
+</tr>
     <tr>
       <th class="tg-baqh">Events</th>
       <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({testSession: "fromButtonSession", eventSuccess: true, eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"}, true)' data-ripple>Add</button></td>
@@ -340,6 +344,23 @@
             <div class="form-group">
               <label for="pages">Page Sel</label>
               <select class="form-control" id="pages" onchange="updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text)">
+              </select>
+            </div>
+          </form>
+        </div>
+      </td>
+      <td class="tg-baqh">
+        <div class="tg-baqh">
+          <form role="form">
+            <div class="form-group">
+              <label for="resultsAmount">Results/Page</label>
+              <select class="form-control" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text)">
+                <option>10</option>
+                <option>50</option>
+                <option>100</option>
+                <option>150</option>
+                <option>200</option>
+                <option>250</option>
               </select>
             </div>
           </form>

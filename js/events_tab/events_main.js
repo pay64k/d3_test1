@@ -40,20 +40,24 @@ function events_init(){
 	.style("height", canvasHeight + "px")
 	.style("float", "left")
 	.style("margin", "5px")
+	.style("overflow", "auto")
 		.append("svg")
 	    	.style("display", "block") 
-	    	.style("height", "100%")
+	    	.style("height", getSVGHeight())
 	    	.style("width", "100%")
-	    	.on("wheel.zoom", scrollFun)
+	    	//.on("wheel.zoom", scrollFun)
 	    		.append("g")
 	    			.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
 	    			.attr("id", "events_group");
 
 //loadEventsDataFromStorage();
 //addTestEvents();
-addTestEventsMore();
+//addTestEventsMore();
 
+}
 
+function getSVGHeight(){
+	return eventsPerPage * eventDistance;
 }
 
 function loadEventsDataFromStorage(){
@@ -120,17 +124,19 @@ function getUniqueEventNode2(){
 	return allEventNode2.unique();
 }
 
-
+function loadEvents(){
+	requestEvents("min", "max");
+}
 
 function requestEvents(from, to){
 	var request = {command: "REQUEST_EVENTS", from: from, to: to };
  	client.send("/queue/example_QD1", {priority: 9}, JSON.stringify(request));
 }
 
-function requestCurrentEventAmount(){
-	var request = {command: "REQUEST_EV_CURR_AMOUNT"};
- 	client.send("/queue/example_QD1", {priority: 9}, JSON.stringify(request));
-}
+// function requestCurrentEventAmount(){
+// 	var request = {command: "REQUEST_EV_CURR_AMOUNT"};
+//  	client.send("/queue/example_QD1", {priority: 9}, JSON.stringify(request));
+// }
 
 function scrollFun(){
 	dx = d3.event.wheelDeltaX;
