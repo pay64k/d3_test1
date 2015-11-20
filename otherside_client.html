@@ -34,8 +34,18 @@
         for (var i = 0; i < storedEvents.length; i++) {
           var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
           client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
-        };
 
+        };
+        for (var i = 0; i < storedEvents.length; i++) {
+          var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
+
+        };
+                for (var i = 0; i < storedEvents.length; i++) {
+          var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
+
+        };
           var msg = { command: "UPDATE_EVENTS"};
           client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(msg));       
       
@@ -149,6 +159,19 @@ function speedTestFunction2(){
   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(message));
 
 }
+var amount= 0;
+function speedTestFunction3(){
+        
+        for (var i = 0; i < storedEvents.length; i++) {
+          var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
+          amount++;
+
+        };
+                  var msg = { command: "UPDATE_EVENTS"};
+          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(msg));  
+console.log("sent " + amount + " events (64733 was before test started)");
+}
 
 </script>
 
@@ -166,7 +189,7 @@ function speedTestFunction2(){
 <button onclick="sendAddLink()">AddLink</button>
 <button onclick="sendDelLink()">DelLink</button>
 
-<button onclick="myVar = setInterval(speedTestFunction, 1);">Speed Test Start</button>
+<button onclick="myVar = setInterval(speedTestFunction3, 2000);">Speed Test Start</button>
 <button onclick="clearInterval(myVar);">Speed Test Stop</button>
 
 </body>
