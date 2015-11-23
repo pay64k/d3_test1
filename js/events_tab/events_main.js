@@ -9,15 +9,35 @@ var canvasHeight = 700;
 var events_data = [];
 var events_data_paged = [];
 
-var arrowHeadPathD = "m 210,8 16,-8 -16,-8 z";
-var arrowBodyPathD = "m 30,0 180,0";
+// var arrowHeadPathD = "m 210,8 16,-8 -16,-8 z";
+// var arrowBodyPathD = "m 30,0 180,0";
 
-var arrowSuccessStyle = "fill:#000000;stroke:black;stroke-width:1px;"
-var arrowFailedStyle = "fill:#ff5656;stroke:#ff5656;stroke-width:1px;"
+var arrowPath_long = "m 35,0 180,0";
+var arrowPath_long_reversed = "m 215,0 -175,0";
+var arrowPath_short = "m 30,0 90,0";
+var arrowPath_short_reversed = "m 90,0 60,0";
 
-var envelopePart1D = "m 100,-40 0,30 49,0 0,-30 z";
-var envelopePart2D = "M 100,-40 124,-20 149,-40";
-var envelopeStyles = "fill:none;stroke:#000000;stroke-width:3px;";
+var arrowStyles_dashed_markerEnd 		= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);stroke-dasharray:8, 1;stroke-dashoffset:0";
+var arrowStyles_dashed_markerBoth 		= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);marker-start: url(#starttriangle);stroke-dasharray:8, 1;stroke-dashoffset:0";
+var arrowStyles_dashed_markerNone 		= "stroke:#000000;stroke-width:2;stroke-dasharray:8, 1;stroke-dashoffset:0";
+var arrowStyles_continous_markerEnd 	= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);";
+var arrowStyles_continous_markerBoth	= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);marker-start: url(#starttriangle);";
+var arrowStyles_continous_markerNone 	= "stroke:#000000;stroke-width:2;";
+
+var icon_path_newCall  = "M24.905,26.431v-0.007l-3.813-6.445c-0.292-0.5-0.926-0.652-1.417-0.364l-2.271,1.346l0.187,0.314   c-1.006,0.452-1.898-0.569-3.48-2.714l-3.252-5.49c-0.643-1.404-1.15-2.83-0.174-3.519l0.104,0.178l2.27-1.342V8.383   c0.521-0.308,0.645-0.95,0.363-1.423V6.956L9.609,0.51c-0.291-0.5-0.926-0.654-1.416-0.364l-2.27,1.346l0.139,0.231   C4.805,2.758,1.66,7.643,7.899,18.479c6.475,11.246,12.645,11.176,14.21,10.448l0.159,0.273l2.271-1.341v-0.003   C25.061,27.546,25.183,26.905,24.905,26.431z"
+var icon_path_endCall = "M0,17.366l0.02,2.576l0.002,0.004c0.006,0.588,0.485,1.008,1.022,1.004l0.006,0.004l7.313-0.059    c0.565-0.004,1.007-0.463,1-1.019l-0.021-2.578L8.987,17.3c0.111-1.07,1.411-1.323,4-1.609l6.231-0.052    c1.5,0.146,2.953,0.415,3.058,1.58l-0.199,0.002l0.021,2.573l0.001,0.003c0.005,0.594,0.486,1.012,1.023,1.006l0.006,0.006    l7.312-0.062c0.565-0.001,1.005-0.462,1.001-1.019l-0.021-2.575l-0.264,0.002c-0.258-1.566-2.843-6.622-15.053-6.668    C3.429,10.439,0.462,15.685,0.31,17.364L0,17.366z"
+var icon_path_tx = "M122.54,301.304c28.648,28.655,61.832,56.046,74.943,42.929c18.782-18.775,30.355-35.129,71.747-1.863   c41.392,33.279,9.602,55.454-8.589,73.65c-20.991,20.992-99.239,1.102-176.583-76.234C6.722,262.442-13.175,184.195,7.83,163.196   c18.197-18.197,40.372-49.98,73.63-8.582c33.272,41.385,16.925,52.965-1.856,71.74C66.5,239.472,93.884,272.649,122.54,301.304z    M425.126,104.601c0,57.066-58.452,103.326-130.553,103.326c-7.208,0-14.232-0.585-21.121-1.469   c-19.618,20.081-49.585,29.838-83.626,32.381c13.94-13.94,23.915-34.17,27.043-51.34c-32.015-18.829-52.856-48.899-52.856-82.892   c0-57.065,58.453-103.326,130.554-103.326S425.126,47.535,425.126,104.601z M212.972,104.601c0,11.268,9.133,20.4,20.401,20.4   s20.4-9.132,20.4-20.4s-9.133-20.4-20.4-20.4S212.972,93.333,212.972,104.601z M314.973,104.601c0-11.268-9.132-20.4-20.399-20.4   s-20.4,9.132-20.4,20.4s9.133,20.4,20.4,20.4S314.973,115.868,314.973,104.601z M376.173,104.601c0-11.268-9.132-20.4-20.399-20.4   s-20.4,9.132-20.4,20.4s9.133,20.4,20.4,20.4S376.173,115.868,376.173,104.601z"
+
+var icon_style_green = "fill:#67D93B;stroke:#000000";
+var icon_style_red = "fill:#D95E3B;stroke:#000000";
+var icon_style_black = "fill:#000000;stroke:#000000";
+
+// var arrowSuccessStyle = "fill:#000000;stroke:black;stroke-width:1px;"
+// var arrowFailedStyle = "fill:#ff5656;stroke:#ff5656;stroke-width:1px;"
+
+// var envelopePart1D = "m 100,-40 0,30 49,0 0,-30 z";
+// var envelopePart2D = "M 100,-40 124,-20 149,-40";
+// var envelopeStyles = "fill:none;stroke:#000000;stroke-width:3px;";
 
 function updateEventView(activePage){
 
@@ -44,11 +64,39 @@ function events_init(){
 		.append("svg")
 	    	.style("display", "block") 
 	    	.style("height", getSVGHeight())
-	    	.style("width", "100%")
+	    	.style("width", "100%");
 	    	//.on("wheel.zoom", scrollFun)
-	    		.append("g")
-	    			.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
-	    			.attr("id", "events_group");
+	var defs = svg.append("defs");
+		
+		defs.append("marker")
+			.attr("id","endtriangle")
+			.attr("markerWidth", "10")
+			.attr("markerHeight", "10")
+			.attr("viewBox", "0 0 10 10")
+			.attr("markerUnits", "strokeWidth")
+			.attr("refX", "2")
+			.attr("refY", "5")
+			.attr("orient", "auto")
+				.append("path")
+				.attr("d", "M 0 0 L 10 5 L 0 10 z")
+				.style("fill", "#000000");
+
+		defs.append("marker")
+			.attr("id","starttriangle")
+			.attr("markerWidth", "10")
+			.attr("markerHeight", "10")
+			.attr("viewBox", "-2 0 10 10")
+			.attr("markerUnits", "strokeWidth")
+			.attr("refX", "0")
+			.attr("refY", "5")
+			.attr("orient", "auto")
+				.append("path")
+				.attr("d", "M -2 5 L 8 0 L 8 10 z")
+				.style("fill", "#000000");
+
+	svg.append("g")
+		.attr("transform", "translate(" + offsetX_events + "," + offsetY_events + ")")
+		.attr("id", "events_group");
 
 //loadEventsDataFromStorage();
 //addTestEvents();
@@ -324,41 +372,107 @@ function update_events_specific(e_data){
 			.attr("y",5);
 
 	events_groupEnter.append("circle")
+						.attr("id", "node1_circle")
 						.attr("r", 10);
 
 	events_groupEnter.append("text")
 			.text(function(d) { return d._event.node1; })
 			.attr("text-anchor", "middle")
-			.attr("y",25);
+			.attr("y",35);
 
 	events_groupEnter.append("circle")
+						.attr("id", "node2_circle")
 						.attr("r", 10)
 						.attr("cx", 256);
 
 	events_groupEnter.append("text")
 			.text(function(d) { return d._event.node2; })
 			.attr("text-anchor", "middle")
-			.attr("y",25)
+			.attr("y",35)
 			.attr("x",256);
 
 
-		events_groupEnter.append("path")
-				.attr("d", envelopePart1D )
-				.attr("style", envelopeStyles)
-				.attr("transform", envelopeVisibility);
+	events_groupEnter.each(function(d){
+		var thisGroup = d3.select(this);
+		var eventType = d._event.eventType;
+		console.log(eventType);
+		switch(eventType){
 
-		events_groupEnter.append("path")
-				.attr("d", envelopePart2D )
-				.attr("style", envelopeStyles)
-				.attr("transform", envelopeVisibility);
+			case "mobility":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_dashed_markerEnd);
+				break;
 
-		events_groupEnter.append("path")
-				.attr("d", arrowBodyPathD )
-				.attr("style", arrowColor);
+			case "ind_call_simplex":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_short);
+				arrow.attr("style", arrowStyles_continous_markerEnd);
 
-		events_groupEnter.append("path")
-							.attr("d", arrowHeadPathD )
-							.attr("style", arrowColor);
+				var icon = thisGroup.append("path").attr("d",icon_path_newCall);
+				icon.attr("transform","translate(120,-35)")
+				icon.attr("style", icon_style_green);
+				break;
+
+			case "ind_call_duplex":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_continous_markerBoth);		
+				break;	
+
+			case "ind_call_tx":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_continous_markerEnd);
+
+				var icon = thisGroup.append("path").attr("d",icon_path_tx);
+				icon.attr("transform","translate(120,-35)scale(0.07)")
+				icon.attr("style", icon_style_black);
+				break;
+
+			case "ind_call_hang":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_continous_markerNone);
+				break;
+
+			case "ind_call_end":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_continous_markerEnd);
+
+				var icon = thisGroup.append("path").attr("d",icon_path_endCall);
+				icon.attr("transform","translate(120,-35)")
+				icon.attr("style", icon_style_red);
+				break;
+
+			case "group_call":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_continous_markerEnd);
+				thisGroup.append("circle")
+					.attr("r", 10)
+	  				.attr("cx", 256 + 5 )
+	  				.attr("cy", 5);
+				thisGroup.append("circle")
+					.attr("r", 10)
+	  				.attr("cx", 256 + 10 )
+	  				.attr("cy", 10);
+				break;
+
+			case "group_call_end":
+				var arrow = thisGroup.append("path").attr("d",arrowPath_long);
+				arrow.attr("style", arrowStyles_continous_markerEnd);
+				thisGroup.append("circle")
+					.attr("r", 10)
+	  				.attr("cx", 256 + 5 )
+	  				.attr("cy", 5);
+				thisGroup.append("circle")
+					.attr("r", 10)
+	  				.attr("cx", 256 + 10 )
+	  				.attr("cy", 10);
+				var icon = thisGroup.append("path").attr("d",icon_path_endCall);
+				icon.attr("transform","translate(120,-35)")
+				icon.attr("style", icon_style_red);
+				break;
+
+			default:
+			break;
+		}
+	});
 
 	events_groupEnter.append("text")
 			.text(function(d) { return d._event.eventType; })
