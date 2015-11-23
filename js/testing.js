@@ -90,3 +90,25 @@ function addMoreEvents(amount){
 	};
 }
 
+var eventsTest = [  {testSession: "test1", eventSuccess: true, eventType:"mobility",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },  
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_simplex",  eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      // {testSession: "test1", eventSuccess: true, eventType:"ind_call_simplex",  eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_duplex",   eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_tx",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_hang",     eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_end",      eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call_end",    eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_single",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_group",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_report",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"sd_fail",           eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status",            eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status_ack",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"status_nack",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }];
+
+function addTestEventsGOOD(){
+	for (var i = eventsTest.length - 1; i >= 0; i--) {
+		addEvent( eventsTest[i], true);
+	};
+}
