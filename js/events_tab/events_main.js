@@ -183,7 +183,7 @@ function loadEvents(){
 
 function requestEvents(from, to){
 	var request = {command: "REQUEST_EVENTS", from: from, to: to };
- 	client.send("/queue/example_QD1", {priority: 9}, JSON.stringify(request));
+ 	client.send(queueSendTo, {priority: 9}, JSON.stringify(request));
 }
 
 // function requestCurrentEventAmount(){

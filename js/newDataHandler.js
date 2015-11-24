@@ -106,6 +106,17 @@ function createElementAndGroupNEW(_root, id_parent, element){
     }
   }
 
+function newElementTest(id_parent, element){
+
+var result = treeData.filter(function( obj ) {
+  return obj.name == id_parent;
+});
+
+result[0].inner_children.push(element);
+
+}
+
+
 function deleteElement(_root, childName){
   debugLog(">>>DEL " + childName); 
   var foundList = findElementNEW(_root, "name", childName);
@@ -201,16 +212,16 @@ function createProperty(node, propertyName){
 
 function debugLog(body){
 
-  var currentdate = new Date(); 
-  var message =    currentdate.getDate() + "/"
-                  + (currentdate.getMonth()+1)  + "/" 
-                  + currentdate.getFullYear() + "@"  
-                  + currentdate.getHours() + ":"  
-                  + currentdate.getMinutes() + ":" 
-                  + currentdate.getSeconds() + "."
-                  + currentdate.getMilliseconds()  
-                  + "\t " + body;
+  // var currentdate = new Date(); 
+  // var message =    currentdate.getDate() + "/"
+  //                 + (currentdate.getMonth()+1)  + "/" 
+  //                 + currentdate.getFullYear() + "@"  
+  //                 + currentdate.getHours() + ":"  
+  //                 + currentdate.getMinutes() + ":" 
+  //                 + currentdate.getSeconds() + "."
+  //                 + currentdate.getMilliseconds()  
+  //                 + "\t " + body;
 
-  console.log(message);
+  // console.log(message);
 
 }

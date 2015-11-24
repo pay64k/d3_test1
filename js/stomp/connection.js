@@ -1,11 +1,18 @@
- var ws = new SockJS('http://127.0.0.1:15674/stomp');
+ //var ws = new SockJS('http://127.0.0.1:15674/stomp');
+ var ws = new SockJS('http://10.172.27.201:15674/stomp');
 
  var client = Stomp.over(ws);
+ 
+//-------------------------------
+var subscibeToQueue = "/queue/example_QD2"; //queue name to subcribe to in order to receive messages. client on the other side must send messages to this queue
+var queueSendTo = "/queue/example_QD1";      //queue to send messages to. client on the other side must subscribe to this queue
+var queue1 = "/queue/test1";
+//-------------------------------
 
  var on_connect = function() {
     console.log('connected');
     var mysubid = 'SubscriptionID_consumer1';
-    var subscription = client.subscribe("/queue/example_QD2", callback, { id: mysubid });
+    var subscription = client.subscribe(queue1, callback, { id: mysubid });
     console.log('subscribed to ' + mysubid);
 };
 var on_error =  function() {
@@ -21,7 +28,7 @@ var callback = function(message) {
     if (message.body) {
       var message = JSON.parse(message.body);
 
-      debugLog(">>>Received message: " + message.command)
+      //debugLog(">>>Received message: " + message.command)
 
       processMessage(message);
     
@@ -34,7 +41,8 @@ var callback = function(message) {
     switch(message.command) {
 //-------------------------- DIAGRAM related cases: --------------------------
       case "NEW_OBJECT":
-        createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
+        //createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
+        newElementTest(message.parent, message.newObject);
         break;
 
       case "DELETE":
@@ -63,6 +71,7 @@ var callback = function(message) {
 
 
       case "UPDATE":
+        console.log("updejt");
         update(root);
         updateAllLinks();
         // update_events();
@@ -81,10 +90,11 @@ var callback = function(message) {
 
   }
 
-client.connect('test_user1', 'test', on_connect, on_error, '/');
+// client.connect('test_user1', 'test', on_connect, on_error, '/');
+client.connect('gui', 'test', on_connect, on_error, '/');
 client.heartbeat.outgoing = 0;
 client.heartbeat.incoming = 0;
 
-function myFunction() {
-    client.send("/queue/example_QD1", {priority: 9}, "From USER 1");
-}
+// function myFunction() {
+//     client.send("/queue/example_QD1", {priority: 9}, "From USER 1");
+// }

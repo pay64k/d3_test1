@@ -65,7 +65,8 @@ var treeData = [
   "name": "Client1",
   "parent": "null",
   "type": "Client",
-  "children": []
+  "children": [],
+  "inner_children": []
 }
 ];
 
