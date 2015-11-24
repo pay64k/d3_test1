@@ -197,15 +197,16 @@ console.log("sent " + amount + " events (64733 was before test started)");
 
 <script>
 
-var storedEvents = [  {testSession: "test1", eventSuccess: true, eventType:"mobility",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },  
+var storedEvents = [  {testSession: "test1", eventSuccess: true, eventType:"mobility",          eventName: "Migration Radio1", node1: "System1", node1Type: "single", node2: "System2", node2Type: "single" },  
                       {testSession: "test1", eventSuccess: true, eventType:"ind_call_simplex",  eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
                       // {testSession: "test1", eventSuccess: true, eventType:"ind_call_simplex",  eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
-                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_duplex",   eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_duplex",   eventName: "event2", node1: "Radio1", node1Type: "single", node2: "Radio2", node2Type: "single" },
                       {testSession: "test1", eventSuccess: true, eventType:"ind_call_tx",       eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
                       {testSession: "test1", eventSuccess: true, eventType:"ind_call_hang",     eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
-                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_end",      eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
-                      {testSession: "test1", eventSuccess: true, eventType:"group_call",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
-                      {testSession: "test1", eventSuccess: true, eventType:"group_call_end",    eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"ind_call_end",      eventName: "event2", node1: "Radio1", node1Type: "single", node2: "Radio2", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call",        eventName: "event2", node1: "NODE1", node1Type: "single", node2: "TG", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call_hang",   eventName: "event2", node1: "NODE1", node1Type: "single", node2: "TG", node2Type: "single" },
+                      {testSession: "test1", eventSuccess: true, eventType:"group_call_end",    eventName: "event2", node1: "NODE1", node1Type: "single", node2: "TG", node2Type: "single" },
                       {testSession: "test1", eventSuccess: true, eventType:"sd_single",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
                       {testSession: "test1", eventSuccess: true, eventType:"sd_group",          eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },
                       {testSession: "test1", eventSuccess: true, eventType:"sd_report",         eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" },

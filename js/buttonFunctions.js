@@ -260,15 +260,6 @@ function submitNewLink(){
   updateAllLinks();
 }
 
-// function delLastLink(){
-//   //removeLink(linkNamesGLOBAL.pop());
-//   //removeLink(linksGLOBAL[linksGLOBAL.length-1][3]);
-//   deleteLinkAndDeactivate(linksGLOBAL[linksGLOBAL.length-1][3]);
-
-//   update(root);
-//   updateAllLinks();
-// }
-
 function randomLink(){
   var names = getAllNames();//debugger;
   var linkName = "Link" + Math.floor(Math.random() * (10000000 - 1 + 1)) + 1;
@@ -276,8 +267,6 @@ function randomLink(){
   do{
     var name1 = names[Math.floor(Math.random() * names.length)];
     var name2 = names[Math.floor(Math.random() * names.length)];
-
-    //if (name1 == "Client1" || name2 == "Client1") {debugger;};
 
   }while(name1 == "Client1" || name2 == "Client1" || name1 == "System2" || name2 == "System2");
 

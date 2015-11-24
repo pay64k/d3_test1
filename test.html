@@ -127,7 +127,9 @@
           update(root);
           //d3.select(self.frameElement).style("height", "500px");
           // var delay = setInterval(function(){newNewChild(0,0);},100);
-          testCreating();
+
+          //testCreating();
+          
           update(root);
           centerView(); //has to be called right away during initialization
           //treeData[0].children = [];
@@ -361,6 +363,7 @@
                 <option>150</option>
                 <option>200</option>
                 <option>250</option>
+                <option>500</option>
               </select>
             </div>
           </form>
@@ -377,17 +380,13 @@
 </div>
 </div>
 </body>
+
 <script>
 events_init();
 updateEventForms();
 applyFilterCombination();
 $('button').ripple( {event: 'mousedown',color: '#000'});
 </script>
-<defs>
-<marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6"
-       orient="auto">
-    <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #000000;" />
-</marker>
-</defs>
+
 </html>
 

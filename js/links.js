@@ -223,9 +223,6 @@ function newLink(startNodeName, endNodeName, linkID, linkColorIndex, visible){
 	
 }
 
-function addMultipleLinks(startNodeName, endNodeNames){
-
-}
 
 function updateAllLinks(){
 	for (var i = 0; i < linksData.length; i++) {
