@@ -6,18 +6,19 @@
 
 <script>
     //use SockJS implementation instead of the browser's native implementation
-    // var ws = new SockJS('http://127.0.0.1:15674/stomp');
-    var ws = new SockJS('http://10.172.27.201:15674/stomp');
+    var ws = new SockJS('http://127.0.0.1:15674/stomp');
+    // var ws = new SockJS('http://10.172.27.201:15674/stomp');
     var client = Stomp.over(ws);
 
 	var on_connect = function() {
         console.log('connected');
         var mysubid = 'SubscriptionID_consumer2';
-        var subscription = client.subscribe("/queue/test1", callback, { id: mysubid });
+        var subscription = client.subscribe("/queue/test12", callback, { id: mysubid });
         console.log('subscribed to ' + mysubid);
     };
-    var on_error =  function() {
+    var on_error =  function(d) {
         console.log('error');
+        console.log(d);
     };
 
     var callback = function(message) {
@@ -164,15 +165,25 @@ function speedTestFunction2(){
 var amount= 0;
 function speedTestFunction3(){
         
-        for (var i = 0; i < storedEvents.length; i++) {
-          var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
-          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
-          amount++;
+//         for (var i = 0; i < storedEvents.length; i++) {
+//           var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
+//           client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
+//           amount++;
 
-        };
-                  var msg = { command: "UPDATE_EVENTS"};
-          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(msg));  
-console.log("sent " + amount + " events (64733 was before test started)");
+//         };
+//                   var msg = { command: "UPDATE_EVENTS"};
+//           client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(msg));  
+// console.log("sent " + amount + " events (64733 was before test started)");
+
+    client.send("/queue/test1", {priority: 9}, JSON.stringify( {command: "NEW_OBJECT", newObject: {name: "bla", type: "Radio", groupable: true}, parent: "Client1"}) );
+
+
+}
+
+function send100k(){
+  for (var i = 0; i < 1000; i++) {
+    client.send("/queue/test1", {priority: 0}, JSON.stringify({command: "NEW_OBJECT", newObject: {name: "test" + i, type: "Radio", groupable: true}, parent: "TG1-1"}));
+  };
 }
 
 </script>
@@ -183,7 +194,7 @@ console.log("sent " + amount + " events (64733 was before test started)");
 <h1>Client 2 TEST</h1>
 <button onclick="sendCombo()">Combo</button>
 <button onclick="sendUpdate()">Update</button>
-<button onclick="send120Links()">120 Links</button>
+<button onclick="send100k()">100k new elem</button>
 <button onclick="sendNewRadio()">New radio</button>
 <button onclick="send50Radios()">50 radios</button>
 <button onclick="sendDelete()">Delete</button>
@@ -191,7 +202,7 @@ console.log("sent " + amount + " events (64733 was before test started)");
 <button onclick="sendAddLink()">AddLink</button>
 <button onclick="sendDelLink()">DelLink</button>
 
-<button onclick="myVar = setInterval(speedTestFunction3, 2000);">Speed Test Start</button>
+<button onclick="myVar = setInterval(speedTestFunction3, 1);">Speed Test Start</button>
 <button onclick="clearInterval(myVar);">Speed Test Stop</button>
 
 </body>

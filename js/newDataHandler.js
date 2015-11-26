@@ -25,13 +25,13 @@ function findElementNEW(root, propertyName, property) {
         var node = q.dequeue();
 
         if (node == undefined){
-          return found;
-          //return [0, 0];
+          //return found;
+          return [];
         };
 
         if (node[propertyName] == property){
-            found.push(node);
-            //return [1, node];            
+            //found.push(node);
+            return [node];            
         }
         if (node.children != undefined){
           for (var i=0, c=node.children.length; i<c; i++) {

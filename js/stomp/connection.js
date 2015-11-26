@@ -1,4 +1,16 @@
- //var ws = new SockJS('http://127.0.0.1:15674/stomp');
+/*
+RabbitMQ-web-stomp is a rabbitmq plugin. So: 
+
+browser --- (websocket/sockjs-porotocol) ---> rabbitmq with web-stomp plugin 
+
+internally rabbitmq-web-stomp is: 
+
+sockjs --> rabbitmq-stomp --> rabbitmq-server 
+*/
+
+
+
+ // var ws = new SockJS('http://127.0.0.1:15674/stomp');
  var ws = new SockJS('http://10.172.27.201:15674/stomp');
 
  var client = Stomp.over(ws);
@@ -15,27 +27,28 @@ var queue1 = "/queue/test1";
     var subscription = client.subscribe(queue1, callback, { id: mysubid });
     console.log('subscribed to ' + mysubid);
 };
-var on_error =  function() {
-    console.log('error');
+var on_error =  function(d) {
+    console.log('error: ' + d.headers.message);
 };
 
 var callback = function(message) {
     // called when the client receives a STOMP message from the server
     //check if message is array of objects and call processMessage the number of times
 
-    //console.log("Got message with body " + message.body)
-
+    // console.log(message.body)
+// debugger;
     if (message.body) {
-      var message = JSON.parse(message.body);
-
+      var _message = JSON.parse(message.body);
+      // console.log(_message.length);
       //debugLog(">>>Received message: " + message.command)
-      //console.log(">>>Received message: " + message.command)
-
-      processMessage(message);
+      // console.log(">>>Received message: " + message)
+      // console.log(message);
+      processMessage(_message);
     
     }else{
       debugLog(">>>Received message without any body!");
     };
+    //client.nack();
 }
   function processMessage(message){
 
