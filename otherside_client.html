@@ -28,22 +28,22 @@
       if (messageBody.command == "REQUEST_EVENTS") {
 
         // for (var i = messageBody.from; i < messageBody.to; i++) {
-        //   var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+        //   var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
         //   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
         // };
 
         for (var i = 0; i < storedEvents.length; i++) {
-          var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+          var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
           client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
 
         };
         // for (var i = 0; i < storedEvents.length; i++) {
-        //   var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+        //   var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
         //   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
 
         // };
         //         for (var i = 0; i < storedEvents.length; i++) {
-        //   var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+        //   var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
         //   client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
 
         // };
@@ -165,7 +165,7 @@ var amount= 0;
 function speedTestFunction3(){
         
         for (var i = 0; i < storedEvents.length; i++) {
-          var event = { command: "EVENTS_BATCH", _event: storedEvents[i], visible: true};
+          var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
           client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
           amount++;
 

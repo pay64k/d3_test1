@@ -51,6 +51,42 @@ function findElementNEW(root, propertyName, property) {
     }
 }
 
+function findElementNEW_op(root, propertyName, property) {
+
+    var q = new Queue();
+    q.enqueue(root);
+    var found = [];
+
+    while (true) {
+        var node = q.dequeue();
+
+        if (node == undefined){
+          //return found;
+          return [0, 0];
+        };
+
+        if (node[propertyName] == property){
+            //found.push(node);
+            return [1, node];            
+        }
+        if (node.children != undefined){
+          for (var i=0, c=node.children.length; i<c; i++) {
+              q.enqueue(node.children[i]);
+          }
+        }
+        // if (node.inner_children !=undefined){
+        //   for (var i=0, c=node.inner_children.length; i<c; i++) {
+        //       q.enqueue(node.inner_children[i]);
+        //   }
+        // }
+        if (node._children != undefined){
+           for (var i=0, c=node._children.length; i<c; i++) {
+          q.enqueue(node._children[i]);
+        }
+        }
+    }
+}
+
 
 function createElementAndGroupNEW(_root, id_parent, element){
   /*dobre do raportu jako test wydajnosci d3 engine'a:*/
@@ -108,14 +144,44 @@ function createElementAndGroupNEW(_root, id_parent, element){
 
 function newElementTest(id_parent, element){
 
-var result = treeData.filter(function( obj ) {
-  return obj.name == id_parent;
-});
+  var result = treeData.filter(function( obj ) {
+    return obj.name == id_parent;
+  });
 
-result[0].inner_children.push(element);
+  result[0].inner_children.push(element);
 
 }
 
+function newElement_op(_root, id_parent, element) {
+
+
+  var temp = findElementNEW_op(_root, "name", id_parent); //Try to find parent with id_parent
+  var check = temp[0];
+  var foundParent = temp[1];
+  if (!check) {
+    debugLog(id_parent + " parent not exist!");
+  } else {
+    if (element.groupable) {
+      foundParent.inner_children.push(element);
+      element.parent = foundParent;
+    } else {
+      if (foundParent.hidden) {               //element is not groupable so it should be visible in the visualisation
+        foundParent._children.push(element);  //add to hidden children if parent is hidden
+      } else {
+        if (foundParent.children == undefined) {
+          foundParent.children = [];
+        };
+        foundParent.children.push(element);
+      };
+    };
+      debugLog("\t>>>" + element.name + " added to " + foundParent.name);
+      //add additional properties:
+      element.hidden = false;
+      element.children = [];
+      element.linkedTo = [];
+      element.activated = false;
+  };
+}
 
 function deleteElement(_root, childName){
   debugLog(">>>DEL " + childName); 

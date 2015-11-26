@@ -29,6 +29,7 @@ var callback = function(message) {
       var message = JSON.parse(message.body);
 
       //debugLog(">>>Received message: " + message.command)
+      //console.log(">>>Received message: " + message.command)
 
       processMessage(message);
     
@@ -41,8 +42,9 @@ var callback = function(message) {
     switch(message.command) {
 //-------------------------- DIAGRAM related cases: --------------------------
       case "NEW_OBJECT":
-        //createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
-        newElementTest(message.parent, message.newObject);
+        // createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
+        // newElementTest(message.parent, message.newObject);
+        newElement_op(treeData[0], message.parent, message.newObject);
         break;
 
       case "DELETE":
@@ -65,7 +67,7 @@ var callback = function(message) {
         console.log(message);
         break;
 
-      case"EVENTS_BATCH":
+      case"NEW_EVENT":
         addEvent(message._event, message.visible);
         break;
 
@@ -82,6 +84,9 @@ var callback = function(message) {
         updateEventForms();
         break;      
 
+      case "LINK_FLOW":
+        changeFlow(message.linkName, message.flow);
+        break;
 
       default:
         debugLog("Received unknown command: " + message.command);
