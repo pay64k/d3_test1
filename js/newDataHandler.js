@@ -276,6 +276,17 @@ function createProperty(node, propertyName){
   };
 }
 
+function clearSession(){
+  treeData = [{
+    "name": "Client1",
+    "parent": "null",
+    "type": "Client",
+    "children": [],
+    "inner_children": []
+  }];
+  events_data = [];
+}
+
 function debugLog(body){
 
   // var currentdate = new Date(); 

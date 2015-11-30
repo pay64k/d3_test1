@@ -13,7 +13,7 @@
 	var on_connect = function() {
         console.log('connected');
         var mysubid = 'SubscriptionID_consumer2';
-        var subscription = client.subscribe("/queue/test12", callback, { id: mysubid });
+        var subscription = client.subscribe("/queue/example_QD1", callback, { id: mysubid });
         console.log('subscribed to ' + mysubid);
     };
     var on_error =  function(d) {
@@ -35,7 +35,7 @@
 
         for (var i = 0; i < storedEvents.length; i++) {
           var event = { command: "NEW_EVENT", _event: storedEvents[i], visible: true};
-          client.send("/queue/example_QD2", {priority: 9}, JSON.stringify(event));
+          client.send("/queue/test1", {priority: 9}, JSON.stringify(event));
 
         };
         // for (var i = 0; i < storedEvents.length; i++) {

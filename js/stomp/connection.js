@@ -14,6 +14,7 @@ sockjs --> rabbitmq-stomp --> rabbitmq-server
  var ws = new SockJS('http://10.172.27.201:15674/stomp');
 
  var client = Stomp.over(ws);
+ client.debug = null;
  
 //-------------------------------
 var subscibeToQueue = "/queue/example_QD2"; //queue name to subcribe to in order to receive messages. client on the other side must send messages to this queue
@@ -41,7 +42,7 @@ var callback = function(message) {
       var _message = JSON.parse(message.body);
       // console.log(_message.length);
       //debugLog(">>>Received message: " + message.command)
-      // console.log(">>>Received message: " + message)
+      console.log(">>>Received message: " + message.body)
       // console.log(message);
       processMessage(_message);
     
@@ -74,6 +75,11 @@ var callback = function(message) {
 
       case "DEL_LINK":
         deleteLink(message.linkName);
+        break;
+
+      case "RESET":
+        clearSession();
+        console.log("------RESET------")
         break;
 //-------------------------- EVENTS related cases: --------------------------
       case "EVENTS_AMOUNT":
