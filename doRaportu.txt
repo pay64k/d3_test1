@@ -8,6 +8,8 @@ take a possibillity what happens when the power is cut of, or the cable unlpugge
 Testowniae chapter w reporcie
 jak testowac software javascript
 
+
+
 consider how are software updates 
 
 zrobic weicej kolorkow, moze user je zmieniac na przyklad, kolorowac strzalki itp

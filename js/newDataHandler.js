@@ -180,6 +180,7 @@ function newElement_op(_root, id_parent, element) {
       element.children = [];
       element.linkedTo = [];
       element.activated = false;
+      element.inner_children = [];
   };
 }
 
@@ -289,16 +290,16 @@ function clearSession(){
 
 function debugLog(body){
 
-  // var currentdate = new Date(); 
-  // var message =    currentdate.getDate() + "/"
-  //                 + (currentdate.getMonth()+1)  + "/" 
-  //                 + currentdate.getFullYear() + "@"  
-  //                 + currentdate.getHours() + ":"  
-  //                 + currentdate.getMinutes() + ":" 
-  //                 + currentdate.getSeconds() + "."
-  //                 + currentdate.getMilliseconds()  
-  //                 + "\t " + body;
+  var currentdate = new Date(); 
+  var message =    currentdate.getDate() + "/"
+                  + (currentdate.getMonth()+1)  + "/" 
+                  + currentdate.getFullYear() + "@"  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds() + "."
+                  + currentdate.getMilliseconds()  
+                  + "\t " + body;
 
-  // console.log(message);
+  console.log("LOG>>>>\t" + message);
 
 }

@@ -43,6 +43,7 @@ function prepareLinkage(startNodeName, endNodeName){
 	};
 }
 
+
 function drawLink(node1, node2, linkID, linkColorIndex, visible){
 
 	var startX, startY, endX, endY;
@@ -61,7 +62,22 @@ function drawLink(node1, node2, linkID, linkColorIndex, visible){
 	}else{
 		endX = node2.y;
 		endY = node2.x;
-	};
+	};	
+	// if (!node1.activated) {
+	// 	startX = 0;
+	// 	startY = 0;
+	// }else{
+	// 	startX = node1.y;
+	// 	startY = node1.x;
+	// };
+
+	// if (!node2.activated) {
+	// 	endX = 0;
+	// 	endY = 0;
+	// }else{
+	// 	endX = node2.y;
+	// 	endY = node2.x;
+	// };
 
 	var offset = 170;
 
@@ -79,9 +95,9 @@ function drawLink(node1, node2, linkID, linkColorIndex, visible){
 
 	var _svg = d3.select("svg").select("g");
 
-	var lineGraph = _svg.append("g")
-						.attr("id","G" + linkID)
-							.append("path")
+	var linkGroup = _svg.append("g")
+						.attr("id","G" + linkID);
+	var lineGraph =	linkGroup.append("path")
 								.attr("class", "flowline")
 			                    .attr("id", linkID)
 			                    .attr("stroke", colors(linkColorIndex))
@@ -94,11 +110,12 @@ function drawLink(node1, node2, linkID, linkColorIndex, visible){
 									var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
 								});
 
-	if (visible) {
-		lineGraph.style("opacity", 0.5);
-	}else{
-		lineGraph.style("opacity", 0);
-	};
+	// if (visible) {
+	// 	linkGroup.attr("opacity", 0.5);
+	// }else{
+	// 	linkGroup.attr("opacity", 0);
+	// };
+	linkGroup.attr("opacity", 0);
 
 	var text = d3.select("#G"+linkID)
 						.append("text")
@@ -138,6 +155,8 @@ function updateLinkNew(linkData){
 	//if hidden point to parent? then update after expanding/hiding group
 
 	var offset = 170;
+  	//var offset = Math.floor(Math.random() * 170) + 10;
+
 
 	var lineDataRound = [	{ "x": startX, "y": startY },
 							{ "x": endX + offset, "y": startY },
@@ -159,6 +178,9 @@ function updateLinkNew(linkData){
 	var link = d3.select("#G"+linkName);
 	link.select("path")//.transition()
 		.attr("d", lineFunction(lineDataRound));
+	link.attr("opacity", 0.5);
+
+
 }
 
 function deleteLink(linkID){
@@ -256,26 +278,33 @@ function hide(d) {
 }
 
 function changeFlow(linkName, flow){
-	var link = d3.select("#G"+linkName).select("path");
-	
+    var linkOpacity = d3.select("#G"+linkName);
+	var link = linkOpacity.select("path");
+
 	switch(flow) {
     case 0:
         link.style("-webkit-animation", "noFlow 1s linear infinite");
+        link.style("opacity", 0.3);
         break;
     case 1:
         link.style("-webkit-animation", "flow 1s linear infinite");
+        link.style("opacity", 0.5);
         break;
     case 2:
         link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
+        link.style("opacity", 0.5);
         break;
     case "0":
         link.style("-webkit-animation", "noFlow 1s linear infinite");
+        link.style("opacity", 0.3);
         break;
     case "1":
         link.style("-webkit-animation", "flow 1s linear infinite");
+        link.style("opacity", 0.5);
         break;
     case "2":
         link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
+        link.style("opacity", 0.5);
         break;
     default:
         debugLog("\t>>>Worng flow!");

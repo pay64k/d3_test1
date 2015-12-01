@@ -41,11 +41,11 @@ function testDeleteAndUngroupUsage2(){
 function centerView(){
 
  var _svg = d3.select("svg").select("g");
-       zoom.translate([100, offsetY]);
+       zoom.translate([500, offsetY]);
        zoom.scale(1);
        _svg.transition()
            .duration(750)
-           .attr("transform", "translate(" + 100 + "," + offsetY + " )scale(1)");
+           .attr("transform", "translate(" + 500 + "," + offsetY + " )scale(1)" + "rotate(90)");
 
 }
 
@@ -179,6 +179,8 @@ function populateForm(formID){
 function populatePagingForm(pageAmount){
 
   var select = document.getElementById("pages");
+  var tempValue = document.getElementById("pages").value;
+
   if (select != null) {
     select.options.length = 0;  //reset for no repeats
       for(var i = 0; i < pageAmount; i++) {
@@ -186,6 +188,7 @@ function populatePagingForm(pageAmount){
       };
 
   };
+  select.value = tempValue;
 }
 
 function populateEventForm(formID){
@@ -218,6 +221,9 @@ var values = 0 ;
   }
 
   var select = document.getElementById(formID);
+
+  var tempValue = document.getElementById(formID).value;
+
   if (select != null) {
     select.options.length = 0;  //reset for no repeats
      select.options[select.options.length] = new Option("All", "showAll");
@@ -226,7 +232,7 @@ var values = 0 ;
       };
 
   };
-
+  select.value = tempValue;
 }
 
 function updateEventForms(){

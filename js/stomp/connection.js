@@ -8,10 +8,11 @@ internally rabbitmq-web-stomp is:
 sockjs --> rabbitmq-stomp --> rabbitmq-server 
 */
 
-
+ var serverAddress = 'http://10.172.27.201:15674/stomp';
+ var serverAddressLocal = 'http://127.0.0.1:15674/stomp';
 
  // var ws = new SockJS('http://127.0.0.1:15674/stomp');
- var ws = new SockJS('http://10.172.27.201:15674/stomp');
+ var ws = new SockJS(serverAddress);
 
  var client = Stomp.over(ws);
  client.debug = null;
@@ -23,10 +24,11 @@ var queue1 = "/queue/test1";
 //-------------------------------
 
  var on_connect = function() {
-    console.log('connected');
+    console.log('Connected to\t' + serverAddress + " - OK");
     var mysubid = 'SubscriptionID_consumer1';
     var subscription = client.subscribe(queue1, callback, { id: mysubid });
-    console.log('subscribed to ' + mysubid);
+    console.log('Subscribed to\t' + queue1 + " - OK");
+    console.log('Sending to\t\t' + queueSendTo + " - OK");
 };
 var on_error =  function(d) {
     console.log('error: ' + d.headers.message);
@@ -79,7 +81,7 @@ var callback = function(message) {
 
       case "RESET":
         clearSession();
-        console.log("------RESET------")
+        debugLog("!------RESET------!")
         break;
 //-------------------------- EVENTS related cases: --------------------------
       case "EVENTS_AMOUNT":
@@ -92,7 +94,7 @@ var callback = function(message) {
 
 
       case "UPDATE":
-        console.log("updejt");
+        debugLog("updejt");
         update(root);
         updateAllLinks();
         // update_events();
@@ -101,6 +103,7 @@ var callback = function(message) {
       case "UPDATE_EVENTS":
         applyFilterCombination();
         updateEventForms();
+        updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text);
         break;      
 
       case "LINK_FLOW":

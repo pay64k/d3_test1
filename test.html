@@ -41,7 +41,7 @@
     </script>
   </head>
   <body style="background:#F6F9FC; font-family:Arial;">
-    <div style="width: 1100px; margin: 0 auto; padding: 120px 0 40px;">
+    <div style="width: 1300px; margin: 0 auto; padding: 120px 0 40px;">
       <ul class="tabs" data-persist="true">
         <li><a href="#view1">System Overview</a></li>
         <li><a href="#view2">Events</a></li>
@@ -89,11 +89,11 @@
           var zoomMin = 0.2, zoomMax = 7;
           
           var i = 0,
-          duration = 500,
+          duration = 200,
           root;
           var tree = d3.layout.tree()
           //.size([height, width]);
-          .nodeSize([55, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
+          .nodeSize([95, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
           var diagonal = d3.svg.diagonal()
           .projection(function(d) { return [ d.y, d.x]; });
           // var div = d3.select("body").select(".tabcontents").select("#view1").append("div")
@@ -105,14 +105,14 @@
           .scaleExtent([zoomMin, zoomMax])
           .on("zoom", redraw);
           var svg = d3.select("#canvas").append("svg")
-          .attr("width", 1035)
+          .attr("width", 1300)
           .attr("height", 705)
           .call(zoom)
           .append("g")
-          .attr("transform", "translate(" + offsetX + "," + offsetY + ")");
+          .attr("transform", "translate(" + offsetX + "," + offsetY + ")" + "rotate(90)");
           //------------ Zooming ------------
           function redraw() {
-          d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+          d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")" + "rotate(90)");
           }
           // function for handling zoom event
           // function zoom() {

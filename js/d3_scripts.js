@@ -79,7 +79,7 @@ nodeEnter.append("text")
   var nodeUpdate = node.transition()
   	  .ease("bounce")				//-----------------------------------------------node animation here
 	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")" + "rotate(-90)"; });
 
   nodeUpdate.select("circle")
 	  .attr("r", 10)

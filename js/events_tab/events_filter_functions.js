@@ -85,7 +85,7 @@ function applyFilterCombination(){
 	// viewTop();
 	events_data_paged = pageEvents(nodesAfected);
 	populatePagingForm(events_data_paged.length);
-	updateEventView(0);
+	//updateEventView(0);
 
 	return nodesAfected;
 }
@@ -93,6 +93,7 @@ function applyFilterCombination(){
 function resetFilters(){
 	updateEventForms();
 	applyFilterCombination();
+
 }
 
 

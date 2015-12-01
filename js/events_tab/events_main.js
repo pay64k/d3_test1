@@ -17,9 +17,9 @@ var arrowPath_long_reversed		= "m 215,0 -175,0";
 var arrowPath_short 			= "m 30,0 90,0";
 var arrowPath_short_reversed 	= "m 215,0 -87.5,0";
 
-var arrowStyles_dashed_markerEnd 		= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);stroke-dasharray:8, 1;stroke-dashoffset:0";
-var arrowStyles_dashed_markerBoth 		= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);marker-start: url(#starttriangle);stroke-dasharray:8, 1;stroke-dashoffset:0";
-var arrowStyles_dashed_markerNone 		= "stroke:#000000;stroke-width:2;stroke-dasharray:8, 1;stroke-dashoffset:0";
+var arrowStyles_dashed_markerEnd 		= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);stroke-dasharray:8, 3;stroke-dashoffset:0";
+var arrowStyles_dashed_markerBoth 		= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);marker-start: url(#starttriangle);stroke-dasharray:8, 3;stroke-dashoffset:0";
+var arrowStyles_dashed_markerNone 		= "stroke:#000000;stroke-width:2;stroke-dasharray:8, 3;stroke-dashoffset:0";
 var arrowStyles_continous_markerEnd 	= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);";
 var arrowStyles_continous_markerBoth	= "stroke:#000000;stroke-width:2;marker-end:url(#endtriangle);marker-start: url(#starttriangle);";
 var arrowStyles_continous_markerNone 	= "stroke:#000000;stroke-width:2;";
