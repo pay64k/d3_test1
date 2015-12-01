@@ -1,0 +1,38 @@
+stuff that come out during integration/user feedback:
+
+
+
+user feedback:
+	-rotate diagram 90 degrees 
+	-increase width of viewport
+	-reduce animation time - less stuttering
+	
+	
+observation:
+only 2 leveles can be hidden (groupable)
+
+dodac:
+timestampy events
+automatic update(root)
+increase link flow speed
+remove link name displaying
+check why radio type is not displayed on mouse hover
+svg resize depending on resolutions
+	resize svg on window resize
+events filters set to "all" at start
+clean up buttons and html
+
+
+future imporvements (also based on user feedback):
+-recording option and step by step playback - see current state of the system - future improvement
+-chowanie na n liczbie poziomow
+-choosing if node is visible or not disregarding of what happens to it
+-icons: draw different icons, according to object type (intead of circles)
+	-icons can be changed by users, they could upload custom icons
+-visualize move command in overwiev tab
+-add synchronization between gui and client
+-store elements in case of the browser window closes
+	-cache messages (Jstore 5mb) add node.js 
+-ask for tree when gui starts, then get all the messages, wait for receiving the tree, then process all messages
+-utlize rest of the space in events tab for addtional options and maybe more events
+	-move to same tab as overview tab

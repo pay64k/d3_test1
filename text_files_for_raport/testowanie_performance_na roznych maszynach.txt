@@ -1,0 +1,10 @@
+testing where the performance issue is:
+
+1. send from server to gui - shit
+
+2. send from server to werl on my laptop - ok, speed ok
+3. send from server to werl on other laptop - ok, speed ok
+
+these two tests were without stomp adapter plugin - that means using pure amqp
+publish and receive rates are almost identical, so the porblem must be somwhere in js (websockets etc) or in stomp adapter in rabbitmq
+stomp is built upon tcp - which slows down the connection because all the ack's that have to be sent back (from browser's running client to stomp plugin in rabbitmq)
