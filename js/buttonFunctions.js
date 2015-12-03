@@ -73,8 +73,8 @@ var node = findElementNEW(treeData[0], "name", nodeName)[0];
 //console.log("Node: x: " + x + ", y: " + y);
  var x = node.y;
  var y = node.x;
-var newX = offsetX - x;
-var newY = offsetY - y;
+var newY = offsetY - x;
+var newX = offsetX - y;
 
 //console.log("Diff: x: " + diffX + ", y:" + diffY);
 //console.log("-----------------");
@@ -85,7 +85,7 @@ var newY = offsetY - y;
        _svg.transition()
            //.delay(300)
            .duration(650)
-           .attr("transform", "translate(" + (newX) + "," + (newY) + " )scale(1)");
+           .attr("transform", "translate(" + (newX) + "," + (newY) + " )scale(1)rotate(90)");
 //chech if parent hiddden, if yes unhide
 var nodeAnimate = d3.selectAll(".node").filter( function(d,i){return d.name == nodeName ;} );
 
@@ -107,10 +107,6 @@ var nodeAnimate = d3.selectAll(".node").filter( function(d,i){return d.name == n
               })
             setActivation(node,nodeOriginalActivation);
             });
-      
-      //.attr("r",10);
-      
-   
 }
 
 function getAllNames(){

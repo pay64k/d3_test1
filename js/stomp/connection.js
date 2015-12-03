@@ -16,8 +16,8 @@ sockjs --> rabbitmq-stomp --> rabbitmq-server
 
  // var ws = new SockJS('http://127.0.0.1:15674/stomp');
  //var ws = new SockJS(serverAddressLocal);
- var exampleSocket = new WebSocket(wsConnectionLocal);
- var currentServer = wsConnectionLocal;
+ var exampleSocket = new WebSocket(wsConnection);
+ var currentServer = wsConnection;
 
  var client = Stomp.over(exampleSocket);
  client.debug = null;
@@ -49,7 +49,7 @@ var callback = function(message) {
       var _message = JSON.parse(message.body);
       // console.log(_message.length);
       //debugLog(">>>Received message: " + message.command)
-      console.log(">>>Received message: " + message.body)
+      //console.log(">>>Received message: " + message.body)
       // console.log(message);
       processMessage(_message);
       //client.ack(message.headers["message-id"],message.headers["subscription"],message.headers)
@@ -99,7 +99,7 @@ var callback = function(message) {
 
 
       case "UPDATE":
-        debugLog("updejt");
+        console.log("updejt");
         update(root);
         updateAllLinks();
         // update_events();

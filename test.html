@@ -1,365 +1,582 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <title>Test GUI</title>
-    <!--    Style Sheets:   -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/dropdownMenu.css">
-    <link rel="stylesheet" href="css/tabs_templates/template2/tabcontent.css" type="text/css">
-    <link rel="stylesheet" href="css/nodeStyles.css">
-    <link rel="stylesheet" href="css/flowline.css">
-    <link rel="stylesheet" href="css/jquery.ripple.css">
-    <link type="text/css" rel="stylesheet" media="screen" href="css/jquery.toChecklist.min.css" />
-    <!--    Libraries:   -->
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
-    <script src="js/lib/d3.min.js"></script>
-    <script src="js/lib/tabcontent.js"></script>
-    <script src="js/lib/stomp.js"></script>
-    <script src="js/lib/sockjs-0.3.js"></script>
-    <script src="js/lib/jquery.toChecklist.js"></script>
-    <script src="js/lib/jstorage.min.js"></script>
-    <script src="js/lib/jquery.ripple.js"></script>
-    
-    <!--    Custom Scripts:   -->
-    <script src="js/globalVariables.js"></script>
-    <script src="js/newDataHandler.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/d3_scripts.js"></script>
-    <script src="js/links.js"></script>
-    <script src="js/buttonFunctions.js"></script>
-    <script src="js/stomp/connection.js"></script>
-    <script src="js/events_tab/events_main.js"></script>
-    <script src="js/events_tab/events_filter_functions.js"></script>
-    <script src="js/storageFunctions.js"></script>
-    <!--    Test Scripts    -->
-    <script src="js/testing.js"></script>
-    <script type="text/javascript">
-    $(function() {
-    $('#linksList').toChecklist( {showCheckboxes : true, addSearchBox : true, animateSearch : false} );
-    });
-    </script>
-  </head>
-  <body style="background:#F6F9FC; font-family:Arial;">
-    <center>
-    <div >
+<head>
+  <title>Test GUI</title><!--    Style Sheets:   -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/dropdownMenu.css" rel="stylesheet">
+  <link href="css/tabs_templates/template2/tabcontent.css" rel="stylesheet" type="text/css">
+  <link href="css/nodeStyles.css" rel="stylesheet">
+  <link href="css/flowline.css" rel="stylesheet">
+  <link href="css/jquery.ripple.css" rel="stylesheet">
+  <link href="css/jquery.toChecklist.min.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="css/navStyles.css" rel="stylesheet">
+
+  <!--    Libraries:   -->
+  <script src="js/lib/jquery.min.js">  </script>
+  <script src="js/lib/bootstrap.min.js">  </script>
+  <script src="js/lib/d3.min.js">  </script>
+  <script src="js/lib/tabcontent.js">  </script>
+  <script src="js/lib/stomp.js">  </script>
+  <script src="js/lib/sockjs-0.3.js">  </script>
+  <script src="js/lib/jquery.toChecklist.js">  </script>
+  <script src="js/lib/jstorage.min.js">  </script>
+  <script src="js/lib/jquery.ripple.js">  </script>
+  <script src="js/navBar.js">  </script>
+
+  <!--    Custom Scripts:   -->
+  <script src="js/globalVariables.js">  </script>
+  <script src="js/newDataHandler.js">  </script>
+  <script src="js/data.js">  </script>
+  <script src="js/d3_scripts.js">  </script>
+  <script src="js/links.js">  </script>
+  <script src="js/buttonFunctions.js">  </script>
+  <script src="js/stomp/connection.js">  </script>
+  <script src="js/events_tab/events_main.js">  </script>
+  <script src="js/events_tab/events_filter_functions.js">  </script>
+  <script src="js/storageFunctions.js">  </script>
+
+  <!--    Test Scripts    -->
+  <script src="js/testing.js">  </script>
+
+  <script>
+
+  </script>
+
+</head>
+
+<body style="background:#F6F9FC; font-family:Arial;">
+  <center>
+    <div style="padding-top: 20px;">
       <ul class="tabs" data-persist="true">
-        <li><a href="#view1">System Overview</a></li>
-        <li><a href="#view2">Events</a></li>
-        <li><a href="#view3">Configuration</a></li>
+        <li>
+          <a href="#view1">System Overview</a>
+        </li>
+
+
+        <li>
+          <a href="#view2">Events</a>
+        </li>
+
+
+        <li>
+          <a href="#view3">Configuration</a>
+        </li>
       </ul>
+
+
       <div class="tabcontents" style="width:90%; padding:10px;">
         <div id="view1">
-          <div id="canvas" style="border-style: solid; border-width: 1px"></div>
-          <script>
-          // ************** Generate the tree diagram  *****************
-          var margin = {top: 20, right: 120, bottom: 20, left: 120},
-          width = 960 - margin.right - margin.left,
-          height = 700 - margin.top - margin.bottom;
-          var offsetX = (width + margin.right + margin.left)/2,
-          offsetY=height/2;
-          var zoomMin = 0.2, zoomMax = 7;
-          
-          var i = 0,
-          duration = 200,
-          root;
-          var tree = d3.layout.tree()
-          //.size([height, width]);
-          .nodeSize([95, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
-          var diagonal = d3.svg.diagonal()
-          .projection(function(d) { return [ d.y, d.x]; });
-          // var div = d3.select("body").select(".tabcontents").select("#view1").append("div")
-          //   .style("border-style", "solid")
-          //   .style("border-width", "2px")
-          //   .style("width", width + margin.right + margin.left + 10 + "px")
-          //   .style("height", height + margin.top + margin.bottom + 10 + "px");
-          var zoom = d3.behavior.zoom()
-          .scaleExtent([zoomMin, zoomMax])
-          .on("zoom", redraw);
-          var svg = d3.select("#canvas").append("svg")
-           .attr("width", "100%")
-          // .attr("class","col-md-12")
-          .attr("height", 705)
-          .call(zoom)
-          .append("g")
-          .attr("transform", "translate(" + offsetX + "," + offsetY + ")" + "rotate(90)");
-          //------------ Zooming ------------
-          function redraw() {
-          d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")" + "rotate(90)");
-          }
-          // function for handling zoom event
-          // function zoom() {
-          //  svg.attr("transform", "translate(" + (d3.event.translate[0]  + offsetX) + ","   + (d3.event.translate[1] + offsetY )+ ")scale(" + d3.event.scale + ")");
-          // }
-          //---------------------------------
-          //defining starting point
-          root = treeData[0]
-          root.x0 = height / 2;
-          root.y0 = 0;
-          
-          update(root);
-          //d3.select(self.frameElement).style("height", "500px");
-          // var delay = setInterval(function(){newNewChild(0,0);},100);
 
-          //testCreating();
-          
-          update(root);
-          centerView(); //has to be called right away during initialization
-          //treeData[0].children = [];
-          //testOptimizing();
-          // var interval = setInterval(function() {
-          //   testClick1();
-          // }, 100);
-          //clearInterval(interval)
+<!-- <div>
+  <div class="bs-example">
+    <nav class="navbar navbar-default navbar-static" id="navbar-example">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" data-target=".bs-example-js-navbar-collapse" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Menu</a>
+        </div>
+
+        <div class="collapse navbar-collapse bs-example-js-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" id="drop1" role="button">Dropdown <span class="caret"></span></a>
+
+              <ul aria-labelledby="drop1" class="dropdown-menu">
+                <li>
+                  <a href="#">Action</a>
+                </li>
+
+
+                <li>
+                  <a href="#">Another action</a>
+                </li>
+
+
+                <li>
+                  <a href="#">Something else here</a>
+                </li>
+
+
+                <li class="divider" role="separator">
+                </li>
+
+
+                <li>
+                  <a href="#">Separated link</a>
+                </li>
+              </ul>
+            </li>
+
+
+            <li class="dropdown">
+              <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" id="drop2" role="button">Links <span class="caret"></span></a>
+
+              <ul aria-labelledby="drop2" class="dropdown-menu">
+                <li>
+                  <button class="btn btn-primary btn-lg" data-ripple="" id="centerButton" onclick="updateForms()" title="Update forms with current values for centering the view and current links. " type="button">Update Forms</button>
+                </li>
+
+
+                <li>
+                  <div id="listDIV">
+                    <select id="linksList" multiple="multiple">
+                      </select>
+                  </div>
+                </li>
+
+
+                <li>
+                  <a href="#">Something else here</a>
+                </li>
+
+
+                <li class="divider" role="separator">
+                </li>
+
+
+                <li>
+                  <a href="#">Separated link</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" id="fat-menu">
+              <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" id="drop3" role="button">Dropdown <span class="caret"></span></a>
+
+              <ul aria-labelledby="drop3" class="dropdown-menu">
+                <li>
+                  <a href="#">Action</a>
+                </li>
+
+
+                <li>
+                  <a href="#">Another action</a>
+                </li>
+
+
+                <li>
+                  <a href="#">Something else here</a>
+                </li>
+
+
+                <li class="divider" role="separator">
+                </li>
+
+
+                <li>
+                  <a href="#">Separated link</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div> -->
+<div id='cssmenu'>
+<ul>
+   <li><a>Menu:</a></li>
+   <li class='active'><a href='#'>View</a>
+      <ul>
+         <li><a href='#'>Focus View</a>
+            <ul>
+               <li><a class="menu-button" style="cursor:pointer;" onclick="updateForms()" title="Update forms with current values for centering the view and current links. " >Update Forms</a></li>
+               <li>
+                <form role="form">
+                      <div class="form-group" >
+                         <select class="form-control" id="focusForm" onchange="focusView()">
+                          <option value="0">Client1</option></select>
+                      </div>
+                    </form>
+                  </li>
+                
+            </ul>
+         </li>
+         <li><a href='#'>Product 2</a>
+            <ul>
+               <li><a href='#'>Sub Product</a></li>
+               <li><a href='#'>Sub Product</a></li>
+            </ul>
+         </li>
+      </ul>
+   </li>
+   <li><a href='#'>About</a></li>
+   <li><a href='#'>Contact</a></li>
+</ul>
+</div>
+
+          <div id="canvas" style="border-style: solid; border-width: 1px">
+          </div>
+          <script>
+             // ************** Generate the tree diagram  *****************
+             var margin = {top: 20, right: 120, bottom: 20, left: 120},
+             width = 960 - margin.right - margin.left,
+             height = 700 - margin.top - margin.bottom;
+             var offsetX = (width + margin.right + margin.left)/2,
+             offsetY=height/2;
+             var zoomMin = 0.2, zoomMax = 7;
+
+             var i = 0,
+             duration = 200,
+             root;
+             var tree = d3.layout.tree()
+             //.size([height, width]);
+             .nodeSize([95, 20]);  //add to have equal spacing, remove the previous line. nodeSize won't work along with size()
+             var diagonal = d3.svg.diagonal()
+             .projection(function(d) { return [ d.y, d.x]; });
+             var zoom = d3.behavior.zoom()
+             .scaleExtent([zoomMin, zoomMax])
+             .on("zoom", redraw);
+             var svg = d3.select("#canvas").append("svg")
+              .attr("width", "100%")
+             .attr("height", 705)
+             .call(zoom)
+             .append("g")
+             .attr("transform", "translate(" + offsetX + "," + offsetY + ")" + "rotate(90)");
+             //------------ Zooming ------------
+             function redraw() {
+             d3.select("svg").select("g").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")" + "rotate(90)");
+             }
+             //---------------------------------
+             //defining starting point
+             root = treeData[0]
+             root.x0 = height / 2;
+             root.y0 = 0;
+
+             update(root);
+
+             update(root);
+             centerView(); //has to be called right away during initialization
+
           </script>
           <style type="text/css">
-          .tg  {border-collapse:collapse;border-spacing:0;margin: 5px; float: left;}
-          .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-          .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-          .tg .tg-baqh{text-align:center;vertical-align:center}
-          .tg .tg-yw4l{vertical-align:top}
+             .tg  {border-collapse:collapse;border-spacing:0;margin: 5px; float: left;}
+             .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+             .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+             .tg .tg-baqh{text-align:center;vertical-align:center}
+             .tg .tg-yw4l{vertical-align:top}
           </style>
-          <div>
+
+          
+
+
             <table class="tg" id="table">
+              <!--               <tr>
+        <th class="tg-baqh">Type1</th>
+        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()" data-ripple>Add</button></th>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()" data-ripple>Delete Type1</button></th>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)" data-ripple>Add More</button></th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()" data-ripple>update(root)</button></th>
+    </tr>
+    <tr>
+    <th class="tg-baqh">Type2</th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()" data-ripple>Add</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()" data-ripple>Delete Type2</button></td>
+    </tr> -->
+
+
               <tr>
-                <th class="tg-baqh">Type1</th>
-              <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick1()" data-ripple>Add</button></th>
-            <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage1()" data-ripple>Delete Type1</button></th>
-          <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="addMore(50)" data-ripple>Add More</button></th>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonUpdate()" data-ripple>update(root)</button></th>
-      </tr>
-      <tr>
-        <th class="tg-baqh">Type2</th>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testClick2()" data-ripple>Add</button></td>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="testDeleteAndUngroupUsage2()" data-ripple>Delete Type2</button></td>
-      </tr>
-      <tr>
-        <th class="tg-baqh">Functions</th>
-        <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="centerView()" data-ripple>Center View</button></td>
-        <td class="tg-baqh">
-          <div class="tg-baqh">
-            <form role="form">
-              <div class="form-group">
-                <label for="focusForm">Focus View:</label>
-                <select class="form-control" id="focusForm">
-                </select>
-              </div>
-            </form>
-          </div>
-        </td>
-        <td class="tg-baqh"><button id="centerButton" type="button" class="btn btn-primary btn-lg" onclick="focusView()" data-ripple>Focus</button></td>
-      </tr>
-      <tr>
-        <th class="tg-baqh">Links</th>
-        <td class="tg-baqh"><button id="updateButton" type="button" class="btn btn-primary btn-lg" onclick="updateForms()" data-ripple>Update Forms</button></td>
-        <td class="tg-baqh">
-          <div class="tg-baqh">
-            <form role="form">
-              <div class="form-group">
-                <label for="linkFrom">From:</label>
-                <select class="form-control" id="linkFrom">
-                </select>
-              </div>
-            </form>
-          </div>
-        </td>
-        <td class="tg-baqh">
-          <div class="tg-baqh">
-            <form role="form">
-              <div class="form-group">
-                <label for="linkTo">To:</label>
-                <select class="form-control" id="linkTo">
-                </select>
-              </div>
-            </form>
-          </div>
-        </td>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()" data-ripple>Submit</button></td>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()" data-ripple>Random Link</button></td>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()" data-ripple>Single Random</button></td>
-        <!--     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td> -->
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()" data-ripple>Clear All</button></td>
-      </tr>
-      <tr>
-        <th class="tg-baqh">Links Cont</th>
-        
-        <td class="tg-baqh">
-          <div class="tg-baqh">
-            <form role="form">
-              <div class="form-group">
-                <label for="specificLink">Link Select:</label>
-                <select class="form-control" id="specificLink">
-                </select>
-              </div>
-            </form>
-          </div>
-        </td>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()" data-ripple>Del Link</button></td>
-        <td class="tg-baqh">
-          <div class="radio">
-            <label><input type="radio" name="optradio" value="0">0</label>
-          </div>
-          <div class="radio">
-            <label><input type="radio" name="optradio" value="1">1</label>
-          </div>
-          <div class="radio">
-            <label><input type="radio" name="optradio" value="2">2</label>
-          </div>
-        </td>
-        <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonChangeFlow()" data-ripple>Flow</button></td>
-      </tr>
-      <tr>
-        <th class="tg-baqh">Links Selection</th>
-        <td class="tg-baqh">
-          <div id="listDIV">
-          <select id="linksList" multiple="multiple"></select>
-        </div>
-      </td>
-      <td class="tg-baqh">
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilter()" data-ripple>Apply</button></br></br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterCheckAll()" data-ripple>Check All</button></br></br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterUncheckAll()" data-ripple>Uncheck All</button></br></br>
-        <button type="button" class="btn btn-primary btn-lg" onclick="buttonLinksFilterInvertSelection()" data-ripple>Invert Selection</button>
-      </td>
-    </tr>
-  </table>
-</div>
-</div>
-<div id="view2" >
-<div id="canvas_events" style="border-style: solid; border-width: 1px"></div> 
-<div style="float:left;">
-  <table class="tg" id="table">
-    <!-- <tr>
-      <th class="tg-baqh">Util</th>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
-    </tr> -->
-<!--     <tr>
-      <th class="tg-baqh">View</th>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
-    </tr> -->
-<tr>
-  <th class="tg-baqh">Load</th>
-  <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="loadEvents()" data-ripple>Load Events</button></td>
-</tr>
-    <tr>
-      <th class="tg-baqh">Events</th>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick='addEvent({testSession: "fromButtonSession", eventSuccess: true, eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"}, true)' data-ripple>Add</button></td>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllEvents()" data-ripple>Clear All</button></td>
-    </tr>
-    <tr>
-      <th class="tg-baqh">Filters</th>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="updateEvents()" data-ripple>Update</button></td>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="resetFilters()" data-ripple>Reset</button></td>
-    </tr>
-    <tr>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="testSession">E Session</label>
-              <select class="form-control" id="testSession" onchange="updateEvents()">
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="eventType">E Type</label>
-              <select class="form-control" id="eventType" onchange="updateEvents()">
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="eventSuccess">E Success</label>
-              <select class="form-control" id="eventSuccess" onchange="updateEvents()">
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="node1">E Node1</label>
-              <select class="form-control" id="node1" onchange="updateEvents()">
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="node2">E Node2</label>
-              <select class="form-control" id="node2" onchange="updateEvents()">
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="pages">Page Sel</label>
-              <select class="form-control" id="pages" onchange="updateEvents()">
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-      <td class="tg-baqh">
-        <div class="tg-baqh">
-          <form role="form">
-            <div class="form-group">
-              <label for="resultsAmount">Results/Page</label>
-              <select class="form-control" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text);updateEvents()">
-                <option>10</option>
-                <option>50</option>
-                <option>100</option>
-                <option>150</option>
-                <option>200</option>
-                <option>250</option>
-                <option>500</option>
-              </select>
-            </div>
-          </form>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
-</div>
+                <td>
+                </td>
+              </tr>
 
 
-<div id="view3">
-</div>
-</div>
-</div>
-</center>
+              <tr>
+                <th class="tg-baqh">Functions</th>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" id="centerButton" onclick="updateForms()" title="Update forms with current values for centering the view and current links. " type="button">Update Forms</button>
+                </td>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" id="centerButton" onclick="centerView()" title="Move view to node selecterd in Focus View form." type="button">Center View</button>
+                </td>
+
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="focusForm">Focus View:</label> <select class="form-control" id="focusForm">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" id="centerButton" onclick="focusView()" type="button">Focus</button>
+                </td>
+              </tr>
+                    <tr>
+    <th class="tg-baqh">Links</th>
+    <td class="tg-baqh"><button id="updateButton" type="button" class="btn btn-primary btn-lg" onclick="updateForms()" data-ripple>Update Forms</button></td>
+    <td class="tg-baqh">
+      <div class="tg-baqh">
+      <form role="form">
+        <div class="form-group">
+        <label for="linkFrom">From:</label>
+        <select class="form-control" id="linkFrom">
+        </select>
+        </div>
+      </form>
+      </div>
+    </td>
+    <td class="tg-baqh">
+      <div class="tg-baqh">
+      <form role="form">
+        <div class="form-group">
+        <label for="linkTo">To:</label>
+        <select class="form-control" id="linkTo">
+        </select>
+        </div>
+      </form>
+      </div>
+    </td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="submitNewLink()" data-ripple>Submit</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="randomLink()" data-ripple>Random Link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="singleLink()" data-ripple>Single Random</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delLastLink()" data-ripple>Del last link</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="clearAllLinks()" data-ripple>Clear All</button></td>
+    </tr>
+                    <tr>
+    <th class="tg-baqh">Links Cont</th>
+    
+    <td class="tg-baqh">
+      <div class="tg-baqh">
+      <form role="form">
+        <div class="form-group">
+        <label for="specificLink">Link Select:</label>
+        <select class="form-control" id="specificLink">
+        </select>
+        </div>
+      </form>
+      </div>
+    </td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="delSpecificLink()" data-ripple>Del Link</button></td>
+    <td class="tg-baqh">
+      <div class="radio">
+      <label><input type="radio" name="optradio" value="0">0</label>
+      </div>
+      <div class="radio">
+      <label><input type="radio" name="optradio" value="1">1</label>
+      </div>
+      <div class="radio">
+      <label><input type="radio" name="optradio" value="2">2</label>
+      </div>
+    </td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="buttonChangeFlow()" data-ripple>Flow</button></td>
+    </tr>
+
+
+              <tr>
+                <th class="tg-baqh">Links Selection</th>
+
+                <td class="tg-baqh">
+                  <div id="listDIV">
+                    <select id="linksList" multiple="multiple">
+                      </select>
+                  </div>
+                </td>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" onclick="buttonLinksFilter()" type="button">Apply</button><br>
+                <br>
+                <button class="btn btn-primary btn-lg" data-ripple="" onclick="buttonLinksFilterCheckAll()" type="button">Check All</button><br>
+                <br>
+                <button class="btn btn-primary btn-lg" data-ripple="" onclick="buttonLinksFilterUncheckAll()" type="button">Uncheck All</button><br>
+                <br>
+                <button class="btn btn-primary btn-lg" data-ripple="" onclick="buttonLinksFilterInvertSelection()" type="button">Invert Selection</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+
+        <div id="view2">
+          <div id="canvas_events" style="border-style: solid; border-width: 1px">
+          </div>
+
+
+          <div style="float:left;">
+            <table class="tg" id="table">
+              <!-- <tr>
+    <th class="tg-baqh">Util</th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
+  </tr> -->
+              <!--     <tr>
+    <th class="tg-baqh">View</th>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
+    <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
+  </tr> -->
+
+
+              <tr>
+                <th class="tg-baqh">Load</th>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" onclick="loadEvents()" type="button">Load Events</button>
+                </td>
+              </tr>
+
+
+              <tr>
+                <th class="tg-baqh">Events</th>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" onclick='addEvent({testSession: "fromButtonSession", eventSuccess: true, eventType:"fromButton", eventName: "button", node1: "NODE1", node2: "NODE2"}, true)' type="button">Add</button>
+                </td>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" onclick="clearAllEvents()" type="button">Clear All</button>
+                </td>
+              </tr>
+
+
+              <tr>
+                <th class="tg-baqh">Filters</th>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" onclick="updateEvents()" type="button">Update</button>
+                </td>
+
+                <td class="tg-baqh"><button class="btn btn-primary btn-lg" data-ripple="" onclick="resetFilters()" type="button">Reset</button>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="testSession">E Session</label> <select class="form-control" id="testSession" onchange="updateEvents()">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="eventType">E Type</label> <select class="form-control" id="eventType" onchange="updateEvents()">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="eventSuccess">E Success</label> <select class="form-control" id="eventSuccess" onchange="updateEvents()">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="node1">E Node1</label> <select class="form-control" id="node1" onchange="updateEvents()">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="node2">E Node2</label> <select class="form-control" id="node2" onchange="updateEvents()">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="pages">Page Sel</label> <select class="form-control" id="pages" onchange="updateEvents()">
+                          </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+
+                <td class="tg-baqh">
+                  <div class="tg-baqh">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="resultsAmount">Results/Page</label> <select class="form-control" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text);updateEvents()">
+                          <option>
+                            10
+                          </option>
+
+                          <option>
+                            50
+                          </option>
+
+                          <option>
+                            100
+                          </option>
+
+                          <option>
+                            150
+                          </option>
+
+                          <option>
+                            200
+                          </option>
+
+                          <option>
+                            250
+                          </option>
+
+                          <option>
+                            500
+                          </option>
+                        </select>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+
+        <div id="view3">
+        </div>
+      </div>
+    </div>
+  </center>
+
+  <script>
+     //initialize events DOM elements and filter values forms:
+     events_init();
+     updateEventForms();
+     applyFilterCombination();
+
+     //initialize ripple effect for all buttons:
+     $('button').ripple( {event: 'mousedown',color: '#000'});
+
+        //initialize link selection checkboxes
+     $(function() {
+     $('#linksList').toChecklist( {showCheckboxes : true, addSearchBox : true, animateSearch : false} );
+     });
+  </script>
+
 </body>
-
-<script>
-events_init();
-updateEventForms();
-applyFilterCombination();
-$('button').ripple( {event: 'mousedown',color: '#000'});
-</script>
-
 </html>
-

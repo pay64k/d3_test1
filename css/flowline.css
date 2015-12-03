@@ -1,7 +1,7 @@
 
 .flowline {
   fill: none;
-  opacity: 0.5;
+  opacity: 0.7;
   stroke-width: 4;
   stroke-dasharray: 10, 4;
   animation: flow 0.3s linear infinite;

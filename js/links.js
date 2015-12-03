@@ -102,13 +102,13 @@ function drawLink(node1, node2, linkID, linkColorIndex, visible){
 			                    .attr("id", linkID)
 			                    .attr("stroke", colors(linkColorIndex))
 			                    .attr("fill", "none")
-			                    .attr("d", lineFunction(lineDataRound))
-			                    .on("mouseover", function(){
-			                    	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
-			                    })
-								.on("mouseout", function(){
-									var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
-								});
+			                    .attr("d", lineFunction(lineDataRound));
+			     //                .on("mouseover", function(){
+			     //                	var label = d3.select("#G"+linkID).select("text").style("visibility","visible");
+			     //                })
+								// .on("mouseout", function(){
+								// 	var label = d3.select("#G"+linkID).select("text").style("visibility","hidden");
+								// });
 
 	// if (visible) {
 	// 	linkGroup.attr("opacity", 0.5);
@@ -281,30 +281,32 @@ function changeFlow(linkName, flow){
     var linkOpacity = d3.select("#G"+linkName);
 	var link = linkOpacity.select("path");
 	var flowSpeed = "0.3s";	//the lower value the faster flow is; also remember to chane flowLine.css
+	var opacityON = 0.7;
+	var opacityOFF = 0.3;
 	switch(flow) {
     case 0:
         link.style("-webkit-animation", "noFlow " + flowSpeed + " linear infinite");
-        link.style("opacity", 0.3);
+        link.style("opacity", opacityOFF);
         break;
     case 1:
         link.style("-webkit-animation", "flow " + flowSpeed + " linear infinite");
-        link.style("opacity", 0.5);
+        link.style("opacity", opacityON);
         break;
     case 2:
         link.style("-webkit-animation", "oppositeFlow " + flowSpeed + " linear infinite");
-        link.style("opacity", 0.5);
+        link.style("opacity", opacityON);
         break;
     case "0":
         link.style("-webkit-animation", "noFlow " + flowSpeed + " linear infinite");
-        link.style("opacity", 0.3);
+        link.style("opacity", opacityOFF);
         break;
     case "1":
         link.style("-webkit-animation", "flow " + flowSpeed + " linear infinite");
-        link.style("opacity", 0.5);
+        link.style("opacity", opacityON);
         break;
     case "2":
         link.style("-webkit-animation", "oppositeFlow " + flowSpeed + " linear infinite");
-        link.style("opacity", 0.5);
+        link.style("opacity", opacityON);
         break;
     default:
         debugLog("\t>>>Worng flow!");

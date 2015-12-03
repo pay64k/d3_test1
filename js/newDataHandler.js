@@ -290,16 +290,16 @@ function clearSession(){
 
 function debugLog(body){
 
-  var currentdate = new Date(); 
-  var message =    currentdate.getDate() + "/"
-                  + (currentdate.getMonth()+1)  + "/" 
-                  + currentdate.getFullYear() + "@"  
-                  + currentdate.getHours() + ":"  
-                  + currentdate.getMinutes() + ":" 
-                  + currentdate.getSeconds() + "."
-                  + currentdate.getMilliseconds()  
-                  + "\t " + body;
+  // var currentdate = new Date(); 
+  // var message =    currentdate.getDate() + "/"
+  //                 + (currentdate.getMonth()+1)  + "/" 
+  //                 + currentdate.getFullYear() + "@"  
+  //                 + currentdate.getHours() + ":"  
+  //                 + currentdate.getMinutes() + ":" 
+  //                 + currentdate.getSeconds() + "."
+  //                 + currentdate.getMilliseconds()  
+  //                 + "\t " + body;
 
-  console.log("LOG>>>>\t" + message);
+  // console.log("LOG>>>>\t" + message);
 
 }

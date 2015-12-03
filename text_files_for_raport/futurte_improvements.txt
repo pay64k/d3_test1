@@ -14,8 +14,8 @@ only 2 leveles can be hidden (groupable)
 dodac:
 timestampy events
 automatic update(root)
-increase link flow speed
-remove link name displaying
+//increase link flow speed
+//remove link name displaying
 check why radio type is not displayed on mouse hover
 //svg resize depending on resolutions
 //	resize svg on window resize
