@@ -92,7 +92,7 @@ function applyFilterCombination(){
 
 function resetFilters(){
 	updateEventForms();
-	applyFilterCombination();
+	updateEvents();
 
 }
 

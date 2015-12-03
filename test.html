@@ -41,43 +41,15 @@
     </script>
   </head>
   <body style="background:#F6F9FC; font-family:Arial;">
-    <div style="width: 1300px; margin: 0 auto; padding: 120px 0 40px;">
+    <center>
+    <div >
       <ul class="tabs" data-persist="true">
         <li><a href="#view1">System Overview</a></li>
         <li><a href="#view2">Events</a></li>
         <li><a href="#view3">Configuration</a></li>
       </ul>
-      <div class="tabcontents">
+      <div class="tabcontents" style="width:90%; padding:10px;">
         <div id="view1">
-          <div class="dropdown" style="position:relative">
-            <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Click Here <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="trigger right-caret">Level 1</a>
-                <ul class="dropdown-menu sub-menu">
-                  <li><a href="#">Level 2</a></li>
-                  <li>
-                    <a class="trigger right-caret">Level 2</a>
-                    <ul class="dropdown-menu sub-menu">
-                      <li><a href="#">Level 3</a></li>
-                      <li><a href="#">Level 3</a></li>
-                      <li>
-                        <a class="trigger right-caret">Level 3</a>
-                        <ul class="dropdown-menu sub-menu">
-                          <li><a href="#">Level 4</a></li>
-                          <li><a href="#">Level 4</a></li>
-                          <li><a href="#">Level 4</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a href="#">Level 2</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Level 1</a></li>
-              <li><a href="#">Level 1</a></li>
-            </ul>
-          </div>
           <div id="canvas" style="border-style: solid; border-width: 1px"></div>
           <script>
           // ************** Generate the tree diagram  *****************
@@ -105,7 +77,8 @@
           .scaleExtent([zoomMin, zoomMax])
           .on("zoom", redraw);
           var svg = d3.select("#canvas").append("svg")
-          .attr("width", 1300)
+           .attr("width", "100%")
+          // .attr("class","col-md-12")
           .attr("height", 705)
           .call(zoom)
           .append("g")
@@ -276,8 +249,7 @@
     </tr>
     <tr>
       <th class="tg-baqh">Filters</th>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="updateEventForms()" data-ripple>Update</button></td>
-      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="applyFilterCombination()" data-ripple>Apply</button></td>
+      <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="updateEvents()" data-ripple>Update</button></td>
       <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="resetFilters()" data-ripple>Reset</button></td>
     </tr>
     <tr>
@@ -286,7 +258,7 @@
           <form role="form">
             <div class="form-group">
               <label for="testSession">E Session</label>
-              <select class="form-control" id="testSession" onchange="applyFilterCombination()">
+              <select class="form-control" id="testSession" onchange="updateEvents()">
               </select>
             </div>
           </form>
@@ -297,7 +269,7 @@
           <form role="form">
             <div class="form-group">
               <label for="eventType">E Type</label>
-              <select class="form-control" id="eventType" onchange="applyFilterCombination()">
+              <select class="form-control" id="eventType" onchange="updateEvents()">
               </select>
             </div>
           </form>
@@ -308,7 +280,7 @@
           <form role="form">
             <div class="form-group">
               <label for="eventSuccess">E Success</label>
-              <select class="form-control" id="eventSuccess" onchange="applyFilterCombination()">
+              <select class="form-control" id="eventSuccess" onchange="updateEvents()">
               </select>
             </div>
           </form>
@@ -321,7 +293,7 @@
           <form role="form">
             <div class="form-group">
               <label for="node1">E Node1</label>
-              <select class="form-control" id="node1" onchange="applyFilterCombination()">
+              <select class="form-control" id="node1" onchange="updateEvents()">
               </select>
             </div>
           </form>
@@ -332,7 +304,7 @@
           <form role="form">
             <div class="form-group">
               <label for="node2">E Node2</label>
-              <select class="form-control" id="node2" onchange="applyFilterCombination()">
+              <select class="form-control" id="node2" onchange="updateEvents()">
               </select>
             </div>
           </form>
@@ -345,7 +317,7 @@
           <form role="form">
             <div class="form-group">
               <label for="pages">Page Sel</label>
-              <select class="form-control" id="pages" onchange="updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text)">
+              <select class="form-control" id="pages" onchange="updateEvents()">
               </select>
             </div>
           </form>
@@ -356,7 +328,7 @@
           <form role="form">
             <div class="form-group">
               <label for="resultsAmount">Results/Page</label>
-              <select class="form-control" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text)">
+              <select class="form-control" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text);updateEvents()">
                 <option>10</option>
                 <option>50</option>
                 <option>100</option>
@@ -379,6 +351,7 @@
 </div>
 </div>
 </div>
+</center>
 </body>
 
 <script>

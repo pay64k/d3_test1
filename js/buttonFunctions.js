@@ -180,6 +180,9 @@ function populatePagingForm(pageAmount){
 
   var select = document.getElementById("pages");
   var tempValue = document.getElementById("pages").value;
+  if (tempValue=="") {
+    tempValue=0;
+  };
 
   if (select != null) {
     select.options.length = 0;  //reset for no repeats
@@ -223,6 +226,10 @@ var values = 0 ;
   var select = document.getElementById(formID);
 
   var tempValue = document.getElementById(formID).value;
+
+  if (tempValue=="") {
+    tempValue="showAll";
+  };
 
   if (select != null) {
     select.options.length = 0;  //reset for no repeats

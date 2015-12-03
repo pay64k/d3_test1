@@ -459,6 +459,11 @@ function update_events_specific(e_data){
 		.remove();
 }
 
+function updateEvents(){
+	applyFilterCombination();
+    updateEventForms();
+    updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text);
+}
 
 Array.prototype.unique = function()
 {

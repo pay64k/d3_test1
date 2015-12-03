@@ -1,11 +1,11 @@
 
 .flowline {
   fill: none;
-  opacity: 1;
+  opacity: 0.5;
   stroke-width: 4;
   stroke-dasharray: 10, 4;
-  animation: flow 1s linear infinite;
-  -webkit-animation: flow 1s linear infinite;
+  animation: flow 0.3s linear infinite;
+  -webkit-animation: flow 0.3s linear infinite;
 }
 
 @keyframes flow {

@@ -6,9 +6,13 @@
 
 <script>
     //use SockJS implementation instead of the browser's native implementation
-    var ws = new SockJS('http://127.0.0.1:15674/stomp');
+    //var ws = new SockJS('http://127.0.0.1:15674/stomp');
     // var ws = new SockJS('http://10.172.27.201:15674/stomp');
-    var client = Stomp.over(ws);
+ var wsConnection = "ws://127.0.0.1:15674/ws";
+
+ var exampleSocket = new WebSocket(wsConnection);
+
+    var client = Stomp.over(exampleSocket);
 
 	var on_connect = function() {
         console.log('connected');
@@ -181,7 +185,7 @@ function speedTestFunction3(){
 }
 
 function send100k(){
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < 10000; i++) {
     client.send("/queue/test1", {priority: 0}, JSON.stringify({command: "NEW_OBJECT", newObject: {name: "test" + i, type: "Radio", groupable: true}, parent: "TG1-1"}));
   };
 }

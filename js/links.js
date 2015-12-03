@@ -280,30 +280,30 @@ function hide(d) {
 function changeFlow(linkName, flow){
     var linkOpacity = d3.select("#G"+linkName);
 	var link = linkOpacity.select("path");
-
+	var flowSpeed = "0.3s";	//the lower value the faster flow is; also remember to chane flowLine.css
 	switch(flow) {
     case 0:
-        link.style("-webkit-animation", "noFlow 1s linear infinite");
+        link.style("-webkit-animation", "noFlow " + flowSpeed + " linear infinite");
         link.style("opacity", 0.3);
         break;
     case 1:
-        link.style("-webkit-animation", "flow 1s linear infinite");
+        link.style("-webkit-animation", "flow " + flowSpeed + " linear infinite");
         link.style("opacity", 0.5);
         break;
     case 2:
-        link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
+        link.style("-webkit-animation", "oppositeFlow " + flowSpeed + " linear infinite");
         link.style("opacity", 0.5);
         break;
     case "0":
-        link.style("-webkit-animation", "noFlow 1s linear infinite");
+        link.style("-webkit-animation", "noFlow " + flowSpeed + " linear infinite");
         link.style("opacity", 0.3);
         break;
     case "1":
-        link.style("-webkit-animation", "flow 1s linear infinite");
+        link.style("-webkit-animation", "flow " + flowSpeed + " linear infinite");
         link.style("opacity", 0.5);
         break;
     case "2":
-        link.style("-webkit-animation", "oppositeFlow 1s linear infinite");
+        link.style("-webkit-animation", "oppositeFlow " + flowSpeed + " linear infinite");
         link.style("opacity", 0.5);
         break;
     default:

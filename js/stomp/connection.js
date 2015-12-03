@@ -10,11 +10,16 @@ sockjs --> rabbitmq-stomp --> rabbitmq-server
 
  var serverAddress = 'http://10.172.27.201:15674/stomp';
  var serverAddressLocal = 'http://127.0.0.1:15674/stomp';
+ var wsConnectionLocal = "ws://127.0.0.1:15674/ws";
+ var wsConnection = "ws://10.172.27.201:15674/ws";
+
 
  // var ws = new SockJS('http://127.0.0.1:15674/stomp');
- var ws = new SockJS(serverAddress);
+ //var ws = new SockJS(serverAddressLocal);
+ var exampleSocket = new WebSocket(wsConnectionLocal);
+ var currentServer = wsConnectionLocal;
 
- var client = Stomp.over(ws);
+ var client = Stomp.over(exampleSocket);
  client.debug = null;
  
 //-------------------------------
@@ -24,9 +29,9 @@ var queue1 = "/queue/test1";
 //-------------------------------
 
  var on_connect = function() {
-    console.log('Connected to\t' + serverAddress + " - OK");
-    var mysubid = 'SubscriptionID_consumer1';
-    var subscription = client.subscribe(queue1, callback, { id: mysubid });
+    console.log('Connected to\t' + currentServer + " - OK");
+    var mysubid = 'gui_sub';
+    var subscription = client.subscribe(queue1, callback, { id: mysubid /*, ack: "client"*/ });
     console.log('Subscribed to\t' + queue1 + " - OK");
     console.log('Sending to\t\t' + queueSendTo + " - OK");
 };
@@ -47,7 +52,7 @@ var callback = function(message) {
       console.log(">>>Received message: " + message.body)
       // console.log(message);
       processMessage(_message);
-    
+      //client.ack(message.headers["message-id"],message.headers["subscription"],message.headers)
     }else{
       debugLog(">>>Received message without any body!");
     };
@@ -101,9 +106,10 @@ var callback = function(message) {
         break;
 
       case "UPDATE_EVENTS":
-        applyFilterCombination();
-        updateEventForms();
-        updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text);
+        // applyFilterCombination();
+        // updateEventForms();
+        // updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text);
+        updateEvents();
         break;      
 
       case "LINK_FLOW":
