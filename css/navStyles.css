@@ -65,7 +65,7 @@
 #cssmenu {
   background: #333333;
   border-bottom: 4px solid #1b9bff;
-  font-family: 'Oxygen Mono', Tahoma, Arial, sans-serif;
+  font-family: Verdana;
   font-size: 12px;
 }
 #cssmenu > ul {
