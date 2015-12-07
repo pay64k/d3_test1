@@ -78,7 +78,7 @@
   clear: both;
 }
 #cssmenu ul {
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 #cssmenu ul ul {
   border-top: 4px solid #1b9bff;

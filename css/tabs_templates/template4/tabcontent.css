@@ -8,7 +8,7 @@ ul.tabs
     text-align: center; /*set to left, center, or right to align the tabs as desired*/
     border:0px solid #663300;
     border-bottom:none;
-    background:#fff;
+    
 }
         
 ul.tabs li
@@ -65,8 +65,8 @@ ul.tabs li.selected a:hover
 
 div.tabcontents
 {
-    border: 1px solid #663300;
+    /*border: 1px solid #663300;*/
     border-top: 1px solid #000;
-    padding: 30px;
-    background-color:#FFF;
+/*    padding: 30px;
+    background-color:#FFF;*/
 }

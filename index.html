@@ -47,6 +47,7 @@
 <body style="background:#F6F9FC; font-family:Arial;">
   <center>
     <div style="padding-top: 20px;">
+
       <ul class="tabs" data-persist="true">
         <li>
           <a href="#view1">System Overview</a>
@@ -69,32 +70,43 @@
 
 <div id='cssmenu'>
 <ul>
-   <li><a>Menu:</a></li>
-   <li class='active'><a href='#'>View</a>
+   <li class='active'><a>Menu:</a></li>
+   <li><a href='#'>View</a>
       <ul>
          <li><a href='#'>Focus View</a>
             <ul>
-               <li><a class="menu-button" style="cursor:pointer;" onclick="updateForms()" title="Update forms with current values for centering the view and current links. " >Update Forms</a></li>
-               <li><a class="menu-button" style="cursor:pointer;">
-                <form role="form">
-                      <div class="form-group" >
-                         <select class="form-control" id="focusForm" onchange="focusView()">
+               <li><a class="menu-button" style="cursor:pointer;" onclick="updateForms()" title="Update forms with current values for centering the view and current links. " >Update Form</a></li>
+               <li>
+                  <a class="menu-button">
+                   <form role="form">
+                       <div class="form-group" >
+                          <select class="form-control" id="focusForm" onchange="focusView()">
                           <option value="0">Client1</option></select>
-                      </div>
-                    </form></a>
-                  </li>
-                
+                       </div>
+                     </form>
+                  </a>
+                </li>
             </ul>
          </li>
-         <li><a href='#'>Product 2</a>
-            <ul>
-               <li><a href='#'>Sub Product</a></li>
-               <li><a href='#'>Sub Product</a></li>
-            </ul>
+         <li>
+            <a class="menu-button" style="cursor:pointer;" onclick="centerView()" title="Reset the view.">Center view</a>
          </li>
       </ul>
    </li>
-   <li><a href='#'>About</a></li>
+   <li>
+    <a href='#'>Links</a>
+           <ul>
+             <li><a href='#'>Sub Product</a></li>
+             <li><a href='#'>Sub Product</a></li>
+           </ul>
+          </li>
+
+             <li><a href='#'>About</a>
+               <ul>
+               <li><a href='#'>Sub Product</a></li>
+               <li><a href='#'>Sub Product</a></li>
+            </ul>
+          </li>
    <li><a href='#'>Contact</a></li>
 </ul>
 </div>
