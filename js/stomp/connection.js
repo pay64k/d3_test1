@@ -16,8 +16,8 @@ sockjs --> rabbitmq-stomp --> rabbitmq-server
 
  // var ws = new SockJS('http://127.0.0.1:15674/stomp');
  //var ws = new SockJS(serverAddressLocal);
- var exampleSocket = new WebSocket(wsConnection);
- var currentServer = wsConnection;
+ var exampleSocket = new WebSocket(wsConnectionLocal);
+ var currentServer = wsConnectionLocal;
 
  var client = Stomp.over(exampleSocket);
  client.debug = null;

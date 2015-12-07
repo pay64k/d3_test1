@@ -91,7 +91,13 @@ function applyFilterCombination(){
 }
 
 function resetFilters(){
-	updateEventForms();
+
+	var formsID = ["testSession","eventType", "node1", "node2", "eventSuccess"];
+
+	for (var i = 0; i < formsID.length; i++) {
+		document.getElementById(formsID[i]).value = "showAll";
+	};
+
 	updateEvents();
 
 }

@@ -58,10 +58,10 @@
           <a href="#view2">Events</a>
         </li>
 
-
+<!-- 
         <li>
           <a href="#view3">Configuration</a>
-        </li>
+        </li> -->
       </ul>
 
 
@@ -107,7 +107,7 @@
                <li><a href='#'>Sub Product</a></li>
             </ul>
           </li>
-   <li><a href='#'>Contact</a></li>
+ 
 </ul>
 </div>
 
@@ -155,6 +155,7 @@
              centerView(); //has to be called right away during initialization
 
           </script>
+          
           <style type="text/css">
              .tg  {border-collapse:collapse;border-spacing:0;margin: 5px; float: left;}
              .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
@@ -292,25 +293,88 @@
               </tr>
             </table>
           </div>
-        </div>
-
 
         <div id="view2">
-          <div id="canvas_events" style="border-style: solid; border-width: 1px">
-          </div>
+          <div id='cssmenu'>
+<ul>
+<li class='active'><a style="padding: 0px 10px 0px 5px;">Filters:</a></li>
+
+<li><a style="padding: 0px 20px 0px 20px; cursor:pointer;" onclick="resetFilters()">Reset</a></li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Session:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="testSession" onchange="updateEvents()"></select>
+    </a>
+  </li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Type:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="eventType" onchange="updateEvents()"></select>
+    </a>
+  </li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Success:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="eventSuccess" onchange="updateEvents()"></select>
+    </a>
+  </li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Node1:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="node1" onchange="updateEvents()"></select>
+    </a>
+  </li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Node2:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="node2" onchange="updateEvents()"></select>
+    </a>
+  </li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Page:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="pages" onchange="updateEvents()"></select>
+    </a>
+  </li>
+
+<li><a style="padding: 0px 10px 0px 5px;">Results:</a></li>
+  <li>
+    <a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text);updateEvents()">
+        <option>10</option>
+        <option>50</option>
+        <option>100</option>
+        <option>150</option>
+        <option>200</option>
+        <option>250</option>
+        <option>500</option>
+      </select>
+    </a>
+  </li>
 
 
-          <div style="float:left;">
+
+</ul>
+</div>
+          <div id="canvas_events" style="border-style: solid; border-width: 1px"></div>
+
+<!--           <div style="float:left;">
             <table class="tg" id="table">
-              <!-- <tr>
+              <tr>
     <th class="tg-baqh">Util</th>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="update_events()" data-ripple>Update</button></td>
-  </tr> -->
-              <!--     <tr>
+  </tr>
+                  <tr>
     <th class="tg-baqh">View</th>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewTop()" data-ripple>Top</button></td>
     <td class="tg-baqh"><button type="button" class="btn btn-primary btn-lg" onclick="viewBottom()" data-ripple>Bottom</button></td>
-  </tr> -->
+  </tr>
 
 
               <tr>
@@ -455,11 +519,13 @@
                 </td>
               </tr>
             </table>
-          </div>
+
+          </div> -->
         </div>
 
 
         <div id="view3">
+        </div>
         </div>
       </div>
     </div>
