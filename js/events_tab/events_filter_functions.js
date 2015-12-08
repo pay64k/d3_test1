@@ -81,11 +81,9 @@ function applyFilterCombination(){
 	for (var i = 0; i < formsValues.length; i++) {
 		nodesAfected = filterEvents(nodesAfected,{filterType: "byEventProperty", eventPropertyName: formsID[i], eventProperty:formsValues[i], visible: true });
 	};
-	// update_events();
-	// viewTop();
+
 	events_data_paged = pageEvents(nodesAfected);
 	populatePagingForm(events_data_paged.length);
-	//updateEventView(0);
 
 	return nodesAfected;
 }
@@ -97,7 +95,7 @@ function resetFilters(){
 	for (var i = 0; i < formsID.length; i++) {
 		document.getElementById(formsID[i]).value = "showAll";
 	};
-	
+
 	updateEvents();
 
 }
@@ -114,7 +112,6 @@ function setEventsPerPageAndSvgHeight(amount){
 
 function pageEvents(e_data) {
 
-	// var eventsPerPage = 10;
 	var pageObject = {
 		page: 0,
 		events: []
@@ -122,9 +119,8 @@ function pageEvents(e_data) {
 	var eventsAmount = e_data.length;
 	if (eventsAmount == 0) {
 		return [{page: 0, events: []}];
-	} else {;
+	} else {
 		var pagesAmount = Math.ceil(eventsAmount / eventsPerPage);
-
 		var pageContent = []; //[{page:1, events: [{123},{456}]},{page:2, events: [{1223},{4536}]}]
 
 		var pageNumber = 1;
@@ -138,7 +134,21 @@ function pageEvents(e_data) {
 				if (e_data[currentEventNumber] == undefined) {
 					break;
 				};
+					// if (currentEventNumber%2) {
+					// 	e_data[currentEventNumber].odd = true;
+					// }else{
+					// 	e_data[currentEventNumber].odd = false;
+					// };
 				pageObject.events.push(e_data[currentEventNumber]);
+			};
+
+			for (var ii = 0; ii < pageObject.events.length; ii++) {
+				
+				if (ii%2) {
+					pageObject.events[ii].odd = true;
+				}else{
+					pageObject.events[ii].odd = false;
+				};
 			};
 
 			pageContent.push(pageObject);

@@ -173,9 +173,10 @@ function populateForm(formID){
 }
 
 function populatePagingForm(pageAmount){
-
+// debugger;
   var select = document.getElementById("pages");
-  var tempValue = document.getElementById("pages").value;
+  var tempValue = select.value;
+  
   if (tempValue=="") {
     tempValue=0;
   };
@@ -187,7 +188,14 @@ function populatePagingForm(pageAmount){
       };
 
   };
-  select.value = tempValue;
+  if (tempValue<=pageAmount-1) {
+    select.value = tempValue;
+    select.text = tempValue;
+  }else{
+    select.value = 0;
+    select.text = 0;
+  };
+
 }
 
 function changePage(direction){
@@ -216,6 +224,7 @@ switch(direction){
 }
 
 pageForm.options[pageForm.selectedIndex].value = currentPage;
+pageForm.options[pageForm.selectedIndex].text = currentPage;
 updateEvents();
 
 }

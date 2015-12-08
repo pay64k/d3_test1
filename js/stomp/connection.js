@@ -94,7 +94,7 @@ var callback = function(message) {
         break;
 
       case"NEW_EVENT":
-        addEvent(message._event, message.visible);
+        addEvent(message.timestamp, message._event, message.visible);
         break;
 
 

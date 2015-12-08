@@ -1,5 +1,5 @@
 var heightCounter = 0 ;
-var eventDistance = 80;
+var eventDistance = 100;
 var scrollingSpeed = 50;
 var offsetX_events = 75;
 var offsetY_events = 30;
@@ -62,7 +62,9 @@ function events_init(){
 	var svg = d3.select("#canvas_events")
 	.style("width", "700px")
 	.style("height", canvasHeight + "px")
-	.style("float", "left")
+	.style("display", "inline-block") 
+	.style("margin-top","10px")
+	// .style("float", "left")
 	// .style("margin", "5px")
 	.style("overflow", "auto")
 		.append("svg")
@@ -126,9 +128,10 @@ function loadEventsDataFromStorage(){
 	};
 }
 
-function addEvent(event, visible){
-
-	var newEvent = { eventEntry: eventEntryCounter, eventVisible: visible, _event: event };
+function addEvent(timestamp, event, visible){
+	var date = new Date(timestamp);
+	var formattedDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date.getMilliseconds();
+	var newEvent = { timestamp: formattedDate, eventEntry: eventEntryCounter, eventVisible: visible, _event: event };
 	//addEventToStorage(eventEntryCounter, newEvent);
 	events_data.push(newEvent);
 	eventEntryCounter++;
@@ -234,10 +237,19 @@ function update_events_specific(e_data){
 			.attr("class", "node")
 			.attr("transform", function(d, i) { return "translate(" + (-100) + "," + d.y + ") scale(0)"; });
 			
+	events_groupEnter.append("rect")
+			.attr("width", 700)
+			.attr("height", eventDistance)
+			.style("fill","#333")
+			.attr("transform","translate(-190,-40)")
+			.style("opacity",function(d){
+				return (d.odd) ? 0 : 0.07;
+			});
+
 	events_groupEnter.append("text")
-			.text(function(d) { return "# " + d.eventEntry; })
+			.text(function(d) { return d.timestamp; })
 			.attr("text-anchor", "end")
-			.attr("x",-25)
+			.attr("x",-35)
 			.attr("y",5);
 
 	events_groupEnter.append("text")
@@ -457,18 +469,18 @@ function update_events_specific(e_data){
 	var events_groupUpdate = events_group.transition()
 		.duration(500)
 		.ease("bounce")
-		.attr("transform", function(d,i) { return "translate(" + 150 + "," + d.y + ") scale(1)"; });
+		.attr("transform", function(d,i) { return "translate(" + 115 + "," + (d.y+10) + ") scale(1)"; }); //adjust the position of whole group here
 
 	var events_groupExit = events_group.exit().transition()
 		.duration(500)
-		.attr("transform", function(d) { return "translate(" + 500 + "," + d.y + ") scale(1)"; })
+		.attr("transform", function(d) { return "translate(" + 800 + "," + d.y + ") scale(1)"; })
 		.remove();
 }
 
 function updateEvents(){
 	applyFilterCombination();
     updateEventForms();
-    updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].text);
+    updateEventView(document.getElementById('pages').options[document.getElementById('pages').selectedIndex].value);
 }
 
 Array.prototype.unique = function()
