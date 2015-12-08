@@ -190,6 +190,36 @@ function populatePagingForm(pageAmount){
   select.value = tempValue;
 }
 
+function changePage(direction){
+  var pageForm = document.getElementById("pages");
+  var amount = pageForm.options["length"];
+  var currentPage = pageForm.options[pageForm.selectedIndex].value;
+
+switch(direction){
+  case "next":
+    if (currentPage>=amount-1) {
+      currentPage = amount-1;
+    }
+    else{
+      currentPage++;
+    };
+  break;
+
+  case "prev":
+    if (currentPage<=0) {
+      currentPage = 0;
+    }
+    else{
+      currentPage--;
+    };
+  break;
+}
+
+pageForm.options[pageForm.selectedIndex].value = currentPage;
+updateEvents();
+
+}
+
 function populateEventForm(formID){
 var values = 0 ;
 

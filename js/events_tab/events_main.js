@@ -1,5 +1,5 @@
 var heightCounter = 0 ;
-var eventDistance = 130;
+var eventDistance = 80;
 var scrollingSpeed = 50;
 var offsetX_events = 75;
 var offsetY_events = 30;
@@ -60,10 +60,10 @@ function events_init(){
 
 
 	var svg = d3.select("#canvas_events")
-	.style("width", "500px")
+	.style("width", "700px")
 	.style("height", canvasHeight + "px")
 	.style("float", "left")
-	.style("margin", "5px")
+	// .style("margin", "5px")
 	.style("overflow", "auto")
 		.append("svg")
 	    	.style("display", "block") 
@@ -239,6 +239,12 @@ function update_events_specific(e_data){
 			.attr("text-anchor", "end")
 			.attr("x",-25)
 			.attr("y",5);
+
+	events_groupEnter.append("text")
+			.text(function(d) { return "# " + d.eventEntry; })
+			.attr("text-anchor", "start")
+			.attr("x",290)
+			.attr("y",-5);
 
 	events_groupEnter.append("circle")
 						.attr("id", "node1_circle")
@@ -438,20 +444,20 @@ function update_events_specific(e_data){
 
 	events_groupEnter.append("text")
 			.text(function(d) { return "Type: " + d._event.eventType; })
-			.attr("text-anchor", "middle")
-			.attr("y",25)
-			.attr("x",128);
+			.attr("text-anchor", "start")
+			.attr("y",15)
+			.attr("x",290);
 
 	events_groupEnter.append("text")
 			.text(function(d) { return "Name: " + d._event.eventName; })
-			.attr("text-anchor", "middle")
-			.attr("y",45)
-			.attr("x",128);
+			.attr("text-anchor", "start")
+			.attr("y",35)
+			.attr("x",290);
 
 	var events_groupUpdate = events_group.transition()
 		.duration(500)
 		.ease("bounce")
-		.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ") scale(1)"; });
+		.attr("transform", function(d,i) { return "translate(" + 150 + "," + d.y + ") scale(1)"; });
 
 	var events_groupExit = events_group.exit().transition()
 		.duration(500)

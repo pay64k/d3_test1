@@ -11,6 +11,7 @@
   <link href="css/jquery.ripple.css" rel="stylesheet">
   <link href="css/jquery.toChecklist.min.css" media="screen" rel="stylesheet" type="text/css">
   <link href="css/navStyles.css" rel="stylesheet">
+  <link href="css/eventViewMenu.css" rel="stylesheet">
 
   <!--    Libraries:   -->
   <script src="js/lib/jquery.min.js">  </script>
@@ -45,7 +46,7 @@
 </head>
 
 <body style="background:#F6F9FC; font-family:Arial;">
-  <center>
+  <!-- <center> -->
     <div style="padding-top: 20px;">
 
       <ul class="tabs" data-persist="true">
@@ -65,7 +66,7 @@
       </ul>
 
 
-      <div class="tabcontents" style="width:90%; padding:10px;">
+      <div class="tabcontents" style="width:90%; padding:10px; margin: 0 auto;">
         <div id="view1">
 
 <div id='cssmenu'>
@@ -297,54 +298,75 @@
         <div id="view2">
           <div id='cssmenu'>
 <ul>
-<li class='active'><a style="padding: 0px 10px 0px 5px;">Filters:</a></li>
+<li class='active'><a style="padding: 0px 10px 0px 5px;">Filters:</a><a style="padding: 0px 10px 0px 5px;">Values:</a></li>
 
-<li><a style="padding: 0px 20px 0px 20px; cursor:pointer;" onclick="resetFilters()">Reset</a></li>
 
-<li><a style="padding: 0px 10px 0px 5px;">Session:</a></li>
-  <li>
+<li><a style="padding: 0px 10px 0px 5px;">Session:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="testSession" onchange="updateEvents()"></select>
+    </a></li>
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="testSession" onchange="updateEvents()"></select>
     </a>
-  </li>
+  </li> -->
 
-<li><a style="padding: 0px 10px 0px 5px;">Type:</a></li>
-  <li>
+<li><a style="padding: 0px 10px 0px 5px;">Type:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="eventType" onchange="updateEvents()"></select>
+    </a></li>
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="eventType" onchange="updateEvents()"></select>
     </a>
-  </li>
+  </li> -->
 
-<li><a style="padding: 0px 10px 0px 5px;">Success:</a></li>
-  <li>
+<li><a style="padding: 0px 10px 0px 5px;">Success:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="eventSuccess" onchange="updateEvents()"></select>
+    </a></li>
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="eventSuccess" onchange="updateEvents()"></select>
     </a>
-  </li>
+  </li> -->
 
-<li><a style="padding: 0px 10px 0px 5px;">Node1:</a></li>
-  <li>
+<li><a style="padding: 0px 10px 0px 5px;">Node1:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="node1" onchange="updateEvents()"></select>
+    </a></li>
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="node1" onchange="updateEvents()"></select>
     </a>
-  </li>
+  </li> -->
 
-<li><a style="padding: 0px 10px 0px 5px;">Node2:</a></li>
-  <li>
+<li><a style="padding: 0px 10px 0px 5px;">Node2:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="node2" onchange="updateEvents()"></select>
+    </a></li>
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="node2" onchange="updateEvents()"></select>
     </a>
-  </li>
+  </li> -->
 
-<li><a style="padding: 0px 10px 0px 5px;">Page:</a></li>
-  <li>
+<!-- <li><a style="padding: 0px 10px 0px 5px;">Page:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="pages" onchange="updateEvents()"></select>
+    </a></li> -->
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="pages" onchange="updateEvents()"></select>
     </a>
-  </li>
+  </li> -->
 
-<li><a style="padding: 0px 10px 0px 5px;">Results:</a></li>
-  <li>
+<li><a style="padding: 0px 10px 0px 5px;">Results:</a><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" style="display: inline; padding: 0px;" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text);updateEvents()">
+        <option>10</option>
+        <option>50</option>
+        <option>100</option>
+        <option>150</option>
+        <option>200</option>
+        <option>250</option>
+        <option>500</option>
+      </select>
+    </a></li>
+<!--   <li>
     <a style="padding: 0px 10px 0px 5px;">
       <select class="form-control" style="display: inline; padding: 0px;" id="resultsAmount" onchange="setEventsPerPageAndSvgHeight(document.getElementById('resultsAmount').options[document.getElementById('resultsAmount').selectedIndex].text);updateEvents()">
         <option>10</option>
@@ -356,13 +378,38 @@
         <option>500</option>
       </select>
     </a>
-  </li>
+  </li> -->
+<li><a style="padding: 0px 40px 0px 40px; cursor:pointer; -webkit-user-select: none;" onclick="resetFilters()">Reset</a></li>
+
+<!-- <li><a style="padding: 0px 40px 0px 40px; cursor:pointer; -webkit-user-select: none;" onclick="changePage('prev')">Prev Page</a>
+<a style="padding: 0px 40px 0px 40px; cursor:pointer; -webkit-user-select: none;" onclick="changePage('next')">Next Page</a></li>
+
+<li><a style="padding: 0px 40px 0px 40px; cursor:pointer; -webkit-user-select: none;" onclick="changePage('next')">Next Page</a></li>
+<li><a id="eventsTopButton" style="padding: 0px 40px 0px 40px; cursor:pointer; -webkit-user-select: none;">Top</a></li>
+<li><a id="eventsBottomButton" style="padding: 0px 40px 0px 40px; cursor:pointer; -webkit-user-select: none;">Bottom</a></li> -->
 
 
 
 </ul>
 </div>
-          <div id="canvas_events" style="border-style: solid; border-width: 1px"></div>
+<div>
+<ul>
+<div id="canvas_events" style="border-style: solid; border-width: 1px"></div>
+
+<div id='cssmenu_2' style="float:left; clear:both; width:700px;-webkit-user-select: none;cursor:pointer; padding-top:10px;">
+<ul>
+   <li><a onclick="changePage('prev')"><span>Prev</span></a></li>
+   <li><a style="padding: 0px 10px 0px 5px;">
+      <select class="form-control" id="pages" onchange="updateEvents()"></select>
+    </a></li>
+   <li><a onclick="changePage('next')"><span>Next</span></a></li>
+   <li><a id="eventsTopButton">Top</a></li>
+   <li><a id="eventsBottomButton">Bottom</a></li>
+</ul>
+</div>
+</ul>
+</div>
+
 
 <!--           <div style="float:left;">
             <table class="tg" id="table">
@@ -521,6 +568,8 @@
             </table>
 
           </div> -->
+
+
         </div>
 
 
@@ -529,7 +578,6 @@
         </div>
       </div>
     </div>
-  </center>
 
   <script>
      //initialize events DOM elements and filter values forms:
@@ -540,10 +588,24 @@
      //initialize ripple effect for all buttons:
      $('button').ripple( {event: 'mousedown',color: '#000'});
 
-        //initialize link selection checkboxes
+      //initialize link selection checkboxes
      $(function() {
      $('#linksList').toChecklist( {showCheckboxes : true, addSearchBox : true, animateSearch : false} );
      });
+
+     //initialize the function for scrolling events window to the top and bottom
+     $("#eventsTopButton").click(function(){
+        $("#canvas_events").animate({ scrollTop: 0 } , "slow" );
+    });
+
+      $("#eventsBottomButton").click(function(){
+        $("#canvas_events").animate({ scrollTop: $('#canvas_events').prop("scrollHeight")} , "slow" );
+    });
+
+//=====================================
+loadEvents();
+//=====================================
+
   </script>
 
 </body>

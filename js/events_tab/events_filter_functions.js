@@ -97,7 +97,7 @@ function resetFilters(){
 	for (var i = 0; i < formsID.length; i++) {
 		document.getElementById(formsID[i]).value = "showAll";
 	};
-
+	
 	updateEvents();
 
 }
