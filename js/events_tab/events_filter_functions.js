@@ -134,22 +134,18 @@ function pageEvents(e_data) {
 				if (e_data[currentEventNumber] == undefined) {
 					break;
 				};
-					// if (currentEventNumber%2) {
-					// 	e_data[currentEventNumber].odd = true;
-					// }else{
-					// 	e_data[currentEventNumber].odd = false;
-					// };
 				pageObject.events.push(e_data[currentEventNumber]);
 			};
 
-			for (var ii = 0; ii < pageObject.events.length; ii++) {
+			// for (var ii = 0; ii < pageObject.events.length; ii++) {
+			// 	(ii%2) ? pageObject.events[ii].odd = true : pageObject.events[ii].odd = false;
 				
-				if (ii%2) {
-					pageObject.events[ii].odd = true;
-				}else{
-					pageObject.events[ii].odd = false;
-				};
-			};
+			// 	// if (ii%2) {
+			// 	// 	pageObject.events[ii].odd = true;
+			// 	// }else{
+			// 	// 	pageObject.events[ii].odd = false;
+			// 	// };
+			// };
 
 			pageContent.push(pageObject);
 			pageNumber++;

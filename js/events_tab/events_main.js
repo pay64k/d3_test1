@@ -230,7 +230,10 @@ function update_events_specific(e_data){
 	};
 
 	var events_group = d3.select("#events_group").selectAll("g").data( e_data.filter(function(d){ return d.eventVisible ? d.eventEntry : null }), function(d) {return d.eventEntry} );
-	
+	// debugger;
+	for (var ii = 0; ii < e_data.length; ii++) {
+		(ii%2) ? e_data[ii].odd = true : e_data[ii].odd = false;
+	};
 
 	var events_groupEnter = events_group.enter().append("g")			
 			.attr("id", function(d) { return "eventEntry" + d.eventEntry; } )
@@ -471,10 +474,16 @@ function update_events_specific(e_data){
 		.ease("bounce")
 		.attr("transform", function(d,i) { return "translate(" + 115 + "," + (d.y+10) + ") scale(1)"; }); //adjust the position of whole group here
 
+		// events_groupUpdate.select("rect")
+		// 	.attr("opacity",function(d){
+		// 		return (d.odd) ? 0 : 0.07;
+		// 	});
+
 	var events_groupExit = events_group.exit().transition()
 		.duration(500)
 		.attr("transform", function(d) { return "translate(" + 800 + "," + d.y + ") scale(1)"; })
 		.remove();
+
 }
 
 function updateEvents(){
