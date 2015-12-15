@@ -22,6 +22,7 @@ check why radio type is not displayed on mouse hover
 //events filters set to "all" at start
 clean up buttons and html
 
+future road map:
 
 future imporvements (also based on user feedback):
 -recording option and step by step playback - see current state of the system - future improvement
@@ -39,3 +40,5 @@ future imporvements (also based on user feedback):
 	
 -coudle be used as a tool in the live system, the integration on bigger scale, hook up to livve system
 exapnd with node.js server that will parse messages, improve displaying the calls, system elements etc
+
+-add security, login ssl rabbit auth
