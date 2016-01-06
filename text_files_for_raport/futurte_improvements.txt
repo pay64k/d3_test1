@@ -42,3 +42,5 @@ future imporvements (also based on user feedback):
 exapnd with node.js server that will parse messages, improve displaying the calls, system elements etc
 
 -add security, login ssl rabbit auth
+-failure and recovery - closing browser etc
+-

@@ -66,7 +66,7 @@ function applyFilterCombination(){
 	var formsValues = [];
 	var nodesAfected = [];
 	for (var i = 0; i < formsID.length; i++) {
-		var tempValue = document.getElementById(formsID[i]).value;
+		var tempValue = document.getElementById(formsID[i]).value;	//get values from filter fields
 		
 		if (tempValue == "true") {
 			tempValue = true;
@@ -77,7 +77,9 @@ function applyFilterCombination(){
 		
 		formsValues.push(tempValue);
 	};
+	//first set all to visible = false
 	nodesAfected = filterEvents(events_data, {filterType: "byEventProperty", eventPropertyName: "testSession", eventProperty:"hideAll", visible: true });
+	//set desired ones to visible = true
 	for (var i = 0; i < formsValues.length; i++) {
 		nodesAfected = filterEvents(nodesAfected,{filterType: "byEventProperty", eventPropertyName: formsID[i], eventProperty:formsValues[i], visible: true });
 	};

@@ -71,3 +71,29 @@ var treeData = [
 ];
 
 var treeDataEMPTY = [];
+
+{
+  "name": "Client1",
+  "parent": "null",
+  "type": "Client",
+  "children": [
+    {
+      "name":"System1",
+      "parent":"Client1",
+      "children":[
+        {
+          "name":"Radio1",
+          "type":"Radio",
+          "parent":"System1",
+          "children":[]
+        },
+        {
+          "name":"Radio2",
+          "type":"Radio",
+          "parent":"System1",
+          "children":[]
+        }
+      ]
+    }
+  ]
+}

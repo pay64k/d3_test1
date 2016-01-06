@@ -17,6 +17,56 @@ function testCreating(){
 
 } 
 
+function testCreating_NEW(){
+	newElement_op(treeData[0],"Client1", {name: "System3", type: "System", groupable: false} );
+	newElement_op(treeData[0],"Client1", {name: "System2", type: "System", groupable: false} );
+	newElement_op(treeData[0],"Client1", {name: "System1", type: "System", groupable: false} );
+
+		newElement_op(treeData[0],"System1", {name: "Radio1", type: "Radio1", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio2", type: "Radio2", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio3", type: "Radio3", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio4", type: "Radio4", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio5", type: "Radio5", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio6", type: "Radio6", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio7", type: "Radio7", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio8", type: "Radio8", groupable: false} );
+		newElement_op(treeData[0],"System1", {name: "Radio9", type: "Radio9", groupable: false} );
+
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System2", {name: "Radio", type: "Radio", groupable: false} );
+
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+		newElement_op(treeData[0],"System3", {name: "Radio", type: "Radio", groupable: false} );
+
+		newElement_op(treeData[0],"Client1", {name: "Group", type: "Radio", groupable: false} );
+			newElement_op(treeData[0],"Group", {name: "hidden1", type: "Radio", groupable: true} );
+			newElement_op(treeData[0],"Group", {name: "hidden2", type: "Radio", groupable: true} );
+			newElement_op(treeData[0],"Group", {name: "hidden3", type: "Radio", groupable: true} );
+			newElement_op(treeData[0],"Group", {name: "visible1", type: "Radio", groupable: false} );
+
+
+
+
+	update(root);
+}
+
+function testCreating_report(){
+
+}
+
 function addTestEventsMore(){
 	addEvent({testSession: "test1", eventSuccess: false, eventType:"msgType1", eventName: "event1", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, true);
 	addEvent({testSession: "test1", eventSuccess: true, eventType:"msgType2", eventName: "event2", node1: "NODE1", node1Type: "single", node2: "NODE2", node2Type: "single" }, false);
