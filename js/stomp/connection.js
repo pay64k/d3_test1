@@ -47,6 +47,13 @@ var callback = function(message) {
 // debugger;
     if (message.body) {
       var _message = JSON.parse(message.body);
+      var testArray = JSON.parse("[" + message.body + "]");
+      //console.log(testArray);
+      for (var i = 0; i < testArray.length; i++) {
+        for (var j = 0; j < testArray[i].length; j++) {
+          processMessage(testArray[i][j]);
+        };
+      };
       // console.log(_message.length);
       //debugLog(">>>Received message: " + message.command)
       //console.log(">>>Received message: " + message.body)
@@ -66,6 +73,7 @@ var callback = function(message) {
         // createElementAndGroupNEW(treeData[0], message.parent, message.newObject);
         // newElementTest(message.parent, message.newObject);
         newElement_op(treeData[0], message.parent, message.newObject);
+        //console.log("added new object");
         break;
 
       case "DELETE":
@@ -94,7 +102,8 @@ var callback = function(message) {
         break;
 
       case"NEW_EVENT":
-        addEvent(message.timestamp, message._event, message.visible);
+        //addEvent(message.timestamp, message._event, message.visible);
+        addEvent((new Date).getTime(), message._event, message.visible);
         break;
 
 

@@ -267,8 +267,9 @@ function update_events_specific(e_data){
 
 	events_groupEnter.append("text")
 			.text(function(d) { return d._event.node1; })
-			.attr("text-anchor", "middle")
-			.attr("y",35);
+			.attr("text-anchor", "start")
+			.attr("y",35)
+			.attr("x",-10);
 
 	events_groupEnter.append("circle")
 						.attr("id", "node2_circle")
@@ -277,9 +278,9 @@ function update_events_specific(e_data){
 
 	events_groupEnter.append("text")
 			.text(function(d) { return d._event.node2; })
-			.attr("text-anchor", "middle")
+			.attr("text-anchor", "end")
 			.attr("y",35)
-			.attr("x",256);
+			.attr("x",266);
 
 
 	events_groupEnter.each(function(d){
