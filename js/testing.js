@@ -17,6 +17,21 @@ function testCreating(){
 
 } 
 
+function hackatonSetupInit(){
+	newElement_op(treeData[0],"Client1", {name: "Taipan", type: "System", groupable: false} );
+		newElement_op(treeData[0],"Taipan", {name: "Talkgroup_Taipan", type: "Radio", groupable: false} );
+			newElement_op(treeData[0],"Talkgroup_Taipan", {name: "Radio1", type: "Radio1", groupable: false} );
+
+	newElement_op(treeData[0],"Client1", {name: "Green_Zone_27", type: "System", groupable: false} );
+		newElement_op(treeData[0],"Green_Zone_27", {name: "Talkgroup_z27", type: "Radio", groupable: false} );
+			newElement_op(treeData[0],"Talkgroup_z27", {name: "Radio2", type: "Radio1", groupable: false} );
+
+
+	update(root);
+
+
+}
+
 function testCreating_NEW(){
 	newElement_op(treeData[0],"Client1", {name: "System3", type: "System", groupable: false} );
 	newElement_op(treeData[0],"Client1", {name: "System2", type: "System", groupable: false} );

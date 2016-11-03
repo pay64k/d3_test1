@@ -178,7 +178,7 @@ function updateLinkNew(linkData){
 	var link = d3.select("#G"+linkName);
 	link.select("path")//.transition()
 		.attr("d", lineFunction(lineDataRound));
-	link.attr("opacity", 0.5);
+	link.attr("opacity", 0.8);
 
 
 }
@@ -281,8 +281,8 @@ function changeFlow(linkName, flow){
     var linkOpacity = d3.select("#G"+linkName);
 	var link = linkOpacity.select("path");
 	var flowSpeed = "0.3s";	//the lower value the faster flow is; also remember to chane flowLine.css
-	var opacityON = 0.7;
-	var opacityOFF = 0.3;
+	var opacityON = 1;
+	var opacityOFF = 1;
 	switch(flow) {
     case 0:
         link.style("-webkit-animation", "noFlow " + flowSpeed + " linear infinite");

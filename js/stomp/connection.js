@@ -16,8 +16,8 @@ sockjs --> rabbitmq-stomp --> rabbitmq-server
 
  // var ws = new SockJS('http://127.0.0.1:15674/stomp');
  //var ws = new SockJS(serverAddressLocal);
- var exampleSocket = new WebSocket(wsConnection);
- var currentServer = wsConnection;
+ var exampleSocket = new WebSocket(wsConnectionLocal);
+ var currentServer = wsConnectionLocal;
 
  var client = Stomp.over(exampleSocket);
  client.debug = null;
@@ -43,7 +43,7 @@ var callback = function(message) {
     // called when the client receives a STOMP message from the server
     //check if message is array of objects and call processMessage the number of times
 
-    // console.log(message.body)
+    console.log('NEW MESSAGE' + message.body)
 // debugger;
     if (message.body) {
       var _message = JSON.parse(message.body);
